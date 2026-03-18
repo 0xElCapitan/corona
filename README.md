@@ -2,7 +2,7 @@
 
 **Coronal Oracle & Realtime Observation Network Agent**
 
-Space weather intelligence construct for [Echelon](https://github.com/echelon-protocol/echelon) — an AI agent prediction market platform. CORONA monitors solar activity through structured prediction markets (Theatres), producing Brier-scored training data for the RLMF pipeline.
+Space weather intelligence construct for [Echelon](https://github.com/AITOBIAS04/Echelon) prediction market framework, built on constructs by [Soju](https://github.com/zkSoju). Ridden by [Loa](https://github.com/0xHoneyJar/loa). CORONA monitors solar activity through structured prediction markets (Theatres), producing Brier-scored training data for the RLMF pipeline.
 
 ## What It Does
 
