@@ -1,0 +1,33 @@
+{
+  "name": "@echelon/corona",
+  "version": "0.1.0",
+  "description": "CORONA — Coronal Oracle & Realtime Observation Network Agent. Space weather intelligence construct for Echelon.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./oracles/*": "./src/oracles/*.js",
+    "./processor/*": "./src/processor/*.js",
+    "./theatres/*": "./src/theatres/*.js",
+    "./rlmf/*": "./src/rlmf/*.js"
+  },
+  "scripts": {
+    "test": "node --test tests/corona_test.js",
+    "poll": "node src/oracles/swpc.js",
+    "poll:donki": "node src/oracles/donki.js"
+  },
+  "keywords": [
+    "echelon",
+    "construct",
+    "space-weather",
+    "solar-flare",
+    "geomagnetic-storm",
+    "prediction-market",
+    "rlmf"
+  ],
+  "license": "MIT",
+  "dependencies": {}
+}
