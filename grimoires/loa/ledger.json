@@ -1,8 +1,29 @@
 {
   "version": "1.0.0",
-  "cycles": [],
-  "active_cycle": null,
+  "cycles": [
+    {
+      "id": "cycle-001-corona-v3-calibration",
+      "label": "CORONA: v3 Construct-Network Readiness + Hybrid Calibration",
+      "status": "active",
+      "created_at": "2026-04-30T00:00:00Z",
+      "prd": "grimoires/loa/prd.md",
+      "sdd": "grimoires/loa/sdd.md",
+      "sprint_plan": "grimoires/loa/sprint.md",
+      "execution_mode": "HITL_for_S0_S1__revisit_post_S1",
+      "sprints": [
+        {"local_id": "sprint-0", "global_id": 0, "theme": "v3 Construct-Network Readiness + Theatre Authority + T4 Cleanup", "scope": "MEDIUM", "task_count": 7, "hitl_gate": true, "status": "planned"},
+        {"local_id": "sprint-1", "global_id": 1, "theme": "composition_paths Spec + Calibration Directory Scaffold", "scope": "SMALL", "task_count": 3, "hitl_gate": true, "status": "planned"},
+        {"local_id": "sprint-2", "global_id": 2, "theme": "Frozen Calibration Protocol", "scope": "MEDIUM", "task_count": 5, "hitl_gate": "revisit_post_s1", "status": "planned"},
+        {"local_id": "sprint-3", "global_id": 3, "theme": "Backtest Harness + Run-1 Baseline", "scope": "LARGE", "task_count": 8, "hitl_gate": "revisit_post_s1", "status": "planned"},
+        {"local_id": "sprint-4", "global_id": 4, "theme": "Empirical Evidence Research", "scope": "SMALL", "task_count": 3, "hitl_gate": "revisit_post_s1", "status": "planned"},
+        {"local_id": "sprint-5", "global_id": 5, "theme": "Refit Parameters + Manifest + Regression Gate", "scope": "LARGE", "task_count": 7, "hitl_gate": "revisit_post_s1", "status": "planned"},
+        {"local_id": "sprint-6", "global_id": 6, "theme": "Lightweight Input-Validation Review", "scope": "SMALL", "task_count": 3, "hitl_gate": "revisit_post_s1", "status": "planned"},
+        {"local_id": "sprint-7", "global_id": 7, "theme": "Final Validate + BFZ Refresh + v0.2.0 Tag", "scope": "MEDIUM", "task_count": 5, "hitl_gate": "revisit_post_s1", "status": "planned"}
+      ]
+    }
+  ],
+  "active_cycle": "cycle-001-corona-v3-calibration",
   "active_bugfix": null,
-  "global_sprint_counter": 0,
+  "global_sprint_counter": 8,
   "bugfix_cycles": []
 }

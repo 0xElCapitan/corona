@@ -1,0 +1,30 @@
+slug: corona-theatres
+name: CORONA Theatres
+description: |
+  Use this skill IF you need the T1-T5 programmatic theatre constructor surface
+  for space-weather prediction markets. Operate via the CoronaConstruct JS class
+  in src/index.js — this is not a slash-invokable skill in cycle-001. SKILL.md
+  documents the programmatic API and lifecycle (open → poll → update → resolve
+  → export RLMF certificate).
+version: 0.1.0
+
+triggers:
+  - "open a flare gate"
+  - "open a geomagnetic storm gate"
+  - "open a CME arrival theatre"
+  - "open a proton cascade theatre"
+  - "open a solar wind divergence theatre"
+  - "start CORONA polling"
+  - "export RLMF certificates"
+
+capabilities:
+  model_tier: sonnet
+  danger_level: safe
+  effort_hint: medium
+  downgrade_allowed: true
+  execution_hint: sequential
+  requires:
+    native_runtime: false
+    tool_calling: false
+    thinking_traces: false
+    vision: false

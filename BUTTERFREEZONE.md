@@ -41,7 +41,7 @@ trust_level: L1-tested
 - **Flare Class Gate (T1)** — Binary market on GOES X-ray class threshold. Position updates via doubt pricing on in-progress flares. (`src/theatres/flare-gate.js`)
 - **Geomagnetic Storm Gate (T2)** — Binary Kp threshold market. Multi-input: Kp observations, solar wind precursors (Bz, speed), CME arrival predictions, DONKI GST events. (`src/theatres/geomag-gate.js`)
 - **CME Arrival (T3)** — Binary market on WSA-Enlil predicted arrival ±6h. Resolves via L1 solar wind shock detection (speed jump + Bt increase). (`src/theatres/cme-arrival.js`)
-- **Proton Event Cascade (T4)** — Multi-bucket radio blackout count following M5+ trigger. Wheatland waiting-time prior, Poisson bucket probabilities, rate-blended updating. (`src/theatres/proton-cascade.js`)
+- **Proton Event Cascade (T4)** — Multi-bucket S1+ proton-event count following M5+ trigger. Wheatland waiting-time prior, Poisson bucket probabilities, rate-blended updating. Cycle-001 Sprint 0 cleaned R-scale drift to S-scale per NOAA Solar Radiation Storm Scale; subsequent-flare proxy retires in Sprint 2 when corpus binding lands. (`src/theatres/proton-cascade.js`)
 - **Solar Wind Divergence (T5)** — Paradox Engine native: DSCOVR-ACE Bz volatility as divergence proxy. Sustained streak detection. (`src/theatres/solar-wind-divergence.js`)
 - **RLMF Certificate Export** — Binary and multi-class Brier scores, temporal analysis (volatility, directional accuracy, time-weighted Brier), calibration buckets. Pipeline-compatible with TREMOR certificates. (`src/rlmf/certificates.js`)
 

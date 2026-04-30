@@ -1,10 +1,10 @@
 /**
- * Proton Event Cascade Theatre
+ * Proton Event Cascade Theatre (T4)
  *
- * Multi-class market: "Given X-class flare at T₀, how many R1+ radio
- * blackouts in 72 hours?"
+ * Multi-class market: "Given X-class flare at T₀, how many S1+
+ * proton events in N hours?"
  *
- * Buckets: 0-1, 2-3, 4-6, 7-10, 11+
+ * Buckets: 0-1, 2-3, 4-6, 7-10, 11+ — TBD per Sprint 2 corpus binding.
  *
  * This is the solar equivalent of TREMOR's Aftershock Cascade.
  * After a major flare, an active region often produces additional
@@ -12,18 +12,30 @@
  *
  * The key prior model is the Wheatland (2001) waiting-time distribution
  * for solar flares, which follows a piecewise power law similar to
- * the Omori law for aftershocks.
+ * the Omori law for aftershocks. The Wheatland model captures the
+ * correlation between subsequent flares and S-scale proton events,
+ * so this cycle-001 scaffold uses subsequent qualifying flares as a
+ * proxy for S-scale proton-event counts. Sprint 2 will bind direct
+ * S-scale proton-flux qualifying-event logic to corpus calibration.
  *
- * R-scale (NOAA Radio Blackout Scale):
- *   R1: M1+ flare (Minor)
- *   R2: M5+ flare (Moderate)
- *   R3: X1+ flare (Strong)
- *   R4: X10+ flare (Severe)
- *   R5: X20+ flare (Extreme)
+ * S-scale (NOAA Solar Radiation Storm Scale, ≥10 MeV proton flux):
+ *   S1: ≥10 pfu        (Minor)
+ *   S2: ≥100 pfu       (Moderate)
+ *   S3: ≥1,000 pfu     (Strong)
+ *   S4: ≥10,000 pfu    (Severe)
+ *   S5: ≥100,000 pfu   (Extreme)
+ *
+ * Cleanup history (cycle-001 Sprint 0, Beads corona-222): renamed from
+ * R-scale (radio blackout) framing — that was drift; CORONA's T4 has
+ * always been declared Proton Event Cascade in spec/construct.json:T4.
+ * R-scale theatre is deferred to a future construct pack per operator.
  */
 
 import { flareRank } from '../oracles/swpc.js';
 
+// TBD per Sprint 2 corpus binding (PRD §11): these outcome-count buckets
+// are scaffolded with TREMOR's pattern; Sprint 2 binds the actual boundaries
+// from observed S-scale proton-event distributions.
 const BUCKETS = [
   { label: '0-1',  min: 0,  max: 1 },
   { label: '2-3',  min: 2,  max: 3 },
@@ -33,13 +45,24 @@ const BUCKETS = [
 ];
 
 /**
- * R-scale threshold for counting qualifying events.
- * R1 = M1.0 flare, R2 = M5.0, R3 = X1.0
+ * S-scale qualifying-event thresholds.
+ *
+ * Per NOAA S-scale, qualifying events are integral proton flux ≥10 MeV
+ * exceeding the pfu thresholds documented in the file-header docstring.
+ * The cycle-001 Sprint 0 scaffold uses subsequent flare-class as a proxy:
+ * S1 ↔ M1+, S2 ↔ M5+, S3 ↔ X1+. The Wheatland flare-waiting-time model
+ * captures the flare-proton correlation, so flare counts approximate
+ * proton-event counts over the prediction window.
+ *
+ * Sprint 2 (PRD §11) binds direct proton-flux qualifying-event checks to
+ * corpus-derived calibration; this proxy retires when that binding lands.
  */
-const R_SCALE_THRESHOLDS = {
-  R1: 'M1.0',
-  R2: 'M5.0',
-  R3: 'X1.0',
+// TODO Sprint 2 / corona-19q: replace flare-class proxy with direct proton-flux
+// qualifying-event logic once corpus/scoring is frozen.
+const S_SCALE_THRESHOLDS_PROXY = {
+  S1: 'M1.0',  // S1 ↔ M1+ flare proxy; Sprint 2 binds to ≥10 pfu proton flux
+  S2: 'M5.0',  // S2 ↔ M5+ flare proxy; Sprint 2 binds to ≥100 pfu
+  S3: 'X1.0',  // S3 ↔ X1+ flare proxy; Sprint 2 binds to ≥1000 pfu
 };
 
 /**
@@ -132,13 +155,13 @@ function logFactorial(n) {
  *
  * @param {object} params
  * @param {object} params.triggerBundle - Evidence bundle for the triggering flare
- * @param {string} [params.r_scale_threshold] - Minimum R-scale for counting (default R1)
+ * @param {string} [params.s_scale_threshold] - Minimum S-scale for counting (default S1) — see S_SCALE_THRESHOLDS_PROXY for the cycle-001 flare-class proxy mapping
  * @param {number} [params.window_hours] - Prediction window (default 72)
  * @returns {object|null} Theatre definition
  */
 export function createProtonEventCascade({
   triggerBundle,
-  r_scale_threshold = 'R1',
+  s_scale_threshold = 'S1',
   window_hours = 72,
 }) {
   const flare = triggerBundle.payload.flare;
@@ -149,14 +172,14 @@ export function createProtonEventCascade({
   if (triggerRank < flareRank('M5.0')) return null;
 
   const now = Date.now();
-  const countThreshold = R_SCALE_THRESHOLDS[r_scale_threshold] ?? 'M1.0';
+  const countThreshold = S_SCALE_THRESHOLDS_PROXY[s_scale_threshold] ?? 'M1.0';
   const expectedCount = estimateExpectedCount(flare.class_string, window_hours);
   const initialProbs = countToBucketProbabilities(expectedCount);
 
   return {
     id: `T4-PROTON-CASCADE-${triggerBundle.payload.event_id}-${now}`,
     template: 'proton_event_cascade',
-    question: `${flare.class_string} trigger: how many ${r_scale_threshold}+ blackouts within ${window_hours}h?`,
+    question: `${flare.class_string} trigger: how many ${s_scale_threshold}+ proton events within ${window_hours}h?`,
 
     trigger: {
       event_id: triggerBundle.payload.event_id,
@@ -166,7 +189,7 @@ export function createProtonEventCascade({
       active_region: triggerBundle.payload.active_region ?? null,
     },
 
-    r_scale_threshold,
+    s_scale_threshold,
     count_threshold_class: countThreshold,
     count_threshold_rank: flareRank(countThreshold),
 
@@ -192,7 +215,7 @@ export function createProtonEventCascade({
         p: initialProbs,
         qualifying_count: 0,
         evidence: triggerBundle.bundle_id,
-        reason: `Wheatland prior: expected ${expectedCount.toFixed(1)} ${r_scale_threshold}+ events from ${flare.class_string} trigger`,
+        reason: `Wheatland prior: expected ${expectedCount.toFixed(1)} ${s_scale_threshold}+ events from ${flare.class_string} trigger`,
       },
     ],
     evidence_bundles: [triggerBundle.bundle_id],
@@ -289,7 +312,7 @@ export function processProtonEventCascade(theatre, bundle) {
       qualifying_count: newCount,
       evidence: bundle.bundle_id,
       reason:
-        `${flare.class_string} ${theatre.r_scale_threshold}+ event #${newCount} — ` +
+        `${flare.class_string} ${theatre.s_scale_threshold}+ event #${newCount} — ` +
         `rate=${rate.toFixed(2)}/hr, projected=${projectedTotal.toFixed(1)}, ` +
         `blended=${blendedExpected.toFixed(1)} (prior_w=${priorWeight.toFixed(2)})`,
     },

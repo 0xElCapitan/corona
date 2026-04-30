@@ -1,0 +1,22 @@
+Sprint 0 — cycle-001-corona-v3-calibration
+Status: COMPLETED
+Date: 2026-04-30
+
+Implementation: 7 tasks closed (corona-3sh, corona-qv8, corona-1r5, corona-222, corona-1mv, corona-1g6, corona-3oh) + corona-315 hotfix
+Review: APPROVED Round-2 by senior tech lead (engineer-feedback.md "All good")
+Audit: APPROVED by Paranoid Cypherpunk Auditor (auditor-sprint-feedback.md "APPROVED - LETS FUCKING GO"; 0 CRITICAL/HIGH/MEDIUM, 2 LOW informational tracked for Sprint 7)
+
+Carry-forward to Sprint 1 (corona-26g, corona-2o8, corona-ra2):
+- C5: composition_paths.writes drops grimoires/loa/a2a/ entry
+- HITL gate at Sprint 1 close revisits autonomous-execution decision for Sprints 2-7
+
+Carry-forward to Sprint 2 (corona-19q + others):
+- C3: T4 S_SCALE_THRESHOLDS_PROXY → direct proton-flux logic
+- C4: Regression test for s_scale_threshold parameter
+
+Carry-forward to Sprint 7 publish-readiness:
+- C6: commands.path JS-files vs upstream commands/*.md (registry tooling validation)
+- C7: L2 publish gates (TODO/FIXME rejection, identity narrative ≥10 lines, semver, quick_start binding)
+- D6: ajv-formats local toolchain (replace --validate-formats=false)
+- LOW-1: schemas/CHECKSUMS.txt for vendor integrity
+- LOW-2: extend EXIT trap to cover tmp2 in scripts/construct-validate.sh

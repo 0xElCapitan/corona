@@ -77,7 +77,7 @@
       "type": "multi_class",
       "buckets": ["0-1", "2-3", "4-6", "7-10", "11+"],
       "resolution": "Flare event count",
-      "description": "How many R1+ radio blackouts following M5+ trigger?"
+      "description": "How many S1+ proton events following M5+ trigger?"
     },
     {
       "id": "T5",

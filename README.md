@@ -25,7 +25,7 @@ CORONA watches the Sun. When solar flares erupt, CMEs launch toward Earth, or ge
 | T1 | Flare Class Gate | Binary | Will a ≥M/X-class flare occur within 24h? |
 | T2 | Geomagnetic Storm Gate | Binary | Will Kp reach ≥5 (G1) within 72h? |
 | T3 | CME Arrival | Binary | Will CME arrive within predicted window ±6h? |
-| T4 | Proton Event Cascade | Multi-bucket | How many R1+ blackouts following X-class trigger? |
+| T4 | Proton Event Cascade | Multi-bucket | How many S1+ proton events following M5+ trigger? |
 | T5 | Solar Wind Divergence | Binary | Will sensor readings diverge beyond threshold? |
 
 ## Data Sources

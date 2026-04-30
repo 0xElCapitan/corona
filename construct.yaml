@@ -1,0 +1,196 @@
+# construct.yaml — CORONA pack manifest (v3)
+#
+# Validates against schemas/construct.schema.json (vendored from
+# construct-base@b98e9ef, PR #11 merge 2026-04-21).
+# Local invocation: ./scripts/construct-validate.sh construct.yaml
+#
+# Authored cycle-001 Sprint 0 (Beads corona-1r5) by `/implement` agent.
+# See grimoires/loa/calibration/corona/sprint-0-notes.md for the v3 migration
+# rationale, stream-taxonomy mapping (R11 mitigation), and TREMOR compose_with
+# reciprocity inspection (R2).
+#
+# Operator hard constraint (sprint-0 args): legacy spec files
+# spec/construct.json + spec/corona_construct.yaml are PRESERVED on disk;
+# this file is the v3 canonical source-of-truth for tooling. Legacy files
+# remain readable for migration audit and rollback if needed.
+
+schema_version: 3
+
+name: "CORONA"
+slug: corona
+version: 0.1.0
+
+description: "Coronal Oracle & Realtime Observation Network Agent — space-weather intelligence construct for the Echelon prediction-market protocol. Watches solar flares, CMEs, geomagnetic storms, proton events, and solar wind divergence through 5 theatres (T1-T5); exports Brier-scored RLMF certificates with theatre-specific settlement authorities."
+short_description: "Space-weather intelligence + RLMF certificates"
+
+author: "El Capitan"
+license: MIT
+type: skill-pack
+visibility: public
+
+# Domain tags for registry discovery
+domain:
+  - operations    # space-weather intelligence is operational signal
+  - analytics     # Brier scoring + calibration manifests
+
+# Skills (v3 schema requirement: ≥1 item).
+# CORONA's primary surface is programmatic — the CoronaConstruct JS class in
+# src/index.js exposes openFlareClassGate(), openGeomagneticStormGate(), etc.
+# The skills/corona-theatres/ scaffold (SKILL.md + index.yaml) documents this
+# programmatic surface for v3 ecosystem discoverability and satisfies the
+# schema minItems requirement. Future cycles may add user-invokable
+# slash-command wrappers; for cycle-001 the surface is intentionally
+# programmatic-only. The local validator wrapper enforces upstream CI parity
+# on skill-dir + SKILL.md + index.yaml + capabilities checks per the hotfix
+# documented at grimoires/loa/calibration/corona/sprint-0-notes.md.
+skills:
+  - slug: corona-theatres
+    path: skills/corona-theatres
+    description: "T1-T5 theatre constructors for space-weather prediction markets — programmatic API surface (not a slash-invokable skill in cycle-001). SKILL.md + index.yaml at skills/corona-theatres/ document the lifecycle and capability metadata."
+
+# Commands — CORONA's primary surface is programmatic (the CoronaConstruct JS
+# class with openFlareClassGate(), openGeomagneticStormGate(), etc.). The
+# "command" entries here document the 5 theatre constructor names from
+# spec/construct.json:13-19 + their source files; they are NOT user-invokable
+# slash commands in the construct-creator/skill-pack sense. PRD G0.5 requires
+# this block to enumerate all 5 theatres for ecosystem discoverability.
+commands:
+  - name: flare-gate
+    path: src/theatres/flare-gate.js
+    description: "T1 — Flare Class Gate. Constructor: corona.openFlareClassGate({threshold_class, window_hours, base_rate})"
+  - name: geomag-gate
+    path: src/theatres/geomag-gate.js
+    description: "T2 — Geomagnetic Storm Gate. Constructor: corona.openGeomagneticStormGate({kp_threshold, window_hours, base_rate})"
+  - name: cme-arrival
+    path: src/theatres/cme-arrival.js
+    description: "T3 — CME Arrival. Constructor: corona.openCMEArrival({cmeBundle}); usually auto-spawned from earth-directed CME bundles"
+  - name: proton-cascade
+    path: src/theatres/proton-cascade.js
+    description: "T4 — Proton Event Cascade (S-scale). Constructor: corona.openProtonEventCascade({triggerBundle, s_scale_threshold, window_hours}); usually auto-spawned from M5+ flare triggers"
+  - name: sw-divergence
+    path: src/theatres/solar-wind-divergence.js
+    description: "T5 — Solar Wind Divergence. Constructor: corona.openSolarWindDivergence({bz_divergence_threshold, sustained_minutes, window_hours})"
+
+# Composition — TREMOR is the closest local sibling.
+# Reciprocity inspection (Beads corona-1g6, R2 mitigation): TREMOR uses pre-v3
+# composes_with triplet (depends_on/depended_by/optional) and does NOT list
+# CORONA in that block; however TREMOR's rlmf.compatible_with DOES list corona
+# (a soft schema-level reciprocity). CORONA's v3 declaration here is one-sided
+# this cycle; closes when TREMOR migrates to v3 (out of scope for cycle-001).
+compose_with:
+  - slug: tremor
+    relationship: "RLMF certificate schema compatibility (echelon-rlmf-v0.1.0). Both constructs emit Brier-scored certificates ingestible by the same downstream RLMF aggregator without per-construct adaptors. Documentation-only composition; NOT a runtime dependency. See examples/tremor-rlmf-pipeline.md."
+
+# Grimoire paths — composition_paths declaration.
+# Sprint 0 declares only the calibration write path (Beads corona-1mv,
+# corona-3sh outputs). Sprint 1 (Beads corona-26g) extends this with the
+# full calibration directory scaffold + reads from any consumed grimoires.
+composition_paths:
+  writes:
+    - grimoires/loa/calibration/corona/   # calibration artifacts: protocol, manifest, evidence, run-N certificates, theatre-authority
+    - grimoires/loa/a2a/                  # cross-skill agent trajectory + sprint feedback artifacts (standard Loa)
+  reads: []
+
+# Typed streams (5 primitives: Signal · Verdict · Artifact · Intent · Operator-Model).
+# CORONA's runtime model is bundle/theatre_refs (BUTTERFREEZONE.md:35-46);
+# mapping rationale documented in sprint-0-notes.md "Task 0.3 streams taxonomy mapping".
+streams:
+  reads:
+    - Signal           # SWPC GOES X-ray + Kp + integral proton + DSCOVR/ACE solar wind; DONKI events; GFZ Kp
+    - Operator-Model   # Construct + theatre configuration (thresholds, base rates, doubt-price floors, sigma priors)
+  writes:
+    - Verdict          # Theatre resolutions (binary T1/T2/T3/T5; multi-class T4)
+    - Artifact         # RLMF certificates with Brier scores, position histories, calibration buckets, temporal analysis
+
+# Repository metadata
+repository:
+  url: https://github.com/echelon-protocol/corona.git
+  homepage: https://constructs.network/constructs/corona
+
+# Event bus integration
+events:
+  emits:
+    - type: echelon.corona.theatre_opened
+      description: "A theatre (T1-T5) opens for evidence ingestion"
+    - type: echelon.corona.theatre_resolved
+      description: "A theatre resolves; RLMF certificate is exported"
+    - type: echelon.corona.bundle_ingested
+      description: "An evidence bundle is ingested from SWPC or DONKI"
+  consumes: []
+
+# Pack dependencies — none this cycle. Future cycles may add construct-pack
+# integrations (e.g., observer for operator-model awareness, hivemind for
+# operator-knowledge grounding). Empty array satisfies v3 schema.
+pack_dependencies: []
+
+# Identity
+# Narrative companion: identity/CORONA.md (observer-of-the-Sun framing)
+# Schema-validated structured persona: identity/persona.yaml (cognitiveFrame + voice)
+identity:
+  persona: identity/persona.yaml
+  handles:
+    - CORONA
+
+# Butterfreezone marker — CONSTRUCT-README.md autogen target convention.
+# Cycle-001 ships hand-authored BUTTERFREEZONE.md as the reality substrate
+# (provenance-tagged: CODE-FACTUAL / DERIVED / OPERATIONAL). Sprint 7 may
+# align with construct-creator's CONSTRUCT-README.md autogen pattern; for now
+# the substrate is preserved hand-authored.
+docs:
+  construct_readme_generator: butterfreezone
+  readme_source: hand-authored (BUTTERFREEZONE.md)
+
+# Runtime requirements (preserved metadata from spec/construct.json:97-103;
+# v3 schema accepts via additionalProperties).
+requirements:
+  runtime: "node >= 20.0.0"
+  dependencies: "none — zero runtime deps per package.json"
+  env_vars:
+    NASA_API_KEY:
+      required: false
+      description: "NASA API key for DONKI (DEMO_KEY used if absent). DONKI's role is discovery + label correlation + evidence enrichment, NOT settlement — see grimoires/loa/calibration/corona/theatre-authority.md."
+
+# Theatre roster (preserved metadata from spec/construct.json:52-89;
+# v3 schema accepts via additionalProperties).
+# This block documents CORONA's runtime theatre templates for ecosystem
+# discoverability; settlement authority is canonical at theatre-authority.md.
+theatre_templates:
+  - id: T1
+    name: flare_class_gate
+    type: binary
+    settlement: GOES/SWPC X-ray flux
+    description: "Will a ≥M/X-class flare occur within N hours?"
+  - id: T2
+    name: geomagnetic_storm_gate
+    type: binary
+    settlement: SWPC provisional Kp (live) + GFZ definitive Kp (regression)
+    description: "Will Kp reach ≥N (G-scale) within M hours?"
+  - id: T3
+    name: cme_arrival
+    type: binary
+    settlement: Observed L1 shock signature (DSCOVR/ACE)
+    description: "Will CME arrive within predicted window ±6h?"
+  - id: T4
+    name: proton_event_cascade
+    type: multi_class
+    buckets: ["0-1", "2-3", "4-6", "7-10", "11+"]    # TBD per Sprint 2 corpus binding
+    settlement: GOES integral proton flux (S-scale ≥10 MeV)
+    description: "How many S1+ proton events following M5+ trigger?"
+  - id: T5
+    name: solar_wind_divergence
+    type: binary
+    settlement: Self-resolving via DSCOVR-ACE Bz volatility + sustained streak detection (with stale-feed + satellite-switch guards)
+    description: "Will sensor readings diverge beyond threshold for sustained period?"
+
+# RLMF certificate schema declaration (preserved from spec/construct.json:91-95;
+# v3 schema accepts via additionalProperties). Compatible_with documents the
+# downstream pipeline integration target.
+rlmf:
+  certificate_schema: echelon-rlmf-v0.1.0
+  compatible_with:
+    - tremor
+  exports:
+    - brier_score
+    - position_history
+    - calibration_bucket
+    - temporal_analysis

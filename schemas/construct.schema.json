@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Construct Pack Manifest",
+  "description": "Schema for construct.yaml — the pack manifest for Loa constructs.",
+  "type": "object",
+  "required": ["schema_version", "name", "slug", "version", "description", "skills"],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 3,
+      "description": "Manifest schema version. Must be 3."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 2,
+      "description": "Display name for registry and UI"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,}$",
+      "description": "URL-safe identifier (kebab-case, 2+ chars)"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-[a-zA-Z0-9.]+)?(\\+[a-zA-Z0-9.]+)?$",
+      "description": "Semantic version (e.g., 1.0.0, 2.1.0-beta.1)"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "description": "One-line description shown in registry search results"
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Your name or organization"
+    },
+    "license": {
+      "type": "string",
+      "description": "SPDX license identifier"
+    },
+    "skills": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["slug", "path"],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{1,}$"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^skills/"
+          }
+        },
+        "additionalProperties": true
+      },
+      "description": "Skills provided by this construct"
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "description": "Slash commands registered in the runtime"
+    },
+    "repository": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "homepage": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "additionalProperties": true
+    },
+    "events": {
+      "type": "object",
+      "properties": {
+        "emits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "description"],
+            "properties": {
+              "type": { "type": "string" },
+              "description": { "type": "string" },
+              "data_schema": { "type": "object" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "consumes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["event"],
+            "properties": {
+              "event": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "pack_dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slug", "version"],
+        "properties": {
+          "slug": { "type": "string" },
+          "version": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "identity": {
+      "type": "object",
+      "properties": {
+        "persona": { "type": "string" },
+        "expertise": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "hooks": {
+      "type": "object",
+      "properties": {
+        "post_install": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "quick_start": {
+      "type": "object",
+      "required": ["command", "description"],
+      "properties": {
+        "command": {
+          "type": "string",
+          "pattern": "^/",
+          "description": "Must reference a slash command"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
