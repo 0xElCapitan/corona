@@ -1,0 +1,6 @@
+.claude/.skills-disabled/
+
+# LOA framework (vendored — don't track on GitHub)
+.claude/*
+!.claude/overrides/
+!.claude/settings.json
