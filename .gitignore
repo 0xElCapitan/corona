@@ -4,3 +4,12 @@
 .claude/*
 !.claude/overrides/
 !.claude/settings.json
+
+# Beads operation history (ephemeral; .beads/issues.jsonl is the canonical export)
+.beads/.br_history/
+
+# Autonomous-execution audit log (ephemeral)
+.run/audit.jsonl
+
+# User-provided context for /plan-and-analyze (local-only; no exceptions per operator)
+grimoires/loa/context/
