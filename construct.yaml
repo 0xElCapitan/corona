@@ -82,13 +82,21 @@ compose_with:
     relationship: "RLMF certificate schema compatibility (echelon-rlmf-v0.1.0). Both constructs emit Brier-scored certificates ingestible by the same downstream RLMF aggregator without per-construct adaptors. Documentation-only composition; NOT a runtime dependency. See examples/tremor-rlmf-pipeline.md."
 
 # Grimoire paths — composition_paths declaration.
-# Sprint 0 declares only the calibration write path (Beads corona-1mv,
-# corona-3sh outputs). Sprint 1 (Beads corona-26g) extends this with the
-# full calibration directory scaffold + reads from any consumed grimoires.
+#
+# Sprint 1 (Beads corona-26g) finalized: the canonical write path is
+# grimoires/loa/calibration/corona/ — protocol, manifest, evidence,
+# theatre-authority, run-N certificates all land under it. Sprint 0's
+# overclaim of grimoires/loa/a2a/ has been dropped (per Round-1 review C5);
+# a2a/ is standard Loa scaffolding written by every mounted construct, not
+# a CORONA-specific composition surface.
+#
+# reads is intentionally empty for cycle-001: CORONA does not consume any
+# other construct's grimoires at this stage. Future cycles may add reads
+# (e.g. observer for operator-model awareness) when those compositions
+# materialize.
 composition_paths:
   writes:
-    - grimoires/loa/calibration/corona/   # calibration artifacts: protocol, manifest, evidence, run-N certificates, theatre-authority
-    - grimoires/loa/a2a/                  # cross-skill agent trajectory + sprint feedback artifacts (standard Loa)
+    - grimoires/loa/calibration/corona/   # cycle-001 calibration: protocol, manifest, empirical-evidence, theatre-authority, run-N certificates
   reads: []
 
 # Typed streams (5 primitives: Signal · Verdict · Artifact · Intent · Operator-Model).

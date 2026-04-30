@@ -164,22 +164,22 @@ Deliver a v3-compliant canonical spec with a green `construct-validate.sh`, a wr
 Lock `composition_paths.calibration` in the canonical v3 spec, scaffold the calibration artefact directory, and update Sprint 2-7 task descriptions with absolute paths so downstream sprints have unambiguous targets.
 
 ### Deliverables
-- [ ] `composition_paths.calibration: grimoires/loa/calibration/corona/` declared in canonical v3 spec
-- [ ] `grimoires/loa/calibration/corona/` scaffolded with placeholder files: `calibration-protocol.md`, `calibration-manifest.json`, `empirical-evidence.md`
-- [ ] (`theatre-authority.md` already populated from Sprint 0 — no new creation)
-- [ ] Sprint 2-7 Beads task descriptions updated with absolute artefact paths
+- [x] `composition_paths.calibration: grimoires/loa/calibration/corona/` declared in canonical v3 spec
+- [x] `grimoires/loa/calibration/corona/` scaffolded with placeholder files: `calibration-protocol.md`, `calibration-manifest.json`, `empirical-evidence.md`
+- [x] (`theatre-authority.md` already populated from Sprint 0 — no new creation)
+- [x] Sprint 2-7 Beads task descriptions updated with absolute artefact paths
 
 ### Acceptance Criteria
-- [ ] **G0.4**: `composition_paths` declarations validated by `construct-validate.sh` (still green)
-- [ ] All Sprint 2-7 artefact paths reserved/documented in placeholder files
-- [ ] Path scaffolding committed
-- [ ] 60 baseline tests still pass
+- [x] **G0.4**: `composition_paths` declarations validated by `construct-validate.sh` (still green)
+- [x] All Sprint 2-7 artefact paths reserved/documented in placeholder files
+- [x] Path scaffolding committed
+- [x] 60 baseline tests still pass
 
 ### Technical Tasks
 
-- [ ] **Task 1.1** (`corona-26g`, P0): `sprint-1-declare-composition-paths` — Declare `composition_paths.calibration: grimoires/loa/calibration/corona/` in canonical v3 spec. Re-run `construct-validate.sh` to confirm green. → **[G0.4]** → Refs PRD §5.2, §8.2; SDD §4.4; **depends on** Sprint 0 final gate (Task 0.7)
-- [ ] **Task 1.2** (`corona-2o8`, P1): `sprint-1-scaffold-calibration-directory` — Create placeholder files at `grimoires/loa/calibration/corona/`: `calibration-protocol.md` (with TBD markers for Sprint 2), `calibration-manifest.json` (empty array `[]` per PRD §7), `empirical-evidence.md` (with TBD markers for Sprint 4). Add `corpus/README.md` documenting directory purpose. → **[GC.1, GC.3, GC.4]** → Refs PRD §5.2; SDD §5.1; **depends on** Task 1.1
-- [ ] **Task 1.3** (`corona-ra2`, P2): `sprint-1-update-sprint-plans-with-absolute-paths` — Walk Sprints 2-7 Beads tasks; update task descriptions with absolute paths (e.g. `grimoires/loa/calibration/corona/run-1/T1-report.md` rather than relative paths). → Refs PRD §5.2; SDD §5.1; **depends on** Task 1.2
+- [x] **Task 1.1** (`corona-26g`, P0): `sprint-1-declare-composition-paths` — Declare `composition_paths.calibration: grimoires/loa/calibration/corona/` in canonical v3 spec. Re-run `construct-validate.sh` to confirm green. → **[G0.4]** → Refs PRD §5.2, §8.2; SDD §4.4; **depends on** Sprint 0 final gate (Task 0.7)
+- [x] **Task 1.2** (`corona-2o8`, P1): `sprint-1-scaffold-calibration-directory` — Create placeholder files at `grimoires/loa/calibration/corona/`: `calibration-protocol.md` (with TBD markers for Sprint 2), `calibration-manifest.json` (empty array `[]` per PRD §7), `empirical-evidence.md` (with TBD markers for Sprint 4). Add `corpus/README.md` documenting directory purpose. → **[GC.1, GC.3, GC.4]** → Refs PRD §5.2; SDD §5.1; **depends on** Task 1.1
+- [x] **Task 1.3** (`corona-ra2`, P2): `sprint-1-update-sprint-plans-with-absolute-paths` — Walk Sprints 2-7 Beads tasks; update task descriptions with absolute paths (e.g. `grimoires/loa/calibration/corona/run-1/T1-report.md` rather than relative paths). → Refs PRD §5.2; SDD §5.1; **depends on** Task 1.2
 
 ### Dependencies
 - **Sprint 0**: validator green (Task 0.7) gates spec change; theatre-authority.md must already exist before scaffold

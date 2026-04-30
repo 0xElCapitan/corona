@@ -1,0 +1,25 @@
+Sprint 1 — cycle-001-corona-v3-calibration
+Status: COMPLETED
+Date: 2026-04-30
+
+Implementation: 3 tasks closed (corona-26g, corona-2o8, corona-ra2) + epic corona-2b7
+Review: APPROVED with concerns Round-1 by senior tech lead (engineer-feedback.md "All good (with noted concerns)"; 5 non-blocking documentation/hygiene concerns)
+Audit: APPROVED by Paranoid Cypherpunk Auditor (auditor-sprint-feedback.md "APPROVED - LETS FUCKING GO"; 0 CRITICAL/HIGH/MEDIUM/LOW findings; thinnest-defensible audit due to metadata+scaffold-only sprint scope)
+
+Sprint 1 deliverables:
+- construct.yaml composition_paths declaration (Task 1.1, corona-26g) — C5 carry-forward from Sprint 0 Round-2 resolved
+- grimoires/loa/calibration/corona/{calibration-protocol.md, calibration-manifest.json [], empirical-evidence.md, corpus/README.md} placeholder files (Task 1.2, corona-2o8)
+- Task 1.3 (corona-ra2) closed as documented no-op (Sprint 2-7 beads descriptions empty per sprint-plan outline-level granularity; sprint.md absolute-path-clean already)
+
+Carry-forward to Sprint 2 handoff packet (operator-prepared per their direction):
+- Sprint 1 review concerns C1-C5 (paperwork/process; not blocking Sprint 2 work)
+- Sprint 0 Round-2 carry-forward C3 + C4 (T4 corona-19q owners)
+- Sprint 0 Round-2 carry-forward C5 RESOLVED (Sprint 1 Task 1.1)
+
+Carry-forward to Sprint 7 publish-readiness:
+- Sprint 0 audit LOW-1: schemas/CHECKSUMS.txt vendor integrity
+- Sprint 0 audit LOW-2: extend tempfile EXIT trap to cover tmp2 in scripts/construct-validate.sh
+- Sprint 1 review C5: composition_paths.reads: [] registry compatibility validation
+- Sprint 0 Round-2 C6 + C7 + D6: commands.path convention, L2 publish gates, ajv-formats install
+
+HITL gate per operator direction: Sprint 1 stops here. Sprint 2 (semantic/protocol-freeze sprint) starts from a fresh session with a handoff packet. Operator commits Sprint 1 changes manually post-audit (mirrors Sprint 0 commit b424da7 pattern).
