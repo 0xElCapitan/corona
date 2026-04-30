@@ -14,5 +14,11 @@
 # HITL permission-prompt analytics (operator-specific; ephemeral)
 grimoires/loa/analytics/
 
+# Agent decision/trajectory logs (auto-generated; volume + low public value)
+grimoires/loa/a2a/trajectory/
+
+# Internal validation reports from /validate (framework-internal)
+grimoires/loa/a2a/subagent-reports/
+
 # User-provided context for /plan-and-analyze (local-only; no exceptions per operator)
 grimoires/loa/context/
