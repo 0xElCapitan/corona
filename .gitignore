@@ -11,5 +11,8 @@
 # Autonomous-execution audit log (ephemeral)
 .run/audit.jsonl
 
+# HITL permission-prompt analytics (operator-specific; ephemeral)
+grimoires/loa/analytics/
+
 # User-provided context for /plan-and-analyze (local-only; no exceptions per operator)
 grimoires/loa/context/
