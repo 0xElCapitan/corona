@@ -22,7 +22,13 @@ import { brierScoreBinary, brierScoreMultiClass, calibrationBucket, exportCertif
 import { createFlareClassGate, processFlareClassGate, expireFlareClassGate } from '../src/theatres/flare-gate.js';
 import { createGeomagneticStormGate, processGeomagneticStormGate, expireGeomagneticStormGate } from '../src/theatres/geomag-gate.js';
 import { createCMEArrival, processCMEArrival, expireCMEArrival } from '../src/theatres/cme-arrival.js';
-import { createProtonEventCascade, processProtonEventCascade, resolveProtonEventCascade } from '../src/theatres/proton-cascade.js';
+import {
+  createProtonEventCascade,
+  processProtonEventCascade,
+  resolveProtonEventCascade,
+  S_SCALE_THRESHOLDS_PFU,
+  SEP_DEDUP_WINDOW_MINUTES,
+} from '../src/theatres/proton-cascade.js';
 import { createSolarWindDivergence, processSolarWindDivergence, expireSolarWindDivergence } from '../src/theatres/solar-wind-divergence.js';
 
 // =========================================================================
@@ -90,6 +96,21 @@ function makeSolarWindEvent(overrides = {}) {
       mag: { bz_gsm: -8, bt: 12, bx_gsm: 3, by_gsm: -5 },
       plasma: { speed: 450, density: 8, temperature: 150000 },
       time: Date.now() - 60_000,
+      ...overrides,
+    },
+    polledAt: Date.now(),
+  };
+}
+
+function makeProtonFluxEvent(overrides = {}) {
+  return {
+    type: 'proton_flux',
+    data: {
+      flux: 50, // pfu — defaults above S1 (≥10 pfu)
+      energy: '>=10 MeV',
+      time: Date.now() - 60_000,
+      time_tag: '2026-03-15 12:00:00.000',
+      satellite: 16,
       ...overrides,
     },
     polledAt: Date.now(),
@@ -592,18 +613,57 @@ describe('Proton Event Cascade', () => {
     assert.equal(t, null);
   });
 
-  it('increments count on qualifying events', () => {
+  it('increments count on qualifying proton-flux event', () => {
+    const t = createProtonEventCascade({ triggerBundle: makeTriggerBundle() });
+    const protonBundle = buildBundle(makeProtonFluxEvent({ flux: 50 }));
+    const updated = processProtonEventCascade(t, protonBundle);
+    assert.equal(updated.qualifying_event_count, 1);
+    assert.equal(updated.qualifying_events.length, 1);
+    assert.equal(updated.qualifying_events[0].peak_pfu, 50);
+  });
+
+  it('does not count sub-threshold proton-flux events', () => {
+    const t = createProtonEventCascade({ triggerBundle: makeTriggerBundle() });
+    const weak = buildBundle(makeProtonFluxEvent({ flux: 5 }));
+    const updated = processProtonEventCascade(t, weak);
+    assert.equal(updated.qualifying_event_count, 0);
+  });
+
+  it('does not count off-channel proton-flux events (energy != 10 MeV)', () => {
+    const t = createProtonEventCascade({ triggerBundle: makeTriggerBundle() });
+    const offChannel = buildBundle(makeProtonFluxEvent({ flux: 200, energy: '>=100 MeV' }));
+    const updated = processProtonEventCascade(t, offChannel);
+    assert.equal(updated.qualifying_event_count, 0);
+  });
+
+  it('does not count flare events (correlation evidence only, Sprint 2)', () => {
     const t = createProtonEventCascade({ triggerBundle: makeTriggerBundle() });
     const afterFlare = buildBundle(makeDonkiFlareEvent({ class_type: 'M2.0' }));
     const updated = processProtonEventCascade(t, afterFlare);
-    assert.equal(updated.qualifying_event_count, 1);
+    assert.equal(updated.qualifying_event_count, 0);
+    // Flare bundle is logged to position_history as correlation evidence
+    const lastEntry = updated.position_history[updated.position_history.length - 1];
+    assert.match(lastEntry.reason, /correlation evidence/);
   });
 
-  it('does not count sub-threshold events', () => {
+  it('coalesces qualifying flux within SEP onset window (no double-count)', () => {
     const t = createProtonEventCascade({ triggerBundle: makeTriggerBundle() });
-    const weak = buildBundle(makeFlareEvent({ max_class: 'C5.0' }));
-    const updated = processProtonEventCascade(t, weak);
-    assert.equal(updated.qualifying_event_count, 0);
+    const t0 = Date.now();
+    const first = buildBundle(makeProtonFluxEvent({ flux: 50, time: t0 }));
+    const second = buildBundle(makeProtonFluxEvent({ flux: 60, time: t0 + 10 * 60_000 })); // +10 min, within 30-min window
+    const afterFirst = processProtonEventCascade(t, first);
+    const afterSecond = processProtonEventCascade(afterFirst, second);
+    assert.equal(afterSecond.qualifying_event_count, 1, 'within 30-min onset window → coalesced');
+  });
+
+  it('counts a second qualifying event outside SEP onset window', () => {
+    const t = createProtonEventCascade({ triggerBundle: makeTriggerBundle() });
+    const t0 = Date.now();
+    const first = buildBundle(makeProtonFluxEvent({ flux: 50, time: t0 }));
+    const second = buildBundle(makeProtonFluxEvent({ flux: 80, time: t0 + 45 * 60_000 })); // +45 min, outside 30-min dedup
+    const afterFirst = processProtonEventCascade(t, first);
+    const afterSecond = processProtonEventCascade(afterFirst, second);
+    assert.equal(afterSecond.qualifying_event_count, 2);
   });
 
   it('resolves to bucket on expiry', () => {
@@ -611,6 +671,82 @@ describe('Proton Event Cascade', () => {
     const resolved = resolveProtonEventCascade(t);
     assert.equal(resolved.state, 'resolved');
     assert.equal(resolved.outcome, 0); // 0 events → bucket 0
+  });
+});
+
+// =========================================================================
+// Theatre: Proton Event Cascade — S-scale binding regression (Sprint 2 corona-19q)
+//
+// Locks in the Sprint 2 freeze:
+//   1. The s_scale_threshold parameter (renamed from r_scale framing in
+//      Sprint 0 corona-222) maps directly to PFU thresholds via
+//      S_SCALE_THRESHOLDS_PFU — no flare-class proxy.
+//   2. The theatre exposes count_threshold_pfu, NOT the deprecated
+//      count_threshold_class / count_threshold_rank.
+//   3. The qualifying check is proton_flux ≥ PFU AND ≥10 MeV channel.
+//
+// Pairs the Sprint 0 carry-forward C4 (parameter-rename regression test)
+// with the Sprint 2 proxy retirement.
+// =========================================================================
+
+describe('Proton Event Cascade — S-scale binding (Sprint 2 freeze)', () => {
+  function makeTriggerBundle() {
+    return buildBundle(makeDonkiFlareEvent({ class_type: 'X2.5' }));
+  }
+
+  it('S_SCALE_THRESHOLDS_PFU exposes canonical NOAA boundaries', () => {
+    assert.equal(S_SCALE_THRESHOLDS_PFU.S1, 10);
+    assert.equal(S_SCALE_THRESHOLDS_PFU.S2, 100);
+    assert.equal(S_SCALE_THRESHOLDS_PFU.S3, 1000);
+    assert.equal(S_SCALE_THRESHOLDS_PFU.S4, 10000);
+    assert.equal(S_SCALE_THRESHOLDS_PFU.S5, 100000);
+  });
+
+  it('s_scale_threshold defaults to S1 (10 pfu)', () => {
+    const t = createProtonEventCascade({ triggerBundle: makeTriggerBundle() });
+    assert.equal(t.s_scale_threshold, 'S1');
+    assert.equal(t.count_threshold_pfu, S_SCALE_THRESHOLDS_PFU.S1);
+  });
+
+  it('s_scale_threshold "S2" binds count_threshold_pfu to 100 pfu', () => {
+    const t = createProtonEventCascade({
+      triggerBundle: makeTriggerBundle(),
+      s_scale_threshold: 'S2',
+    });
+    assert.equal(t.s_scale_threshold, 'S2');
+    assert.equal(t.count_threshold_pfu, 100);
+    // Sub-threshold (50 pfu < 100) — should NOT count for S2
+    const sub = buildBundle(makeProtonFluxEvent({ flux: 50 }));
+    const afterSub = processProtonEventCascade(t, sub);
+    assert.equal(afterSub.qualifying_event_count, 0);
+    // Above threshold (200 pfu > 100) — should count
+    const above = buildBundle(makeProtonFluxEvent({ flux: 200, time: Date.now() + 60 * 60_000 }));
+    const afterAbove = processProtonEventCascade(afterSub, above);
+    assert.equal(afterAbove.qualifying_event_count, 1);
+    assert.equal(afterAbove.qualifying_events[0].peak_pfu, 200);
+  });
+
+  it('s_scale_threshold "S3" binds count_threshold_pfu to 1000 pfu', () => {
+    const t = createProtonEventCascade({
+      triggerBundle: makeTriggerBundle(),
+      s_scale_threshold: 'S3',
+    });
+    assert.equal(t.count_threshold_pfu, 1000);
+  });
+
+  it('theatre state does NOT carry the deprecated count_threshold_class/rank fields', () => {
+    const t = createProtonEventCascade({
+      triggerBundle: makeTriggerBundle(),
+      s_scale_threshold: 'S2',
+    });
+    assert.equal(t.count_threshold_class, undefined);
+    assert.equal(t.count_threshold_rank, undefined);
+    assert.equal(typeof t.count_threshold_pfu, 'number');
+    assert.equal(t.last_qualifying_event_time, null);
+  });
+
+  it('SEP_DEDUP_WINDOW_MINUTES is exported and matches NOAA onset criterion', () => {
+    assert.equal(SEP_DEDUP_WINDOW_MINUTES, 30);
   });
 });
 

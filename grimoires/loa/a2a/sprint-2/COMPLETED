@@ -1,0 +1,33 @@
+Sprint 2 — Frozen Calibration Protocol — COMPLETED
+
+Epic: corona-1so
+Sprint type: SEMANTIC / PROTOCOL FREEZE (5 tasks: corona-b5v, corona-2bv, corona-19q, corona-fnb, corona-31y)
+Cycle: cycle-001-corona-v3-calibration
+
+Quality gates:
+- Senior review (Round 2, after CHANGES_REQUIRED Round 1 + surgical Round 2 fixes): All good — APPROVED at grimoires/loa/a2a/sprint-2/engineer-feedback.md
+- Security audit: APPROVED - LETS FUCKING GO at grimoires/loa/a2a/sprint-2/auditor-sprint-feedback.md
+  - 0 CRITICAL / 0 HIGH / 0 MEDIUM / 1 LOW informational / 1 PRE-EXISTING noted
+  - All 6 operator-directed focus areas verified clean
+
+Verification at audit close:
+- ./scripts/construct-validate.sh construct.yaml → OK: construct.yaml conforms to v3 (schemas/construct.schema.json @ b98e9ef)
+- node --test tests/corona_test.js → tests 70 / pass 70 / fail 0
+- package.json dependencies → {} (zero runtime deps invariant maintained)
+
+Sprint 2 deliverable:
+- grimoires/loa/calibration/corona/calibration-protocol.md (523 lines, frozen)
+  - §3 corpus tiers + eligibility rules + §3.7 corpus annotation schema (Round 2)
+  - §4.3 T3 timing metric (corpus-eligibility WSA-Enlil-null exclusion, no scoring-layer filtering)
+  - §4.4 T4 S-scale binding + §4.4.0 prediction window (72h, full post-trigger)
+  - §4.5 T5 quality-of-behavior metrics
+  - §6 per-theatre pass/marginal/fail thresholds
+  - §7 regression policy
+
+Code change:
+- src/theatres/proton-cascade.js — retired flare-class proxy; qualifying logic now on direct proton flux + strict ≥10 MeV channel + 30-min SEP onset dedup window
+- tests/corona_test.js — 5 updated proton-cascade behavior tests + 6 new S-scale binding regression tests (Sprint 0 carry-forward C4 closed)
+- construct.yaml — T4 metadata sync to reflect freeze
+- spec/construct.json — T4 stale "resolution" string updated (Round 2 C2 fix; legacy file otherwise preserved)
+
+Working tree state at COMPLETED creation: uncommitted, awaiting operator's manual commit per Sprint 0 / Sprint 1 commit-after-audit pattern.

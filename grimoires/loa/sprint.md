@@ -221,28 +221,28 @@ Lock `composition_paths.calibration` in the canonical v3 spec, scaffold the cali
 Resolve PRD §11 open decisions for T3 timing-error metric, T4 S-scale bucket boundaries, and T5 quality-of-behavior metric. Produce a frozen `calibration-protocol.md` that defines per-theatre scoring rules, pass/marginal/fail thresholds, and the regression policy.
 
 ### Deliverables
-- [ ] `grimoires/loa/calibration/corona/calibration-protocol.md` written and frozen
-- [ ] Primary corpus rules defined (GOES-R era 2017+, ~15-25 events per theatre)
-- [ ] Secondary stress corpus rules defined (SC24/25 + historical exceptional)
-- [ ] T3 arrival-window metric **specifics** bound (PRD §11 Q2)
-- [ ] T4 S-scale bucket boundaries **bound to corpus** (PRD §11 Q4 — Sprint 0 produced scaffold; Sprint 2 binds)
-- [ ] T5 quality-of-behavior metric **specifics** bound (PRD §11 Q3)
-- [ ] Per-theatre pass/marginal/fail thresholds defined
-- [ ] Regression policy declared (any parameter change requires re-run; gate fails if threshold drops)
+- [x] `grimoires/loa/calibration/corona/calibration-protocol.md` written and frozen
+- [x] Primary corpus rules defined (GOES-R era 2017+, ~15-25 events per theatre)
+- [x] Secondary stress corpus rules defined (SC24/25 + historical exceptional)
+- [x] T3 arrival-window metric **specifics** bound (PRD §11 Q2)
+- [x] T4 S-scale bucket boundaries **bound to corpus** (PRD §11 Q4 — Sprint 0 produced scaffold; Sprint 2 binds)
+- [x] T5 quality-of-behavior metric **specifics** bound (PRD §11 Q3)
+- [x] Per-theatre pass/marginal/fail thresholds defined
+- [x] Regression policy declared (any parameter change requires re-run; gate fails if threshold drops)
 
 ### Acceptance Criteria
-- [ ] **GC.1**: Frozen calibration protocol committed
-- [ ] PRD §11 open decisions Q2, Q3, Q4 resolved
-- [ ] Per-theatre scoring rules documented per PRD §5.3 / §8.4 (no TREMOR wholesale reuse)
-- [ ] Settlement authority cross-references `theatre-authority.md` per PRD §6
+- [x] **GC.1**: Frozen calibration protocol committed
+- [x] PRD §11 open decisions Q2, Q3, Q4 resolved
+- [x] Per-theatre scoring rules documented per PRD §5.3 / §8.4 (no TREMOR wholesale reuse)
+- [x] Settlement authority cross-references `theatre-authority.md` per PRD §6
 
 ### Technical Tasks (outline)
 
-- [ ] **Task 2.1** (`corona-b5v`): `sprint-2-define-corpus-tiers` — Document primary + secondary corpus rules, evidence-quality gate logic. → **[GC.1]**
-- [ ] **Task 2.2** (`corona-2bv`): `sprint-2-bind-t3-timing-metric` — Concrete T3 arrival-window MAE + within-±6h hit rate definition (PRD §11 Q2). → **[GC.1]**
-- [ ] **Task 2.3** (`corona-19q`): `sprint-2-bind-t4-bucket-boundaries` — Bind T4 S-scale bucket boundaries to corpus events (PRD §11 Q4). → **[GC.1, G0.12]**
-- [ ] **Task 2.4** (`corona-fnb`): `sprint-2-bind-t5-quality-metric` — Concrete T5 FP rate / stale-feed latency / satellite-switch behavior definition (PRD §11 Q3). → **[GC.1]**
-- [ ] **Task 2.5** (`corona-31y`): `sprint-2-author-protocol-md` — Compile findings into `calibration-protocol.md` with pass/marginal/fail thresholds + regression policy. → **[GC.1]**
+- [x] **Task 2.1** (`corona-b5v`): `sprint-2-define-corpus-tiers` — Document primary + secondary corpus rules, evidence-quality gate logic. → **[GC.1]**
+- [x] **Task 2.2** (`corona-2bv`): `sprint-2-bind-t3-timing-metric` — Concrete T3 arrival-window MAE + within-±6h hit rate definition (PRD §11 Q2). → **[GC.1]**
+- [x] **Task 2.3** (`corona-19q`): `sprint-2-bind-t4-bucket-boundaries` — Bind T4 S-scale bucket boundaries to corpus events (PRD §11 Q4). → **[GC.1, G0.12]**
+- [x] **Task 2.4** (`corona-fnb`): `sprint-2-bind-t5-quality-metric` — Concrete T5 FP rate / stale-feed latency / satellite-switch behavior definition (PRD §11 Q3). → **[GC.1]**
+- [x] **Task 2.5** (`corona-31y`): `sprint-2-author-protocol-md` — Compile findings into `calibration-protocol.md` with pass/marginal/fail thresholds + regression policy. → **[GC.1]**
 
 ### Dependencies
 - **Sprint 1**: composition_paths declared; calibration directory scaffolded

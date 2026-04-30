@@ -76,7 +76,7 @@
       "name": "proton_event_cascade",
       "type": "multi_class",
       "buckets": ["0-1", "2-3", "4-6", "7-10", "11+"],
-      "resolution": "Flare event count",
+      "resolution": "GOES integral proton flux (S-scale ≥10 MeV; legacy spec — see construct.yaml + calibration-protocol.md §4.4 for canonical)",
       "description": "How many S1+ proton events following M5+ trigger?"
     },
     {

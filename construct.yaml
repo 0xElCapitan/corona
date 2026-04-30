@@ -181,8 +181,8 @@ theatre_templates:
   - id: T4
     name: proton_event_cascade
     type: multi_class
-    buckets: ["0-1", "2-3", "4-6", "7-10", "11+"]    # TBD per Sprint 2 corpus binding
-    settlement: GOES integral proton flux (S-scale ≥10 MeV)
+    buckets: ["0-1", "2-3", "4-6", "7-10", "11+"]    # Pinned at Sprint 2 freeze (calibration-protocol.md §4.4.2); Sprint 5 may re-baseline against Run 1 distribution.
+    settlement: GOES integral proton flux ≥10 MeV (S-scale, qualifying threshold ≥10 pfu, dedup window 30 min — see calibration-protocol.md §4.4.1)
     description: "How many S1+ proton events following M5+ trigger?"
   - id: T5
     name: solar_wind_divergence
