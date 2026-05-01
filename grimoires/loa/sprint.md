@@ -430,21 +430,21 @@ Refit theatre + processor parameters from Run 1 results and Sprint 4 evidence, p
 Walk SWPC parser, DONKI parser, and backtest corpus loader through the SDD §8.2 input-validation checklist; produce `security-review.md` with severity-classified findings; fix only CRITICAL severity findings inline (input-injection, infinite-loop, data-loss vectors per PRD §5.7).
 
 ### Deliverables
-- [ ] `grimoires/loa/calibration/corona/security-review.md` authored per SDD §8.3 template
-- [ ] All findings classified by severity (critical / high / medium / low per SDD §8.4)
-- [ ] CRITICAL findings fixed inline in Sprint 6 (block Sprint 7)
-- [ ] Non-critical findings documented + deferred or fixed at discretion
+- [x] `grimoires/loa/calibration/corona/security-review.md` authored per SDD §8.3 template
+- [x] All findings classified by severity (critical / high / medium / low per SDD §8.4)
+- [x] CRITICAL findings fixed inline in Sprint 6 (block Sprint 7) — 0 critical, vacuously satisfied
+- [x] Non-critical findings documented + deferred or fixed at discretion (PEX-1 + LOW-1 fixed; 23 deferred / accepted residual)
 
 ### Acceptance Criteria
-- [ ] Review committed
-- [ ] No critical input-injection / infinite-loop / data-loss vectors blocking Sprint 7
-- [ ] Review is **NOT** a deep crypto/auth audit (per PRD §5.7, §9.2 — surface area is read-only HTTP + zero auth + zero deps)
+- [x] Review committed (security-review.md + 2 fixes + 16 new tests)
+- [x] No critical input-injection / infinite-loop / data-loss vectors blocking Sprint 7
+- [x] Review is **NOT** a deep crypto/auth audit (per PRD §5.7, §9.2 — surface area is read-only HTTP + zero auth + zero deps)
 
 ### Technical Tasks (outline)
 
-- [ ] **Task 6.1** (`corona-r4y`): `sprint-6-walk-input-checklist` — Walk three parsers through SDD §8.2 checklist.
-- [ ] **Task 6.2** (`corona-8m8`): `sprint-6-author-security-review-md` — Author `security-review.md` per SDD §8.3.
-- [ ] **Task 6.3** (`corona-a6z`): `sprint-6-fix-critical-findings` — Fix only CRITICAL findings inline.
+- [x] **Task 6.1** (`corona-r4y`): `sprint-6-walk-input-checklist` — Walk three parsers through SDD §8.2 checklist.
+- [x] **Task 6.2** (`corona-8m8`): `sprint-6-author-security-review-md` — Author `security-review.md` per SDD §8.3.
+- [x] **Task 6.3** (`corona-a6z`): `sprint-6-fix-critical-findings` — Fix only CRITICAL findings inline. (PEX-1 + C-006/LOW-1 carry-forwards closed; 0 critical findings to fix.)
 
 ### Dependencies
 - **Sprint 5**: codebase post-refit (final state for review)

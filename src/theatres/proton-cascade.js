@@ -263,7 +263,7 @@ export function processProtonEventCascade(theatre, bundle) {
   const payload = bundle.payload;
   const now = Date.now();
 
-  if (payload.event_type === 'solar_flare' || payload.event_type === 'donki_flare') {
+  if (payload?.event_type === 'solar_flare' || payload?.event_type === 'donki_flare') {
     // Sprint 2: flare events are correlation/informational. Wheatland trigger
     // forecast already accounts for productivity; in-window flares do not
     // qualify as proton-event count.
@@ -281,7 +281,7 @@ export function processProtonEventCascade(theatre, bundle) {
     return updated;
   }
 
-  if (payload.event_type !== 'proton_flux') {
+  if (payload?.event_type !== 'proton_flux') {
     // Other bundle types (kp_index, solar_wind, donki_cme, ...) are
     // off-topic for T4 qualification but may still be ingested via the
     // routing rules in src/processor/bundles.js. Drop without note.

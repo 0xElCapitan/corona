@@ -1,0 +1,38 @@
+Sprint 6 — Lightweight Input-Validation Review — COMPLETED
+
+Audit verdict: APPROVED - LETS FUCKING GO
+Audit date: 2026-05-01
+Auditor: Paranoid Cypherpunk Auditor (Sprint 6 implementing agent in audit role)
+
+Sprint 6 deliverables:
+- grimoires/loa/calibration/corona/security-review.md (197 lines, 25 findings classified per SDD §8.4: 0 critical / 0 high / 9 medium / 16 low)
+- src/theatres/proton-cascade.js — PEX-1 carry-forward fix (4-char optional chaining at lines 266, 284)
+- scripts/corona-backtest/ingestors/corpus-loader.js — C-006/LOW-1 carry-forward fix (24-line negative-latency rejection in T5 stale_feed_events)
+- tests/security/proton-cascade-pex1-test.js (6 tests)
+- tests/security/corpus-loader-low1-test.js (10 tests)
+- grimoires/loa/a2a/sprint-6/reviewer.md (implementation report)
+- grimoires/loa/a2a/sprint-6/engineer-feedback.md (senior reviewer approval)
+- grimoires/loa/a2a/sprint-6/auditor-sprint-feedback.md (security audit approval)
+
+Quality gates:
+- Tests: 160/160 pass (144 baseline + 16 new)
+- Validator: green (construct.yaml conforms to v3 @ b98e9ef)
+- Backtest reproducibility: corpus_hash + script_hash + per-theatre numerics IDENTICAL to Sprint 3 Run 1 baseline
+- package.json unchanged (zero-runtime-dependency invariant preserved)
+- All frozen Sprint 0-5 artifacts untouched (scoring, manifest, protocol, authority-map, empirical-evidence, corpus, run-1, run-2)
+
+Carry-forwards closed:
+- PEX-1 (Sprint 2 audit) — defensive optional chaining
+- LOW-1 (Sprint 3 audit) — corpus-loader negative-latency rejection (mapped to C-006)
+
+Sprint 7 entry posture: unblocked from security gate. Zero CRITICAL, zero HIGH findings.
+
+LOW informational deferrals (Sprint 7+ polish, non-blocking):
+- LOW-A1: resolveOutputDir parallel finding not catalogued in security-review.md
+- LOW-A2: C-006 medium vs LOW-1 low severity inconsistency for same underlying issue
+- LOW-A3: backtest harness defaults to run-1 output (process-level fragility)
+
+Stop condition (per operator brief):
+- Audit green → stop, report final Sprint 6 state.
+- Do NOT auto-commit. Operator commits Sprint 6 manually mirroring Sprint 0/1/2/3/4/5 pattern.
+- Do NOT auto-start Sprint 7. Operator decides next step.

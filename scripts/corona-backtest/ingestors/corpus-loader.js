@@ -323,6 +323,30 @@ function validateT5(event, file) {
   } else if (!Array.isArray(event.anomaly_bulletin_refs)) {
     errors.push('T5 field "anomaly_bulletin_refs" must be an array (or omitted)');
   }
+  // Sprint 6 / C-006 (Sprint 3 LOW-1 carry-forward): reject stale_feed_events
+  // entries where detection_time precedes actual_onset_time. The schema
+  // (calibration-protocol.md §3.7.6) defines latency_seconds as
+  // `detection_time - actual_onset_time`, which must be ≥ 0 by physical
+  // semantics (detection cannot precede the underlying onset). Without this
+  // guard, a corpus-authoring error silently slips through to scoring where
+  // t5-quality-of-behavior.js:183 clamps via Math.max(0, …) — masking the
+  // error. Hard constraint #9 forbids changing scoring; the fix is loader
+  // tightening per Sprint 6 handoff §6.5 option A.
+  if (Array.isArray(event.stale_feed_events)) {
+    for (let i = 0; i < event.stale_feed_events.length; i++) {
+      const entry = event.stale_feed_events[i];
+      if (entry == null) continue;
+      const onsetMs = entry.actual_onset_time != null
+        ? new Date(entry.actual_onset_time).getTime() : null;
+      const detectMs = entry.detection_time != null
+        ? new Date(entry.detection_time).getTime() : null;
+      if (Number.isFinite(onsetMs) && Number.isFinite(detectMs) && detectMs < onsetMs) {
+        errors.push(
+          `stale_feed_events[${i}]: detection_time (${entry.detection_time}) precedes actual_onset_time (${entry.actual_onset_time}); negative latency violates §3.7.6 schema invariant`
+        );
+      }
+    }
+  }
   if (errors.length) return { ok: false, errors: errors.map((e) => `${basename(file)}: ${e}`) };
   return { ok: true, derived: { anomaly_bulletin_refs: event.anomaly_bulletin_refs ?? [] } };
 }
