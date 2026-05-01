@@ -1,0 +1,17 @@
+{
+  "event_id": "T2-2024-10-10-Kp867",
+  "theatre": "T2",
+  "tier": "primary",
+  "event_time": "2024-10-10T18:00:00Z",
+  "donki_record_ref": "2024-10-10T17:00:00-GST-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "kp_swpc_observed": 8.67,
+  "kp_gfz_observed": 8.33,
+  "kp_window_start": "2024-10-10T18:00:00Z",
+  "kp_window_end": "2024-10-11T00:00:00Z",
+  "donki_gst_id": "2024-10-10T17:00:00-GST-001",
+
+  "notes": "October 2024 G4 storm following the AR 13842 X9.0 sequence. SWPC provisional 8.67; GFZ definitive 8.33."
+}

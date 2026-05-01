@@ -1,0 +1,17 @@
+{
+  "event_id": "T2-2022-02-03-Kp767",
+  "theatre": "T2",
+  "tier": "primary",
+  "event_time": "2022-02-03T18:00:00Z",
+  "donki_record_ref": "2022-02-03T18:00:00-GST-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-17",
+
+  "kp_swpc_observed": 7.67,
+  "kp_gfz_observed": 7.0,
+  "kp_window_start": "2022-02-03T18:00:00Z",
+  "kp_window_end": "2022-02-04T00:00:00Z",
+  "donki_gst_id": "2022-02-03T18:00:00-GST-001",
+
+  "notes": "G3 storm — SpaceX Starlink loss event (38 of 49 newly-launched satellites lost to atmospheric drag amplification from the storm). SWPC peak 7.67 → bucket G3; GFZ definitive 7.0 → bucket G3."
+}

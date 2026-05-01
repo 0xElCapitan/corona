@@ -1,0 +1,18 @@
+{
+  "event_id": "T1-2017-09-10-X8p2",
+  "theatre": "T1",
+  "tier": "primary",
+  "event_time": "2017-09-10T15:35:00Z",
+  "donki_record_ref": "2017-09-10T15:35:00-FLR-001",
+  "goes_satellite": "GOES-13",
+  "goes_secondary_satellite": "GOES-15",
+
+  "flare_class_observed": "X8.2",
+  "flare_peak_time": "2017-09-10T16:06:00Z",
+  "flare_peak_xray_flux": 8.2e-4,
+  "flare_end_time": "2017-09-10T16:31:00Z",
+  "donki_flr_class_type": "X8.2",
+  "prediction_window_hours": 24,
+
+  "notes": "AR 12673 limb event, west of solar disc. Triggered S3 SEP at L1 (T4 reference). Source: SWPC GOES X-ray archive + DONKI FLR record."
+}

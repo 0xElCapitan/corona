@@ -1,0 +1,18 @@
+{
+  "event_id": "T3-2022-01-29-CME001",
+  "theatre": "T3",
+  "tier": "primary",
+  "event_time": "2022-01-29T23:36:00Z",
+  "donki_record_ref": "2022-01-29T23:36:00-CME-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-17",
+
+  "cme_id": "2022-01-29T23:36:00-CME-001",
+  "wsa_enlil_predicted_arrival_time": "2022-02-02T06:00:00Z",
+  "wsa_enlil_sigma_hours": 12,
+  "wsa_enlil_halo_angle_degrees": 30,
+  "observed_l1_shock_time": "2022-02-02T22:00:00Z",
+  "observed_l1_source": "DSCOVR_PRIMARY",
+
+  "notes": "Slow-mover that contributed to the Starlink loss (deeply-embedded thermosphere heating from sustained Bz<0). 16h late at L1 — outside the ±6h primary hit window. Halo direct (not glancing)."
+}

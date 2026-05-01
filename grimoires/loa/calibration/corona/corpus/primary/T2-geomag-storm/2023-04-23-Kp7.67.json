@@ -1,0 +1,17 @@
+{
+  "event_id": "T2-2023-04-23-Kp767",
+  "theatre": "T2",
+  "tier": "primary",
+  "event_time": "2023-04-23T18:00:00Z",
+  "donki_record_ref": "2023-04-23T17:37:00-GST-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "kp_swpc_observed": 7.67,
+  "kp_gfz_observed": 7.33,
+  "kp_window_start": "2023-04-23T18:00:00Z",
+  "kp_window_end": "2023-04-24T00:00:00Z",
+  "donki_gst_id": "2023-04-23T17:37:00-GST-001",
+
+  "notes": "G4 storm during cycle 25 ramp-up; widespread aurora visibility into mid-latitudes. SWPC + GFZ both place this in the G3 band (Kp 7.x)."
+}

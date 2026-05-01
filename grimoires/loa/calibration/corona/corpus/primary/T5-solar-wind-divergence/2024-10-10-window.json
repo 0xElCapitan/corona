@@ -1,0 +1,49 @@
+{
+  "event_id": "T5-2024-10-10-window",
+  "theatre": "T5",
+  "tier": "primary",
+  "event_time": "2024-10-10T17:00:00Z",
+  "donki_record_ref": null,
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "detection_window_start": "2024-10-10T12:00:00Z",
+  "detection_window_end": "2024-10-11T12:00:00Z",
+
+  "divergence_signals": [
+    {
+      "signal_time": "2024-10-10T16:55:00Z",
+      "signal_resolution_time": null,
+      "false_positive_label": false,
+      "anomaly_classification": "cme_passage"
+    }
+  ],
+  "corroborating_alerts": [
+    {
+      "signal_time": "2024-10-10T16:55:00Z",
+      "source": "NOAA_SWPC_ALERT",
+      "alert_id": "SWPC-2024-10-10-shock",
+      "time": "2024-10-10T17:05:00Z"
+    }
+  ],
+  "stale_feed_events": [
+    {
+      "actual_onset_time": "2024-10-10T22:00:00Z",
+      "detection_time": "2024-10-10T22:01:30Z",
+      "end_time": "2024-10-10T22:07:00Z",
+      "satellite": "ACE"
+    }
+  ],
+  "satellite_switch_events": [
+    {
+      "switch_time": "2024-10-10T20:00:00Z",
+      "from": "DSCOVR_PRIMARY",
+      "to": "ACE",
+      "reason": "dscovr_primary_outage",
+      "transition_end_time": "2024-10-10T20:15:00Z"
+    }
+  ],
+  "anomaly_bulletin_refs": [],
+
+  "notes": "October 2024 G4 window. Single corroborated shock signal, plus a real DSCOVR→ACE failover during the storm; no spurious signals in the 10-min post-quiet window — switch handled. ACE-side stale-feed detected at 90s latency."
+}

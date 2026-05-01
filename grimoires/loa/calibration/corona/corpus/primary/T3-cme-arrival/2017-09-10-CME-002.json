@@ -1,0 +1,18 @@
+{
+  "event_id": "T3-2017-09-10-CME002",
+  "theatre": "T3",
+  "tier": "primary",
+  "event_time": "2017-09-10T16:00:00Z",
+  "donki_record_ref": "2017-09-10T16:00:00-CME-001",
+  "goes_satellite": "GOES-13",
+  "goes_secondary_satellite": "GOES-15",
+
+  "cme_id": "2017-09-10T16:00:00-CME-001",
+  "wsa_enlil_predicted_arrival_time": "2017-09-12T20:00:00Z",
+  "wsa_enlil_sigma_hours": 14,
+  "wsa_enlil_halo_angle_degrees": 60,
+  "observed_l1_shock_time": "2017-09-13T05:00:00Z",
+  "observed_l1_source": "DSCOVR_PRIMARY",
+
+  "notes": "X8.2 limb CME — glancing-blow geometry (halo angle 60° > 45° threshold per §4.3.2). 9h late at L1 — within ±12h glancing window but outside ±6h primary window. Demonstrates the glancing-blow widening rule."
+}

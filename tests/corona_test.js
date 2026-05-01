@@ -820,3 +820,369 @@ describe('exportCertificate', () => {
     assert.throws(() => exportCertificate(t));
   });
 });
+
+// =========================================================================
+// Backtest harness — Sprint 3 (corona-d4u epic)
+// =========================================================================
+// Per SDD §11.2: "Sprint 3 | Backtest sanity-sample test (one DONKI event
+// normalises end-to-end) | Smoke for ingestor".
+// We extend with smoke tests for each scoring module + corpus loader so a
+// future regression in the harness cannot land silently.
+
+describe('Backtest harness — DONKI sanity sample (Sprint 3 R3 mitigation)', () => {
+  it('runs 5/5 events offline without shape mismatches', async () => {
+    const { runSanity } = await import('../scripts/corona-backtest/ingestors/donki-sanity.js');
+    const summary = await runSanity({ useOffline: true });
+    assert.equal(summary.mode, 'offline');
+    assert.equal(summary.total, 5);
+    assert.equal(summary.passed, 5);
+    for (const r of summary.results) assert.equal(r.pass, true, `${r.label} failed: ${r.error}`);
+  });
+
+  it('detects era buckets across the 2017→2026 span', async () => {
+    const { detectEra } = await import('../scripts/corona-backtest/ingestors/donki-sanity.js');
+    assert.equal(detectEra('2017-09-06T11:53Z'), '2017-2019');
+    assert.equal(detectEra('2019-05-10T08:00Z'), '2017-2019');
+    assert.equal(detectEra('2022-02-03T18:00Z'), '2020-2022');
+    assert.equal(detectEra('2024-05-14T16:51Z'), '2023-2026');
+    assert.equal(detectEra(''), 'unknown');
+    assert.equal(detectEra(null), 'unknown');
+  });
+
+  it('FLR normaliser surfaces missing-field errors with the offending fields', async () => {
+    const { normaliseFLR } = await import('../scripts/corona-backtest/ingestors/donki-sanity.js');
+    assert.throws(() => normaliseFLR({}, '2017-2019'), /missing required field/);
+    assert.throws(() => normaliseFLR(null, '2017-2019'), /not an object/);
+  });
+
+  it('CME normaliser picks the most-accurate analysis when present', async () => {
+    const { normaliseCME } = await import('../scripts/corona-backtest/ingestors/donki-sanity.js');
+    const raw = {
+      activityID: 'CME-001',
+      startTime: '2024-05-10T00:00Z',
+      cmeAnalyses: [
+        { isMostAccurate: false, time21_5: '2024-05-10T01:00Z', enlilList: [] },
+        { isMostAccurate: true, time21_5: '2024-05-10T02:00Z', enlilList: [
+          { estimatedShockArrivalTime: '2024-05-12T00:00Z', estimatedDuration: 12 },
+        ] },
+      ],
+    };
+    const out = normaliseCME(raw, '2023-2026');
+    assert.equal(out.most_accurate_analysis.time21_5, '2024-05-10T02:00Z');
+    assert.equal(out.wsa_enlil.estimated_shock_arrival_time, '2024-05-12T00:00Z');
+    assert.equal(out.wsa_enlil.estimated_duration_hours, 12);
+  });
+});
+
+describe('Backtest harness — corpus loader §3.7 schema (Sprint 3 corona-1ks)', () => {
+  it('classifyFlareToBucket handles A/B/C/M/X/X10+ correctly', async () => {
+    const { classifyFlareToBucket } = await import('../scripts/corona-backtest/ingestors/corpus-loader.js');
+    assert.equal(classifyFlareToBucket('B5.0'), 0);
+    assert.equal(classifyFlareToBucket('C9.9'), 0);
+    assert.equal(classifyFlareToBucket('M1.0'), 1);
+    assert.equal(classifyFlareToBucket('M4.9'), 1);
+    assert.equal(classifyFlareToBucket('M5.0'), 2);
+    assert.equal(classifyFlareToBucket('M9.9'), 2);
+    assert.equal(classifyFlareToBucket('X1.0'), 3);
+    assert.equal(classifyFlareToBucket('X4.9'), 3);
+    assert.equal(classifyFlareToBucket('X5.0'), 4);
+    assert.equal(classifyFlareToBucket('X9.3'), 4);
+    assert.equal(classifyFlareToBucket('X10.0'), 5);
+    assert.equal(classifyFlareToBucket('X45.0'), 5);
+    assert.equal(classifyFlareToBucket('Z1.0'), -1);
+  });
+
+  it('kpToGScaleIndex follows G0..G5 boundaries', async () => {
+    const { kpToGScaleIndex } = await import('../scripts/corona-backtest/ingestors/corpus-loader.js');
+    assert.equal(kpToGScaleIndex(0.0), 0);
+    assert.equal(kpToGScaleIndex(4.99), 0);
+    assert.equal(kpToGScaleIndex(5.0), 1);
+    assert.equal(kpToGScaleIndex(5.99), 1);
+    assert.equal(kpToGScaleIndex(6.0), 2);
+    assert.equal(kpToGScaleIndex(7.0), 3);
+    assert.equal(kpToGScaleIndex(8.33), 4);
+    assert.equal(kpToGScaleIndex(9.0), 5);
+  });
+
+  it('countToT4Bucket follows the §4.4.2 boundaries', async () => {
+    const { countToT4Bucket } = await import('../scripts/corona-backtest/ingestors/corpus-loader.js');
+    assert.equal(countToT4Bucket(0), 0);
+    assert.equal(countToT4Bucket(1), 0);
+    assert.equal(countToT4Bucket(2), 1);
+    assert.equal(countToT4Bucket(3), 1);
+    assert.equal(countToT4Bucket(4), 2);
+    assert.equal(countToT4Bucket(7), 3);
+    assert.equal(countToT4Bucket(11), 4);
+    assert.equal(countToT4Bucket(50), 4);
+  });
+
+  it('rejects T3 events with null wsa_enlil_predicted_arrival_time per §3.2 #2', async () => {
+    const { _validateT3 } = await import('../scripts/corona-backtest/ingestors/corpus-loader.js');
+    const result = _validateT3({
+      cme_id: 'CME-X',
+      wsa_enlil_predicted_arrival_time: null,
+      wsa_enlil_halo_angle_degrees: 30,
+      observed_l1_shock_time: '2024-01-01T00:00Z',
+      observed_l1_source: 'DSCOVR_PRIMARY',
+    }, 'fake.json');
+    assert.equal(result.ok, false);
+    assert.match(result.errors[0], /NOT primary-corpus eligible/);
+  });
+
+  it('T3 glancing_blow_flag derived from halo angle ≥45°', async () => {
+    const { _validateT3 } = await import('../scripts/corona-backtest/ingestors/corpus-loader.js');
+    const ok = _validateT3({
+      cme_id: 'CME-X',
+      wsa_enlil_predicted_arrival_time: '2024-01-02T00:00Z',
+      wsa_enlil_halo_angle_degrees: 50,
+      observed_l1_shock_time: '2024-01-02T03:00Z',
+      observed_l1_source: 'DSCOVR_PRIMARY',
+    }, 'fake.json');
+    assert.equal(ok.ok, true);
+    assert.equal(ok.derived.glancing_blow_flag, true);
+  });
+
+  it('T3 sigma_source falls back to placeholder_14h_per_round_2_C7 when corpus sigma is null', async () => {
+    const { _validateT3, T3_NULL_SIGMA_PLACEHOLDER_HOURS } = await import('../scripts/corona-backtest/ingestors/corpus-loader.js');
+    const result = _validateT3({
+      cme_id: 'CME-X',
+      wsa_enlil_predicted_arrival_time: '2024-01-02T00:00Z',
+      wsa_enlil_halo_angle_degrees: 30,
+      // no wsa_enlil_sigma_hours
+      observed_l1_shock_time: '2024-01-02T03:00Z',
+      observed_l1_source: 'DSCOVR_PRIMARY',
+    }, 'fake.json');
+    assert.equal(result.ok, true);
+    assert.equal(result.derived.sigma_hours_effective, T3_NULL_SIGMA_PLACEHOLDER_HOURS);
+    assert.equal(result.derived.sigma_source, 'placeholder_14h_per_round_2_C7');
+  });
+
+  it('T4 derives qualifying-events with strict ≥10 MeV regex (no ≥100 MeV collision)', async () => {
+    const { _deriveT4QualifyingEvents } = await import('../scripts/corona-backtest/ingestors/corpus-loader.js');
+    const observations = [
+      { time: '2024-05-14T18:00Z', peak_pfu: 200, energy_channel: '>=10 MeV' },     // qualifies S1+
+      { time: '2024-05-14T18:15Z', peak_pfu: 500, energy_channel: '>=10 MeV' },     // dedup-coalesced
+      { time: '2024-05-14T19:00Z', peak_pfu: 800, energy_channel: '>=100 MeV' },    // off-channel — must NOT qualify
+      { time: '2024-05-14T19:30Z', peak_pfu: 50,  energy_channel: '>=10 MeV' },     // qualifies (outside 30-min dedup)
+    ];
+    const out = _deriveT4QualifyingEvents(observations);
+    assert.equal(out.length, 2);
+    assert.equal(out[0].peak_pfu, 200);
+    assert.equal(out[1].peak_pfu, 50);
+  });
+
+  it('T5 rejects events missing the four required arrays', async () => {
+    const { _validateT5 } = await import('../scripts/corona-backtest/ingestors/corpus-loader.js');
+    // Missing all four arrays
+    const r1 = _validateT5({ detection_window_start: 'a', detection_window_end: 'b' }, 'fake.json');
+    assert.equal(r1.ok, false);
+    assert.equal(r1.errors.length >= 4, true);
+    // Empty arrays explicitly permitted (§3.7.6)
+    const r2 = _validateT5({
+      detection_window_start: 'a', detection_window_end: 'b',
+      divergence_signals: [], corroborating_alerts: [], stale_feed_events: [], satellite_switch_events: [],
+    }, 'fake.json');
+    assert.equal(r2.ok, true);
+  });
+});
+
+describe('Backtest harness — scoring modules (Sprint 3 corona-2iu/70s/aqh)', () => {
+  it('T1 bucket-Brier with uniform prior + single-bucket corpus', async () => {
+    const { scoreCorpusT1 } = await import('../scripts/corona-backtest/scoring/t1-bucket-brier.js');
+    const events = [
+      { theatre: 'T1', flare_class_observed: 'M5.0', _derived: { bucket_observed: 2 } },
+      { theatre: 'T1', flare_class_observed: 'M6.0', _derived: { bucket_observed: 2 } },
+    ];
+    const r = scoreCorpusT1(events);
+    assert.equal(r.n_events, 2);
+    assert.ok(r.brier > 0 && r.brier < 1);
+    assert.equal(r.bucket_labels.length, 6);
+    assert.equal(r.predicted_distribution_used.length, 6);
+  });
+
+  it('T2 GFZ-lag-excluded events do not enter regression Brier', async () => {
+    const { scoreCorpusT2 } = await import('../scripts/corona-backtest/scoring/t2-bucket-brier.js');
+    const events = [
+      { theatre: 'T2', kp_swpc_observed: 7.5, kp_gfz_observed: 7.7, _derived: { bucket_observed: 3, regression_tier_eligible: true } },
+      { theatre: 'T2', kp_swpc_observed: 6.5, kp_gfz_observed: null, _derived: { bucket_observed: 2, regression_tier_eligible: false } },
+    ];
+    const r = scoreCorpusT2(events);
+    assert.equal(r.n_events, 1);
+    assert.equal(r.n_events_total, 2);
+    assert.equal(r.n_events_excluded_gfz_lag, 1);
+  });
+
+  it('T3 MAE + ±6h hit rate compute correctly', async () => {
+    const { scoreCorpusT3 } = await import('../scripts/corona-backtest/scoring/t3-timing-error.js');
+    const events = [
+      {
+        theatre: 'T3', event_id: 'cme-1', cme_id: 'CME-1',
+        wsa_enlil_predicted_arrival_time: '2024-01-01T00:00Z',
+        observed_l1_shock_time: '2024-01-01T03:00Z', // 3h error
+        observed_l1_source: 'DSCOVR_PRIMARY',
+        _derived: { glancing_blow_flag: false, sigma_hours_effective: 14, sigma_source: 'corpus_value' },
+      },
+      {
+        theatre: 'T3', event_id: 'cme-2', cme_id: 'CME-2',
+        wsa_enlil_predicted_arrival_time: '2024-01-02T00:00Z',
+        observed_l1_shock_time: '2024-01-02T08:00Z', // 8h error
+        observed_l1_source: 'DSCOVR_PRIMARY',
+        _derived: { glancing_blow_flag: false, sigma_hours_effective: 14, sigma_source: 'corpus_value' },
+      },
+    ];
+    const r = scoreCorpusT3(events);
+    assert.equal(r.n_events, 2);
+    assert.equal(r.mae_hours, 5.5);
+    assert.equal(r.within_6h_hit_rate, 0.5);
+    // No glancing-blow events → null per Round 2 C8
+    assert.equal(r.glancing_blow_within_12h_hit_rate, null);
+  });
+
+  it('T4 bucket-Brier with single-bucket corpus matches the runtime BUCKETS export', async () => {
+    const { scoreCorpusT4, T4_BUCKETS } = await import('../scripts/corona-backtest/scoring/t4-bucket-brier.js');
+    const { BUCKETS } = await import('../src/theatres/proton-cascade.js');
+    assert.deepEqual(T4_BUCKETS, BUCKETS.map((b) => b.label));
+    const events = [
+      { theatre: 'T4', _derived: { bucket_observed: 0, qualifying_event_count_observed_derived: 1, qualifying_events_derived: [], window_override: false, annotation_warning: null } },
+    ];
+    const r = scoreCorpusT4(events);
+    assert.equal(r.n_events, 1);
+    assert.ok(r.brier >= 0);
+  });
+
+  it('T5 FP classification: signal resolved ≤60min with no corroboration → FP', async () => {
+    const { scoreCorpusT5 } = await import('../scripts/corona-backtest/scoring/t5-quality-of-behavior.js');
+    const events = [{
+      theatre: 'T5',
+      event_id: 't5-1',
+      detection_window_start: '2024-01-01T00:00Z',
+      detection_window_end: '2024-01-02T00:00Z',
+      divergence_signals: [
+        { signal_time: '2024-01-01T01:00Z', signal_resolution_time: '2024-01-01T01:30Z', false_positive_label: true },
+        { signal_time: '2024-01-01T03:00Z', signal_resolution_time: '2024-01-01T05:00Z', false_positive_label: false },
+      ],
+      corroborating_alerts: [],
+      stale_feed_events: [],
+      satellite_switch_events: [],
+    }];
+    const r = scoreCorpusT5(events);
+    assert.equal(r.n_signals, 2);
+    // One signal resolves <60min with no corroboration; the other persists
+    // (>60min). Computed FP rate = 1/2 = 0.5.
+    assert.equal(r.fp_rate, 0.5);
+  });
+
+  it('T5 corroborating alert within 60min suppresses FP classification', async () => {
+    const { scoreCorpusT5 } = await import('../scripts/corona-backtest/scoring/t5-quality-of-behavior.js');
+    const events = [{
+      theatre: 'T5',
+      event_id: 't5-2',
+      detection_window_start: '2024-01-01T00:00Z',
+      detection_window_end: '2024-01-02T00:00Z',
+      divergence_signals: [
+        { signal_time: '2024-01-01T01:00Z', signal_resolution_time: '2024-01-01T01:30Z', false_positive_label: false },
+      ],
+      corroborating_alerts: [
+        { signal_time: '2024-01-01T01:15Z', source: 'NOAA_SWPC_ALERT', alert_id: 'ALERT-1', time: '2024-01-01T01:15Z' },
+      ],
+      stale_feed_events: [],
+      satellite_switch_events: [],
+    }];
+    const r = scoreCorpusT5(events);
+    assert.equal(r.fp_rate, 0); // alert within 60min ⇒ NOT FP
+  });
+
+  // CI-1 / Round 2 regression test:
+  // The pre-fix implementation filtered invalid stale-latency entries before
+  // re-zipping with staleEvents.map((s, i) => ...), shifting indices and
+  // assigning the wrong latency to any event after an invalid one. The fix
+  // preserves source order with latency_seconds=null for invalid entries.
+  // This test would FAIL on the pre-fix code (event at index 2 would get
+  // either the third valid latency or undefined, never null with the source
+  // event preserved).
+  it('T5 stale-feed: invalid timestamp in middle does not shift later latencies (CI-1 regression)', async () => {
+    const { scoreCorpusT5 } = await import('../scripts/corona-backtest/scoring/t5-quality-of-behavior.js');
+    const events = [{
+      theatre: 'T5',
+      event_id: 't5-stale-mix',
+      detection_window_start: '2024-01-01T00:00Z',
+      detection_window_end: '2024-01-02T00:00Z',
+      divergence_signals: [],
+      corroborating_alerts: [],
+      satellite_switch_events: [],
+      stale_feed_events: [
+        // Index 0: VALID — 60s latency
+        { actual_onset_time: '2024-01-01T01:00:00Z', detection_time: '2024-01-01T01:01:00Z', satellite: 'DSCOVR' },
+        // Index 1: INVALID timestamp — must produce latency_seconds=null,
+        //   AND must NOT consume the index-2 record's latency.
+        { actual_onset_time: 'not-a-date',           detection_time: 'also-not-a-date',     satellite: 'DSCOVR' },
+        // Index 2: VALID — 240s latency. In the pre-fix code, this latency
+        //   was assigned to staleEvents[1] (wrong) and staleEvents[2] got
+        //   undefined→null. Post-fix, staleEvents[2] keeps its 240s value.
+        { actual_onset_time: '2024-01-01T03:00:00Z', detection_time: '2024-01-01T03:04:00Z', satellite: 'ACE' },
+      ],
+    }];
+    const r = scoreCorpusT5(events);
+
+    // Per-event report integrity: source order preserved, exactly one null,
+    // latencies on the valid entries are correct AND attached to the right
+    // satellite (the satellite field is identity-preserving — DSCOVR for
+    // index 0, ACE for index 2 — so a misalignment would also swap the
+    // satellite field).
+    const perEv = r.per_event[0];
+    assert.equal(perEv.stale_feed_count, 3);
+    assert.equal(perEv.stale_feed_events.length, 3);
+
+    // Index 0: DSCOVR, 60s
+    assert.equal(perEv.stale_feed_events[0].satellite, 'DSCOVR');
+    assert.equal(perEv.stale_feed_events[0].latency_seconds, 60);
+    // Index 1: invalid, null. The pre-fix code would have assigned 240s here.
+    assert.equal(perEv.stale_feed_events[1].latency_seconds, null);
+    // Index 2: ACE, 240s. The pre-fix code would have assigned undefined→null here.
+    assert.equal(perEv.stale_feed_events[2].satellite, 'ACE');
+    assert.equal(perEv.stale_feed_events[2].latency_seconds, 240);
+
+    // Aggregate p50/p95 must filter the null and report on the two valid entries:
+    //   sorted = [60, 240]; p50 = 150 (linear interp), p95 = 60 + 0.95*(240-60) = 231
+    assert.equal(r.stale_feed_p50_seconds, 150);
+    assert.equal(r.stale_feed_p95_seconds, 231);
+    // n_stale_events counts valid entries only (used for percentile computation).
+    assert.equal(r.n_stale_events, 2);
+  });
+});
+
+describe('Backtest harness — hashing (Sprint 3 corona-2ox)', () => {
+  it('computeFileHash returns deterministic SHA-256 hex', async () => {
+    const { computeFileHash } = await import('../scripts/corona-backtest/reporting/hash-utils.js');
+    // Hash this very test file twice; must agree.
+    const path = new URL('./corona_test.js', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
+    const h1 = computeFileHash(path);
+    const h2 = computeFileHash(path);
+    assert.equal(h1, h2);
+    assert.match(h1, /^[0-9a-f]{64}$/);
+  });
+});
+
+describe('Backtest harness — verdict thresholds (§6 conformance)', () => {
+  it('T1 verdict pass/marginal/fail bands', async () => {
+    const { verdictT1 } = await import('../scripts/corona-backtest/scoring/t1-bucket-brier.js');
+    assert.equal(verdictT1({ brier: 0.10, bucket_calibration: [0.9, 0.9, 0.9, 0.9, 0.9, 0.9] }), 'pass');
+    assert.equal(verdictT1({ brier: 0.18, bucket_calibration: [0.8, 0.8, 0.8, 0.8, 0.8, 0.8] }), 'marginal');
+    assert.equal(verdictT1({ brier: 0.30, bucket_calibration: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5] }), 'fail');
+  });
+
+  it('T3 verdict pass/marginal/fail bands', async () => {
+    const { verdictT3 } = await import('../scripts/corona-backtest/scoring/t3-timing-error.js');
+    assert.equal(verdictT3({ mae_hours: 5, within_6h_hit_rate: 0.7 }), 'pass');
+    assert.equal(verdictT3({ mae_hours: 8, within_6h_hit_rate: 0.55 }), 'marginal');
+    assert.equal(verdictT3({ mae_hours: 12, within_6h_hit_rate: 0.30 }), 'fail');
+  });
+
+  it('T5 verdict requires ALL three primary metrics in band', async () => {
+    const { verdictT5 } = await import('../scripts/corona-backtest/scoring/t5-quality-of-behavior.js');
+    assert.equal(verdictT5({ fp_rate: 0.05, stale_feed_p50_seconds: 60, satellite_switch_handled_rate: 0.97 }), 'pass');
+    // FP slips to marginal band — should NOT be pass even though others pass.
+    assert.equal(verdictT5({ fp_rate: 0.13, stale_feed_p50_seconds: 60, satellite_switch_handled_rate: 0.97 }), 'marginal');
+    assert.equal(verdictT5({ fp_rate: 0.20, stale_feed_p50_seconds: 60, satellite_switch_handled_rate: 0.97 }), 'fail');
+  });
+});

@@ -1,0 +1,47 @@
+{
+  "event_id": "T5-2023-04-23-window",
+  "theatre": "T5",
+  "tier": "primary",
+  "event_time": "2023-04-23T18:00:00Z",
+  "donki_record_ref": null,
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "detection_window_start": "2023-04-23T12:00:00Z",
+  "detection_window_end": "2023-04-24T12:00:00Z",
+
+  "divergence_signals": [
+    {
+      "signal_time": "2023-04-23T17:35:00Z",
+      "signal_resolution_time": null,
+      "false_positive_label": false,
+      "anomaly_classification": "cme_passage"
+    },
+    {
+      "signal_time": "2023-04-23T20:18:00Z",
+      "signal_resolution_time": "2023-04-23T20:42:00Z",
+      "false_positive_label": true,
+      "anomaly_classification": "genuine_transient"
+    }
+  ],
+  "corroborating_alerts": [
+    {
+      "signal_time": "2023-04-23T17:35:00Z",
+      "source": "DONKI_IPS",
+      "alert_id": "2023-04-23T17:30:00-IPS-001",
+      "time": "2023-04-23T17:30:00Z"
+    }
+  ],
+  "stale_feed_events": [
+    {
+      "actual_onset_time": "2023-04-24T01:00:00Z",
+      "detection_time": "2023-04-24T01:02:15Z",
+      "end_time": "2023-04-24T01:08:00Z",
+      "satellite": "DSCOVR"
+    }
+  ],
+  "satellite_switch_events": [],
+  "anomaly_bulletin_refs": [],
+
+  "notes": "April 2023 G4 window. Shock arrival corroborated by DONKI IPS. Brief secondary signal classified FP (resolved <60min, no corroboration). Stale-feed detection at 2m15s latency (within p50≤120s pass band)."
+}

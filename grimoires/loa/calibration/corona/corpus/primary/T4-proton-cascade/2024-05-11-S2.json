@@ -1,0 +1,21 @@
+{
+  "event_id": "T4-2024-05-11-S2",
+  "theatre": "T4",
+  "tier": "primary",
+  "event_time": "2024-05-11T01:00:00Z",
+  "donki_record_ref": "2024-05-11T02:00:00-SEP-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "trigger_flare_class": "X5.8",
+  "trigger_flare_peak_time": "2024-05-11T01:23:00Z",
+  "prediction_window_hours": 72,
+
+  "proton_flux_observations": [
+    { "time": "2024-05-11T03:00:00Z", "peak_pfu": 250, "energy_channel": ">=10 MeV", "satellite": "GOES-16" },
+    { "time": "2024-05-11T07:00:00Z", "peak_pfu": 380, "energy_channel": ">=10 MeV", "satellite": "GOES-16" },
+    { "time": "2024-05-12T03:00:00Z", "peak_pfu": 200, "energy_channel": ">=10 MeV", "satellite": "GOES-16" }
+  ],
+
+  "notes": "S2 Moderate during the May 2024 G5 Gannon storm sequence. Three qualifying ≥10 MeV events outside the 30-min dedup window. Source: SWPC GOES-16 integral protons + DONKI SEP."
+}

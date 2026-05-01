@@ -1,0 +1,51 @@
+{
+  "event_id": "T5-2017-09-07-window",
+  "detection_window_start": "2017-09-07T18:00:00Z",
+  "detection_window_end": "2017-09-08T18:00:00Z",
+  "signal_count": 2,
+  "signals": [
+    {
+      "signal_time": "2017-09-07T22:55:00Z",
+      "signal_resolution_time": null,
+      "corpus_fp_label": false,
+      "computed_false_positive": false,
+      "classification_reason": "persisted_or_unresolved_at_60min",
+      "anomaly_classification": "cme_passage"
+    },
+    {
+      "signal_time": "2017-09-08T05:30:00Z",
+      "signal_resolution_time": "2017-09-08T05:48:00Z",
+      "corpus_fp_label": true,
+      "computed_false_positive": true,
+      "classification_reason": "resolved_fast_no_corroboration",
+      "anomaly_classification": "instrument_drift"
+    }
+  ],
+  "false_positive_count": 1,
+  "stale_feed_events": [
+    {
+      "source_index": 0,
+      "actual_onset_time": "2017-09-08T03:10:00Z",
+      "detection_time": "2017-09-08T03:11:30Z",
+      "end_time": "2017-09-08T03:18:00Z",
+      "satellite": "DSCOVR",
+      "latency_seconds": 90
+    }
+  ],
+  "stale_feed_count": 1,
+  "stale_latencies_sec": [
+    90
+  ],
+  "switches": [],
+  "switch_count": 0,
+  "bulletin_hits": [
+    {
+      "bulletin_id": "DSCOVR-2017-09-08-instrument-drift",
+      "classification": "PlasMag_dropout",
+      "hit": true,
+      "hit_signal_time": "2017-09-08T05:30:00Z"
+    }
+  ],
+  "hit_rate_diagnostic_count": 1,
+  "bulletin_count": 1
+}

@@ -1,0 +1,46 @@
+{
+  "event_id": "T5-2024-05-10-window",
+  "theatre": "T5",
+  "tier": "primary",
+  "event_time": "2024-05-10T16:42:00Z",
+  "donki_record_ref": null,
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "detection_window_start": "2024-05-10T12:00:00Z",
+  "detection_window_end": "2024-05-11T12:00:00Z",
+
+  "divergence_signals": [
+    {
+      "signal_time": "2024-05-10T16:45:00Z",
+      "signal_resolution_time": null,
+      "false_positive_label": false,
+      "anomaly_classification": "cme_passage"
+    },
+    {
+      "signal_time": "2024-05-11T03:15:00Z",
+      "signal_resolution_time": null,
+      "false_positive_label": false,
+      "anomaly_classification": "cme_passage"
+    }
+  ],
+  "corroborating_alerts": [
+    {
+      "signal_time": "2024-05-10T16:45:00Z",
+      "source": "NOAA_SWPC_ALERT",
+      "alert_id": "SWPC-2024-05-10-shock",
+      "time": "2024-05-10T17:05:00Z"
+    },
+    {
+      "signal_time": "2024-05-11T03:15:00Z",
+      "source": "DONKI_IPS",
+      "alert_id": "2024-05-11T03:00:00-IPS-001",
+      "time": "2024-05-11T03:00:00Z"
+    }
+  ],
+  "stale_feed_events": [],
+  "satellite_switch_events": [],
+  "anomaly_bulletin_refs": [],
+
+  "notes": "Mother's Day / Gannon storm window. Two divergence signals correspond to the IP shock arrival and the Bz southward swing — both corroborated within 60 min. No stale-feed, no switches in this window. Source: DSCOVR PlasMag archive + NOAA SWPC alert log."
+}

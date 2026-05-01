@@ -1,0 +1,20 @@
+{
+  "event_id": "T4-2017-09-06-S2",
+  "theatre": "T4",
+  "tier": "primary",
+  "event_time": "2017-09-06T11:53:00Z",
+  "donki_record_ref": "2017-09-06T13:00:00-SEP-001",
+  "goes_satellite": "GOES-13",
+  "goes_secondary_satellite": "GOES-15",
+
+  "trigger_flare_class": "X9.3",
+  "trigger_flare_peak_time": "2017-09-06T12:02:00Z",
+  "prediction_window_hours": 72,
+
+  "proton_flux_observations": [
+    { "time": "2017-09-06T13:00:00Z", "peak_pfu": 60, "energy_channel": ">=10 MeV", "satellite": "GOES-13" },
+    { "time": "2017-09-06T22:00:00Z", "peak_pfu": 87, "energy_channel": ">=10 MeV", "satellite": "GOES-13" }
+  ],
+
+  "notes": "Moderate SEP after AR 12673 X9.3 — 2 qualifying events. Bucket: 2-3 events. Demonstrates a corpus event with low qualifying-event count (sub-S3 magnitude despite X9.3 trigger)."
+}

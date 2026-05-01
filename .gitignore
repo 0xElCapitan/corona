@@ -22,3 +22,6 @@ grimoires/loa/a2a/subagent-reports/
 
 # User-provided context for /plan-and-analyze (local-only; no exceptions per operator)
 grimoires/loa/context/
+
+# CORONA backtest harness — local-only ingestor cache (Sprint 3)
+scripts/corona-backtest/cache/

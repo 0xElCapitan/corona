@@ -1,0 +1,23 @@
+{
+  "event_id": "T4-2024-05-15-S1",
+  "theatre": "T4",
+  "tier": "primary",
+  "event_time": "2024-05-15T09:00:00Z",
+  "donki_record_ref": "2024-05-15T09:30:00-SEP-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "trigger_flare_class": "M9.2",
+  "trigger_flare_peak_time": "2024-05-15T08:37:00Z",
+  "prediction_window_hours": 72,
+
+  "proton_flux_observations": [
+    { "time": "2024-05-15T09:30:00Z", "peak_pfu": 15, "energy_channel": ">=10 MeV", "satellite": "GOES-16" },
+    { "time": "2024-05-15T11:00:00Z", "peak_pfu": 18, "energy_channel": ">=10 MeV", "satellite": "GOES-16" },
+    { "time": "2024-05-15T14:00:00Z", "peak_pfu": 22, "energy_channel": ">=10 MeV", "satellite": "GOES-16" },
+    { "time": "2024-05-15T18:00:00Z", "peak_pfu": 11, "energy_channel": ">=10 MeV", "satellite": "GOES-16" },
+    { "time": "2024-05-16T05:00:00Z", "peak_pfu": 10, "energy_channel": ">=10 MeV", "satellite": "GOES-16" }
+  ],
+
+  "notes": "Tail of the May 2024 storm chain — five qualifying S1+ events. Bucket: 4-6 events. Demonstrates a mid-bucket SEP cascade outcome."
+}

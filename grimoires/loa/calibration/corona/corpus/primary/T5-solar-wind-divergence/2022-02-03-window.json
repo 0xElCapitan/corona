@@ -1,0 +1,42 @@
+{
+  "event_id": "T5-2022-02-03-window",
+  "theatre": "T5",
+  "tier": "primary",
+  "event_time": "2022-02-03T18:00:00Z",
+  "donki_record_ref": null,
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-17",
+
+  "detection_window_start": "2022-02-02T22:00:00Z",
+  "detection_window_end": "2022-02-04T06:00:00Z",
+
+  "divergence_signals": [
+    {
+      "signal_time": "2022-02-02T22:10:00Z",
+      "signal_resolution_time": null,
+      "false_positive_label": false,
+      "anomaly_classification": "cme_passage"
+    }
+  ],
+  "corroborating_alerts": [
+    {
+      "signal_time": "2022-02-02T22:10:00Z",
+      "source": "NOAA_SWPC_ALERT",
+      "alert_id": "SWPC-2022-02-02-shock",
+      "time": "2022-02-02T22:25:00Z"
+    }
+  ],
+  "stale_feed_events": [],
+  "satellite_switch_events": [
+    {
+      "switch_time": "2022-02-03T15:00:00Z",
+      "from": "DSCOVR_PRIMARY",
+      "to": "DSCOVR_SECONDARY",
+      "reason": "scheduled_maintenance",
+      "transition_end_time": "2022-02-03T15:15:00Z"
+    }
+  ],
+  "anomaly_bulletin_refs": [],
+
+  "notes": "Starlink-loss storm window. One corroborated divergence at shock arrival, plus a scheduled DSCOVR primary→secondary maintenance switch. No spurious signals in the 10-min post-switch quiet window — switch should be classified as handled."
+}

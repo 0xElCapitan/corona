@@ -1,0 +1,17 @@
+{
+  "event_id": "T2-2024-05-11-Kp9",
+  "theatre": "T2",
+  "tier": "primary",
+  "event_time": "2024-05-11T00:00:00Z",
+  "donki_record_ref": "2024-05-10T17:23:00-GST-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "kp_swpc_observed": 9.0,
+  "kp_gfz_observed": 9.0,
+  "kp_window_start": "2024-05-11T00:00:00Z",
+  "kp_window_end": "2024-05-11T06:00:00Z",
+  "donki_gst_id": "2024-05-10T17:23:00-GST-001",
+
+  "notes": "Mother's Day / Gannon storm — first G5 superstorm since 2003 Halloween. SWPC + GFZ both report Kp 9. Source: SWPC planetary K-index + GFZ Potsdam definitive Kp."
+}

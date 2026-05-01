@@ -1,0 +1,18 @@
+{
+  "event_id": "T1-2024-10-03-X9p0",
+  "theatre": "T1",
+  "tier": "primary",
+  "event_time": "2024-10-03T12:18:00Z",
+  "donki_record_ref": "2024-10-03T12:18:00-FLR-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "flare_class_observed": "X9.0",
+  "flare_peak_time": "2024-10-03T12:18:00Z",
+  "flare_peak_xray_flux": 9.0e-4,
+  "flare_end_time": "2024-10-03T12:35:00Z",
+  "donki_flr_class_type": "X9.0",
+  "prediction_window_hours": 24,
+
+  "notes": "AR 13842 X9.0 — equaled the cycle-24 X9.3 high-water mark of 2017-09-06. October 2024 storm chain. Source: SWPC GOES-16 EXIS + DONKI FLR record."
+}

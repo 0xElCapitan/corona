@@ -274,32 +274,32 @@ Resolve PRD §11 open decisions for T3 timing-error metric, T4 S-scale bucket bo
 Build the `scripts/corona-backtest/` harness with era-aware DONKI ingestor, separate per-theatre scoring modules (no shared code per operator hard constraint #5), commit the primary corpus, and execute Run 1 producing baseline (pre-refit) certificates at `grimoires/loa/calibration/corona/run-1/`.
 
 ### Deliverables
-- [ ] `scripts/corona-backtest.js` orchestrator + `scripts/corona-backtest/` sub-folder per SDD §6.1
-- [ ] 5-event sanity-sample harness (R3 mitigation) MUST PASS before full ingestor build
-- [ ] Era-aware DONKI ingestor handling 2017-2026 shape variance
-- [ ] Per-theatre scoring modules with **separate code paths**: `t1-bucket-brier.js`, `t2-bucket-brier.js`, `t3-timing-error.js`, `t4-bucket-brier.js`, `t5-quality-of-behavior.js`
-- [ ] Reporting modules (`write-report.js`, `write-summary.js`, `hash-utils.js`)
-- [ ] Primary corpus committed at `grimoires/loa/calibration/corona/corpus/T<id>.json`
-- [ ] Run 1 baseline certificates at `grimoires/loa/calibration/corona/run-1/`
+- [x] `scripts/corona-backtest.js` orchestrator + `scripts/corona-backtest/` sub-folder per SDD §6.1
+- [x] 5-event sanity-sample harness (R3 mitigation) MUST PASS before full ingestor build
+- [x] Era-aware DONKI ingestor handling 2017-2026 shape variance
+- [x] Per-theatre scoring modules with **separate code paths**: `t1-bucket-brier.js`, `t2-bucket-brier.js`, `t3-timing-error.js`, `t4-bucket-brier.js`, `t5-quality-of-behavior.js`
+- [x] Reporting modules (`write-report.js`, `write-summary.js`, `hash-utils.js`)
+- [x] Primary corpus committed at `grimoires/loa/calibration/corona/corpus/T<id>.json`
+- [x] Run 1 baseline certificates at `grimoires/loa/calibration/corona/run-1/`
 
 ### Acceptance Criteria
-- [ ] **GC.2**: Backtest harness runs against full primary corpus
-- [ ] Sanity-sample passes 5/5 events before full ingestor
-- [ ] No shared code paths across heterogeneous scoring modules (operator hard constraint #5)
-- [ ] `corpus_hash.txt` and `script_hash.txt` written per run
-- [ ] Per-theatre reports generated at `run-1/T<id>-report.md`
-- [ ] **ZERO new runtime deps** (`scripts/corona-backtest.js` uses only `node:fs`, `node:path`, `node:url`, native `fetch`, `crypto.createHash`)
+- [x] **GC.2**: Backtest harness runs against full primary corpus
+- [x] Sanity-sample passes 5/5 events before full ingestor
+- [x] No shared code paths across heterogeneous scoring modules (operator hard constraint #5)
+- [x] `corpus_hash.txt` and `script_hash.txt` written per run
+- [x] Per-theatre reports generated at `run-1/T<id>-report.md`
+- [x] **ZERO new runtime deps** (`scripts/corona-backtest.js` uses only `node:fs`, `node:path`, `node:url`, native `fetch`, `crypto.createHash`)
 
 ### Technical Tasks (outline)
 
-- [ ] **Task 3.1** (`corona-v9m`, P0): `sprint-3-donki-sanity-sample` — Build 5-event sanity-sample harness; halt on shape mismatch (R3 mitigation). → **[GC.2]**
-- [ ] **Task 3.2** (`corona-2jq`): `sprint-3-era-aware-ingestors` — Build SWPC + DONKI + GFZ ingestor modules. → **[GC.2]**
-- [ ] **Task 3.3** (`corona-1ks`): `sprint-3-corpus-loader-validate` — Build `corpus-loader.js` with schema validation. → **[GC.2]**
-- [ ] **Task 3.4** (`corona-2iu`): `sprint-3-t1-t2-t4-bucket-brier-scoring` — Separate `t1/t2/t4-bucket-brier.js` modules (NO shared code per operator hard constraint #5). → **[GC.2]**
-- [ ] **Task 3.5** (`corona-70s`): `sprint-3-t3-timing-error-scoring` — `t3-timing-error.js` per Sprint 2 metric definition. → **[GC.2]**
-- [ ] **Task 3.6** (`corona-aqh`): `sprint-3-t5-quality-of-behavior-scoring` — `t5-quality-of-behavior.js` per Sprint 2 metric definition. → **[GC.2]**
-- [ ] **Task 3.7** (`corona-2ox`): `sprint-3-reporting-and-hashing` — `write-report`, `write-summary`, `hash-utils` modules; SHA256 via `node:crypto`. → **[GC.2]**
-- [ ] **Task 3.8** (`corona-2b5`): `sprint-3-commit-corpus-and-run1` — Commit primary corpus + execute Run 1 → run-1/ certificates. → **[GC.2]**
+- [x] **Task 3.1** (`corona-v9m`, P0): `sprint-3-donki-sanity-sample` — Build 5-event sanity-sample harness; halt on shape mismatch (R3 mitigation). → **[GC.2]**
+- [x] **Task 3.2** (`corona-2jq`): `sprint-3-era-aware-ingestors` — Build SWPC + DONKI + GFZ ingestor modules. → **[GC.2]**
+- [x] **Task 3.3** (`corona-1ks`): `sprint-3-corpus-loader-validate` — Build `corpus-loader.js` with schema validation. → **[GC.2]**
+- [x] **Task 3.4** (`corona-2iu`): `sprint-3-t1-t2-t4-bucket-brier-scoring` — Separate `t1/t2/t4-bucket-brier.js` modules (NO shared code per operator hard constraint #5). → **[GC.2]**
+- [x] **Task 3.5** (`corona-70s`): `sprint-3-t3-timing-error-scoring` — `t3-timing-error.js` per Sprint 2 metric definition. → **[GC.2]**
+- [x] **Task 3.6** (`corona-aqh`): `sprint-3-t5-quality-of-behavior-scoring` — `t5-quality-of-behavior.js` per Sprint 2 metric definition. → **[GC.2]**
+- [x] **Task 3.7** (`corona-2ox`): `sprint-3-reporting-and-hashing` — `write-report`, `write-summary`, `hash-utils` modules; SHA256 via `node:crypto`. → **[GC.2]**
+- [x] **Task 3.8** (`corona-2b5`): `sprint-3-commit-corpus-and-run1` — Commit primary corpus + execute Run 1 → run-1/ certificates. → **[GC.2]**
 
 ### Dependencies
 - **Sprint 2**: frozen protocol with metric definitions for T3, T4, T5

@@ -1,0 +1,18 @@
+{
+  "event_id": "T1-2023-12-14-X2p8",
+  "theatre": "T1",
+  "tier": "primary",
+  "event_time": "2023-12-14T17:02:00Z",
+  "donki_record_ref": "2023-12-14T17:02:00-FLR-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "flare_class_observed": "X2.8",
+  "flare_peak_time": "2023-12-14T17:02:00Z",
+  "flare_peak_xray_flux": 2.8e-4,
+  "flare_end_time": "2023-12-14T17:30:00Z",
+  "donki_flr_class_type": "X2.8",
+  "prediction_window_hours": 24,
+
+  "notes": "AR 13514 X2.8 — strongest flare of 2023 reported by SWPC. Source: SWPC GOES X-ray archive + DONKI FLR record."
+}

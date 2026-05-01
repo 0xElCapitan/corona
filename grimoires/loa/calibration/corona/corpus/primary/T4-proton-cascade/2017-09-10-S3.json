@@ -1,0 +1,23 @@
+{
+  "event_id": "T4-2017-09-10-S3",
+  "theatre": "T4",
+  "tier": "primary",
+  "event_time": "2017-09-10T15:35:00Z",
+  "donki_record_ref": "2017-09-10T16:25:00-SEP-001",
+  "goes_satellite": "GOES-13",
+  "goes_secondary_satellite": "GOES-15",
+
+  "trigger_flare_class": "X8.2",
+  "trigger_flare_peak_time": "2017-09-10T16:06:00Z",
+  "prediction_window_hours": 72,
+
+  "proton_flux_observations": [
+    { "time": "2017-09-10T16:25:00Z", "peak_pfu": 145,  "energy_channel": ">=10 MeV", "satellite": "GOES-13" },
+    { "time": "2017-09-10T18:00:00Z", "peak_pfu": 1494, "energy_channel": ">=10 MeV", "satellite": "GOES-13" },
+    { "time": "2017-09-10T22:00:00Z", "peak_pfu": 1100, "energy_channel": ">=10 MeV", "satellite": "GOES-13" },
+    { "time": "2017-09-11T03:00:00Z", "peak_pfu": 4600, "energy_channel": ">=100 MeV", "satellite": "GOES-13" },
+    { "time": "2017-09-11T12:00:00Z", "peak_pfu": 800,  "energy_channel": ">=10 MeV", "satellite": "GOES-13" }
+  ],
+
+  "notes": "Major SEP event — peak ≥10 MeV proton flux ~1494 pfu (S3 Strong) following AR 12673 X8.2 limb event. Demonstrates: (1) proton flux qualifying with strict ≥10 MeV channel match, (2) ≥100 MeV flux not double-counting, (3) 30-min SEP onset dedup window collapsing the 16:25 + 18:00 readings into a single qualifying event when within window, separating when outside. Source: SWPC GOES integral proton archive + DONKI SEP record."
+}

@@ -1,0 +1,55 @@
+{
+  "event_id": "T5-2017-09-07-window",
+  "theatre": "T5",
+  "tier": "primary",
+  "event_time": "2017-09-07T23:00:00Z",
+  "donki_record_ref": null,
+  "goes_satellite": "GOES-13",
+  "goes_secondary_satellite": "GOES-15",
+
+  "detection_window_start": "2017-09-07T18:00:00Z",
+  "detection_window_end": "2017-09-08T18:00:00Z",
+
+  "divergence_signals": [
+    {
+      "signal_time": "2017-09-07T22:55:00Z",
+      "signal_resolution_time": null,
+      "false_positive_label": false,
+      "anomaly_classification": "cme_passage"
+    },
+    {
+      "signal_time": "2017-09-08T05:30:00Z",
+      "signal_resolution_time": "2017-09-08T05:48:00Z",
+      "false_positive_label": true,
+      "anomaly_classification": "instrument_drift"
+    }
+  ],
+  "corroborating_alerts": [
+    {
+      "signal_time": "2017-09-07T22:55:00Z",
+      "source": "NOAA_SWPC_ALERT",
+      "alert_id": "SWPC-2017-09-07-shock",
+      "time": "2017-09-07T23:10:00Z"
+    }
+  ],
+  "stale_feed_events": [
+    {
+      "actual_onset_time": "2017-09-08T03:10:00Z",
+      "detection_time": "2017-09-08T03:11:30Z",
+      "end_time": "2017-09-08T03:18:00Z",
+      "satellite": "DSCOVR"
+    }
+  ],
+  "satellite_switch_events": [],
+  "anomaly_bulletin_refs": [
+    {
+      "time_window_start": "2017-09-08T05:00:00Z",
+      "time_window_end": "2017-09-08T06:00:00Z",
+      "source": "NOAA_DSCOVR_OPS",
+      "bulletin_id": "DSCOVR-2017-09-08-instrument-drift",
+      "classification": "PlasMag_dropout"
+    }
+  ],
+
+  "notes": "Sept 2017 X9.3 chain — shock arrival corroborated, plus a brief 18s detection latency on a stale-feed window, plus a labeled FP from PlasMag drift. Bulletin diagnostic should hit the instrument-drift signal at 05:30 (within 05:00-06:00 bulletin window)."
+}

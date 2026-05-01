@@ -1,0 +1,24 @@
+Sprint 3 — CORONA cycle-001-corona-v3-calibration
+
+Status: COMPLETED (audit approved)
+Date: 2026-05-01
+Epic: corona-d4u
+Tasks: 8 closed (corona-v9m, corona-2jq, corona-1ks, corona-2iu, corona-70s, corona-aqh, corona-2ox, corona-2b5)
+
+Pipeline:
+- /implement sprint-3            → reviewer.md (8 tasks, 25 corpus events, run-1/ certificates)
+- /review-sprint sprint-3 (R1)   → CHANGES_REQUIRED (CI-1, CI-2, HITL-1, HITL-2)
+- Round 2 fixes                   → t5 stale-feed indexing fix + regression test, §11 Protocol Interpretations, NOTES.md HITL decisions
+- /review-sprint sprint-3 (R2)   → All good
+- /audit-sprint sprint-3         → APPROVED - LETS FUCKING GO (0 CRITICAL / 0 HIGH / 0 MEDIUM / 1 LOW informational / 1 PRE-EXISTING)
+
+Verification:
+- Tests: 93/93 pass (was 92 baseline; +1 CI-1 regression)
+- Validator: green (construct.yaml conforms to v3)
+- corpus_hash: b1caef3faa1d046301229825c40e76e6ea23061a288d15ee6c49e78fbef11bb1
+- script_hash: 17f6380b623f591bcaa5aa17e343eb775fb81960520d2ca9624b784acf1730f1
+- package.json: untouched (zero-dep invariant intact)
+- Settlement authority: preserved per theatre-authority.md (Sprint 0)
+- No Sprint 4/5 scope leakage
+
+Awaiting operator commit + push. Do not auto-commit per stop condition.

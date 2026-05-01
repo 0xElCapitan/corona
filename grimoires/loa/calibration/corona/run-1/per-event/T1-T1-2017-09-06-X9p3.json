@@ -1,0 +1,16 @@
+{
+  "event_id": "T1-2017-09-06-X9p3",
+  "flare_class_predicted": "<M",
+  "flare_class_observed": "X9.3",
+  "bucket_predicted": 0,
+  "bucket_observed": 4,
+  "predicted_distribution": [
+    0.16666666666666666,
+    0.16666666666666666,
+    0.16666666666666666,
+    0.16666666666666666,
+    0.16666666666666666,
+    0.16666666666666666
+  ],
+  "brier_score": 0.1388888888888889
+}

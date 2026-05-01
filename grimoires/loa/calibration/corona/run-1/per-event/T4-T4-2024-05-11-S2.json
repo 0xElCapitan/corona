@@ -1,0 +1,43 @@
+{
+  "event_id": "T4-2024-05-11-S2",
+  "s_event_count_predicted_distribution": [
+    0.2,
+    0.2,
+    0.2,
+    0.2,
+    0.2
+  ],
+  "s_event_count_observed": 3,
+  "bucket_predicted": 0,
+  "bucket_observed": 1,
+  "bucket_labels": [
+    "0-1",
+    "2-3",
+    "4-6",
+    "7-10",
+    "11+"
+  ],
+  "brier_score": 0.16000000000000006,
+  "qualifying_events": [
+    {
+      "time": "2024-05-11T03:00:00Z",
+      "peak_pfu": 250,
+      "energy_channel": ">=10 MeV",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2024-05-11T07:00:00Z",
+      "peak_pfu": 380,
+      "energy_channel": ">=10 MeV",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2024-05-12T03:00:00Z",
+      "peak_pfu": 200,
+      "energy_channel": ">=10 MeV",
+      "satellite": "GOES-16"
+    }
+  ],
+  "window_override": false,
+  "annotation_warning": null
+}

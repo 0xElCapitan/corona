@@ -1,0 +1,18 @@
+{
+  "event_id": "T3-2024-05-09-CME001",
+  "theatre": "T3",
+  "tier": "primary",
+  "event_time": "2024-05-09T01:00:00Z",
+  "donki_record_ref": "2024-05-09T01:00:00-CME-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "cme_id": "2024-05-09T01:00:00-CME-001",
+  "wsa_enlil_predicted_arrival_time": "2024-05-10T17:00:00Z",
+  "wsa_enlil_sigma_hours": 8,
+  "wsa_enlil_halo_angle_degrees": 25,
+  "observed_l1_shock_time": "2024-05-10T16:42:00Z",
+  "observed_l1_source": "DSCOVR_PRIMARY",
+
+  "notes": "Cluster of multiple CMEs from AR 13664 in early May 2024; the dominant front arrived ~17:00 UTC on May 10 (DSCOVR), within ~20 minutes of WSA-Enlil prediction. Source: DONKI WSA_ENLIL + DSCOVR PlasMag."
+}

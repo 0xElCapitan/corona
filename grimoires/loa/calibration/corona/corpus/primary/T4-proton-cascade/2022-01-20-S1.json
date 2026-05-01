@@ -1,0 +1,19 @@
+{
+  "event_id": "T4-2022-01-20-S1",
+  "theatre": "T4",
+  "tier": "primary",
+  "event_time": "2022-01-20T05:41:00Z",
+  "donki_record_ref": "2022-01-20T06:30:00-SEP-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-17",
+
+  "trigger_flare_class": "M5.5",
+  "trigger_flare_peak_time": "2022-01-20T06:01:00Z",
+  "prediction_window_hours": 72,
+
+  "proton_flux_observations": [
+    { "time": "2022-01-20T07:00:00Z", "peak_pfu": 12, "energy_channel": ">=10 MeV", "satellite": "GOES-16" }
+  ],
+
+  "notes": "S1 Minor — single qualifying event from M5.5 trigger. Bucket: 0-1. Demonstrates the floor of the T4 cascade — low productivity from a marginal-trigger flare."
+}

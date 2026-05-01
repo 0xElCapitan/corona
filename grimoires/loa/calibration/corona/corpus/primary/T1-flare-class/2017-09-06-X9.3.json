@@ -1,0 +1,18 @@
+{
+  "event_id": "T1-2017-09-06-X9p3",
+  "theatre": "T1",
+  "tier": "primary",
+  "event_time": "2017-09-06T11:53:00Z",
+  "donki_record_ref": "2017-09-06T11:53:00-FLR-001",
+  "goes_satellite": "GOES-13",
+  "goes_secondary_satellite": "GOES-15",
+
+  "flare_class_observed": "X9.3",
+  "flare_peak_time": "2017-09-06T12:02:00Z",
+  "flare_peak_xray_flux": 9.3e-4,
+  "flare_end_time": "2017-09-06T12:10:00Z",
+  "donki_flr_class_type": "X9.3",
+  "prediction_window_hours": 24,
+
+  "notes": "AR 12673 X9.3 — largest X-class flare of solar cycle 24. Source: SWPC GOES X-ray archive + DONKI FLR record. Event drove the September 2017 storm chain (T2 G4 follow-on, T3 CME glancing arrival, T4 SEP S2)."
+}

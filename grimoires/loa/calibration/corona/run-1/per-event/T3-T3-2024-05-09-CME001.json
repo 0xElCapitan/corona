@@ -1,0 +1,15 @@
+{
+  "event_id": "T3-2024-05-09-CME001",
+  "cme_id": "2024-05-09T01:00:00-CME-001",
+  "t_predicted": "2024-05-10T17:00:00Z",
+  "t_observed": "2024-05-10T16:42:00Z",
+  "error_hours": 0.3,
+  "within_6h": true,
+  "glancing_blow_flag": false,
+  "within_12h_glancing": null,
+  "z_score": 0.0375,
+  "sigma_hours_used": 8,
+  "sigma_source": "corpus_value",
+  "wsa_enlil_null_flag": false,
+  "observed_l1_source": "DSCOVR_PRIMARY"
+}

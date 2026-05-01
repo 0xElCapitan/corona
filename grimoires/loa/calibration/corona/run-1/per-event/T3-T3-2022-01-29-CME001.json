@@ -1,0 +1,15 @@
+{
+  "event_id": "T3-2022-01-29-CME001",
+  "cme_id": "2022-01-29T23:36:00-CME-001",
+  "t_predicted": "2022-02-02T06:00:00Z",
+  "t_observed": "2022-02-02T22:00:00Z",
+  "error_hours": 16,
+  "within_6h": false,
+  "glancing_blow_flag": false,
+  "within_12h_glancing": null,
+  "z_score": 1.3333333333333333,
+  "sigma_hours_used": 12,
+  "sigma_source": "corpus_value",
+  "wsa_enlil_null_flag": false,
+  "observed_l1_source": "DSCOVR_PRIMARY"
+}

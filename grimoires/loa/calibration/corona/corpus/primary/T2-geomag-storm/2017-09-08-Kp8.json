@@ -1,0 +1,17 @@
+{
+  "event_id": "T2-2017-09-08-Kp8",
+  "theatre": "T2",
+  "tier": "primary",
+  "event_time": "2017-09-08T00:00:00Z",
+  "donki_record_ref": "2017-09-07T23:00:00-GST-001",
+  "goes_satellite": "GOES-13",
+  "goes_secondary_satellite": "GOES-15",
+
+  "kp_swpc_observed": 8.33,
+  "kp_gfz_observed": 8.0,
+  "kp_window_start": "2017-09-08T00:00:00Z",
+  "kp_window_end": "2017-09-08T03:00:00Z",
+  "donki_gst_id": "2017-09-07T23:00:00-GST-001",
+
+  "notes": "September 2017 G4 chain following the AR 12673 X9.3 + X8.2 sequence. SWPC provisional Kp 8.33 peak; GFZ definitive 8.0 (GFZ definitive published well past the 30-day lag — regression-tier eligible). Settlement authority per theatre-authority.md §T2 = GFZ."
+}

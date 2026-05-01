@@ -1,0 +1,18 @@
+{
+  "event_id": "T3-2023-12-14-CME001",
+  "theatre": "T3",
+  "tier": "primary",
+  "event_time": "2023-12-14T17:30:00Z",
+  "donki_record_ref": "2023-12-14T17:30:00-CME-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "cme_id": "2023-12-14T17:30:00-CME-001",
+  "wsa_enlil_predicted_arrival_time": "2023-12-17T03:00:00Z",
+  "wsa_enlil_sigma_hours": null,
+  "wsa_enlil_halo_angle_degrees": 40,
+  "observed_l1_shock_time": "2023-12-17T10:30:00Z",
+  "observed_l1_source": "DSCOVR_PRIMARY",
+
+  "notes": "X2.8 CME from AR 13514 — glancing arrival ~7.5h late. wsa_enlil_sigma_hours is null in this corpus event; corpus-loader applies the 14h placeholder (Round 2 review C7) for the supplementary z_score diagnostic only — primary MAE + hit-rate compute normally. Halo angle 40° < 45° threshold so direct (not glancing-widening eligible)."
+}

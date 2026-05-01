@@ -1,0 +1,18 @@
+{
+  "event_id": "T1-2024-05-14-X8p7",
+  "theatre": "T1",
+  "tier": "primary",
+  "event_time": "2024-05-14T16:51:00Z",
+  "donki_record_ref": "2024-05-14T16:51:00-FLR-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+
+  "flare_class_observed": "X8.7",
+  "flare_peak_time": "2024-05-14T17:08:00Z",
+  "flare_peak_xray_flux": 8.7e-4,
+  "flare_end_time": "2024-05-14T17:18:00Z",
+  "donki_flr_class_type": "X8.7",
+  "prediction_window_hours": 24,
+
+  "notes": "AR 13664 — largest flare of cycle 25 to date. Tail of the May 2024 G5 superstorm (Gannon storm) sequence. Source: SWPC GOES-16 EXIS X-ray product + DONKI FLR record."
+}

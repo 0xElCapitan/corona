@@ -347,3 +347,167 @@ Also revert in:
 ## Blockers
 
 None.
+
+---
+
+## Session Continuity — 2026-04-30 / 2026-05-01 (CORONA cycle-001 Sprint 3)
+
+### Sprint 3 binding facts (synthesized from priority files)
+
+- **HEAD**: `7e8b52e` (sprint-3 handoff packet committed). Tree clean. Beads HEALTHY.
+- **Frozen protocol** (`grimoires/loa/calibration/corona/calibration-protocol.md`, 523 lines): §3 corpus eligibility + §3.7 corpus annotation schema + §4 scoring contracts + §6 thresholds + §7 regression policy.
+- **8 open Sprint 3 beads tasks**: corona-v9m (P0 sanity), corona-2jq (ingestors), corona-1ks (corpus loader), corona-2iu (T1/T2/T4 bucket-Brier), corona-70s (T3 timing), corona-aqh (T5 quality), corona-2ox (reporting+hashing), corona-2b5 (corpus+Run 1).
+- **Hard constraints carry-forward**: zero new deps; only `node:fs`, `node:path`, `node:url`, `node:crypto`, native `fetch`, `node:test`. No shared scoring code paths (operator constraint #5). Halt + surface protocol ambiguities.
+
+### Per-theatre scoring shapes (from §4.1–§4.5)
+
+- **T1**: `{ brier, bucket_calibration: number[], n_events }`
+- **T2**: `{ brier, gfz_vs_swpc_convergence, n_events }`
+- **T3**: `{ mae_hours, within_6h_hit_rate, glancing_blow_within_12h_hit_rate: number|null, mean_z_score, n_events }`
+- **T4**: `{ brier, bucket_distribution: number[], n_events }`
+- **T5**: `{ fp_rate, stale_feed_p50_seconds, stale_feed_p95_seconds, satellite_switch_handled_rate, hit_rate_diagnostic, n_signals, n_stale_events, n_switches }`
+
+### Per-event report fields (§5)
+
+- T1: flare_class_predicted, flare_class_observed, bucket_predicted, bucket_observed, brier_score
+- T2: kp_swpc_predicted, kp_gfz_observed, kp_swpc_observed, bucket_predicted, bucket_observed, brier_score
+- T3: t_predicted, t_observed, error_hours, within_6h, glancing_blow_flag, z_score, wsa_enlil_null_flag
+- T4: s_event_count_predicted_distribution, s_event_count_observed, bucket_predicted, bucket_observed, brier_score, qualifying_events[]
+- T5: signal_count, false_positive_count, stale_feed_events[], switches[], hit_rate_diagnostic_count
+
+### Pass/marginal/fail thresholds (§6)
+
+- T1/T2: pass Brier ≤0.15 + cal/conv ≥0.85; marginal Brier ≤0.20 + ≥0.75; fail otherwise
+- T3: pass MAE ≤6h + ±6h ≥0.65; marginal MAE ≤9h + ≥0.50; fail otherwise
+- T4: pass Brier ≤0.20 + cal ≥0.75; marginal Brier ≤0.25 + cal ≥0.65; fail otherwise
+- T5: pass FP ≤0.10 + p50 ≤120s + handled ≥0.95; marginal FP ≤0.15 + p50 ≤300s + handled ≥0.90; fail otherwise
+
+### Round 2 review residue claimed by Sprint 3
+
+- **C6** (corona-1ks): corpus-loader OWNS derived-at-load-time fields (`bucket_observed`, `g_scale_observed`, `glancing_blow_flag`, `qualifying_event_count_observed`).
+- **C7** (corona-70s): T3 z_score for null sigma → use 14h placeholder midpoint of BFZ 10–18h range (z_score is supplementary diagnostic only per §4.3.3).
+- **C8** (corona-70s): `glancing_blow_within_12h_hit_rate: null` means "no glancing-blow events in scored corpus" — document.
+
+### Existing exports from src/theatres/proton-cascade.js (Sprint 2)
+
+- `BUCKETS`, `S_SCALE_THRESHOLDS_PFU = {S1:10,S2:100,S3:1000,S4:10000,S5:100000}`, `SEP_DEDUP_WINDOW_MINUTES = 30`
+- T4 channel regex: `/(?:^|\D)10\s*MeV\b/i` — strict, avoids ≥100 MeV substring collision
+- T4 default `window_hours = 72` (§4.4.0 corpus contract: 72h binding)
+
+### Constraints summary (do-not-do)
+
+- Do not refit parameters (Sprint 5)
+- Do not add deps (zero-dep invariant)
+- Do not modify proton-cascade.js (T4 runtime — Sprint 5/corona-3ja territory)
+- Do not modify calibration-protocol.md or theatre-authority.md (frozen)
+- Do not author empirical-evidence.md (Sprint 4 / corona-2zs)
+- Do not populate calibration-manifest.json (Sprint 5 / corona-25p)
+- Do not auto-commit; do not auto-start Sprint 4
+
+### Sprint 3 stop condition
+
+After implementation: stop and wait for /review-sprint sprint-3 → /audit-sprint sprint-3 → operator commit approval.
+
+
+---
+
+## Decision Log — 2026-05-01 (CORONA cycle-001 Sprint 3 Round 2 — HITL decisions)
+
+Two HITL decisions captured per Sprint 3 senior review Round 1
+(`grimoires/loa/a2a/sprint-3/engineer-feedback.md` HITL-1 + HITL-2). These
+crystallize as explicit operator decisions before audit.
+
+### HITL-1 — Corpus size: ACCEPT 5 events/theatre as Sprint 3 starter corpus
+
+**Context**: Run 1 corpus has 5 primary events per theatre (25 total) vs
+the calibration-protocol §3.2 #4 soft target of 15-25 events per theatre.
+
+**Protocol position** (calibration-protocol.md §3.2 #4 verbatim):
+> "Per-theatre target count: ~15-25 events per theatre. Soft target.
+> Sprint 3 / corona-2b5 (corpus commit task) finalizes the per-theatre
+> event list. If a theatre cannot reach 15 primary events under these
+> rules, Sprint 3 documents the gap and the regression gate threshold
+> tightens automatically (the theatre cannot be claimed as well-calibrated
+> below the lower bound)."
+
+**Decision**: **(A) ACCEPT partial corpus for Sprint 3.**
+
+- Run 1's corpus_hash
+  (`b1caef3faa1d046301229825c40e76e6ea23061a288d15ee6c49e78fbef11bb1`) is
+  pinned to the 5/theatre event set.
+- The 15-25/theatre target remains the operational goal for later cycles
+  to strengthen.
+- Per protocol §3.2 #4, no theatre at this corpus size can be claimed as
+  well-calibrated below the lower bound — the regression gate
+  automatically tightens.
+- Future corpus-extension cycles regenerate corpus_hash and re-run the
+  harness; Sprint 5's regression gate handles the comparison.
+
+**Implication for downstream sprints**:
+- Sprint 5 / `corona-3fg` refit: knows that current Run 1 numbers are
+  no-model floor against a small skewed corpus, NOT a CORONA prediction
+  quality measurement.
+- Sprint 7 / `corona-1ml` final-validate: corpus extension toward 15-25
+  is in scope as a polish/strengthening task, not a Sprint 3 retroactive
+  blocker.
+
+**Why**: protocol explicitly accepts this with documentation; the gap is
+documented in `grimoires/loa/a2a/sprint-3/reviewer.md` §6.1; extending the
+corpus is corpus-data work that doesn't depend on Sprint 3 infrastructure.
+
+### HITL-2 — Live DONKI/GFZ fetch deferral: ACCEPT with explicit Sprint 7 AC
+
+**Context**: Sprint 3 sanity sample passes 5/5 in offline mode against
+agent-authored fixtures. The `--online` flag exists for live NASA DONKI
+fetches but was not exercised against the live API in this sprint.
+
+**SDD position** (sdd.md §6.3):
+> "Sanity-sample harness ... runs first in Sprint 3, fetches 5 events
+> spanning 2017→2026, prints normalised output, halts on shape mismatch.
+> Sprint 3 task ordering: sanity-sample passes ⇒ full ingestor build
+> proceeds."
+
+The literal SDD wording implies live fetch. The Sprint 3 hard constraint
+#10 phrases the same requirement more permissively: "Sanity-sample
+(corona-v9m) MUST PASS 5/5 BEFORE full ingestor build proceeds —
+non-negotiable per SDD §6.3."
+
+**Decision**: **(A) ACCEPT offline-only sanity for Sprint 3 close, with
+explicit Sprint 7 acceptance criterion for live validation.**
+
+**Sprint 7 acceptance criterion (forward-looking commitment, recorded
+here, NOT modifying Sprint 7's existing tasks in this cycle's sprint
+plan)**:
+
+> "Sprint 7 final-validate MUST include `node
+> scripts/corona-backtest/ingestors/donki-sanity.js --online` with
+> `NASA_API_KEY` set, capturing the live cache files under
+> `scripts/corona-backtest/cache/donki/`, and reconciling the normalised
+> output against the offline fixtures committed in donki-sanity.js
+> (`SAMPLE_EVENTS` constant). Any divergence between the live-fetched
+> normalised shape and the offline-fixture normalised shape triggers a
+> corpus-loader fix and a re-run of Sprint 3 / `corona-d4u` regression
+> tests in a follow-up bug cycle. The reconciliation report is
+> appended to the final BUTTERFREEZONE refresh (`corona-8v2`)."
+
+**GFZ-specific note**: `scripts/corona-backtest/ingestors/gfz-fetch.js`
+remains an optional helper for corpus-extension cycles. T2 corpus events
+in Run 1 carry `kp_gfz_observed` directly (per §3.7.3 author-provided
+field), so live GFZ fetch is not on the Sprint 3 critical path. Sprint
+7's live-validation pass MAY include a GFZ probe if the corpus extension
+cycle wants to verify ASCII-table parsing against current GFZ output
+format.
+
+**Why**: literal Sprint 3 hard constraint #10 ("MUST PASS 5/5") is met
+in offline mode; the harness has both modes; reproducing R3 against live
+DONKI is a post-merge operator step gated on `NASA_API_KEY` and network
+egress; the operator chose to accept the deferral with an explicit later
+acceptance criterion rather than block Sprint 3 close.
+
+**Implication for downstream sprints**:
+- Sprint 7 has a new (forward-looking, not formally added to sprint plan)
+  expectation: live validation pass.
+- If Sprint 7 reveals a real-shape mismatch with the offline fixtures, a
+  follow-up bug cycle (`/bug` triage) addresses the corpus-loader gap
+  and re-runs Sprint 3 regression tests.
+
