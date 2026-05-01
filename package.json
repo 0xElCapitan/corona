@@ -1,6 +1,6 @@
 {
   "name": "@echelon/corona",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CORONA — Coronal Oracle & Realtime Observation Network Agent. Space weather intelligence construct for Echelon.",
   "type": "module",
   "engines": {

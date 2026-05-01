@@ -472,27 +472,27 @@ Walk SWPC parser, DONKI parser, and backtest corpus loader through the SDD §8.2
 Run `construct-validate.sh` against the final post-calibration spec (green), refresh BUTTERFREEZONE with post-calibration provenance, execute the final corpus run, bump version to 0.2.0, and validate **ALL PRD goals end-to-end** (G0.x + GC.x + GF.x).
 
 ### Deliverables
-- [ ] `construct-validate.sh` green against final spec
-- [ ] BUTTERFREEZONE.md (or v3 equivalent) refreshed with post-calibration provenance tags
-- [ ] Final corpus run committed at `grimoires/loa/calibration/corona/run-N-final/`
-- [ ] `package.json` version 0.1.0 → 0.2.0 (or per operator discretion)
-- [ ] Full test suite green (60 baseline + new tests for v3 + manifest-regression gate)
-- [ ] **End-to-end goal validation report** (Task 7.5)
+- [x] `construct-validate.sh` green against final spec
+- [x] BUTTERFREEZONE.md (or v3 equivalent) refreshed with post-calibration provenance tags
+- [x] Final corpus run committed at `grimoires/loa/calibration/corona/run-N-final/` (run-3-final)
+- [x] `package.json` version 0.1.0 → 0.2.0 (operator discretion: tag deferred to post-commit gate)
+- [x] Full test suite green (160 tests / 29 suites — exceeds 60 baseline + new)
+- [x] **End-to-end goal validation report** (Task 7.5) — `grimoires/loa/a2a/sprint-7/e2e-goal-validation.md`
 
 ### Acceptance Criteria
-- [ ] **GF.1**: `construct-validate.sh` green against post-calibration spec
-- [ ] **GF.2**: BFZ refresh complete with post-calibration provenance
-- [ ] **GF.3**: Final certificates committed at `run-N-final/`
-- [ ] **GF.4**: Test suite green (60 baseline + new tests)
-- [ ] All G0.x, GC.x, GF.x goals validated end-to-end (Task 7.5 / E2E)
+- [x] **GF.1**: `construct-validate.sh` green against post-calibration spec
+- [x] **GF.2**: BFZ refresh complete with post-calibration provenance
+- [x] **GF.3**: Final certificates committed at `run-N-final/` (= `run-3-final/`)
+- [x] **GF.4**: Test suite green (160 tests, 0 fail)
+- [x] All G0.x, GC.x, GF.x goals validated end-to-end (Task 7.5 / E2E) — 21/21 goals met
 
 ### Technical Tasks
 
-- [ ] **Task 7.1** (`corona-32r`): `sprint-7-final-validator-green` — Run `construct-validate.sh` against post-calibration spec. → **[GF.1]**
-- [ ] **Task 7.2** (`corona-8v2`): `sprint-7-refresh-butterfreezone` — Refresh BFZ with post-calibration provenance. → **[GF.2]**
-- [ ] **Task 7.3** (`corona-1p5`): `sprint-7-execute-run-N-final` — Final corpus run → run-N-final/. → **[GF.3]**
-- [ ] **Task 7.4** (`corona-w1v`): `sprint-7-version-bump` — package.json 0.1.0 → 0.2.0; tag.
-- [ ] **Task 7.5** (`corona-2k3`, P0): `sprint-7-e2e-goal-validation` — **E2E Goal Validation per Goal Mapping Appendix.** Run full test suite (60 + new) AND execute the validation steps in Appendix C.
+- [x] **Task 7.1** (`corona-32r`): `sprint-7-final-validator-green` — Run `construct-validate.sh` against post-calibration spec. → **[GF.1]**
+- [x] **Task 7.2** (`corona-8v2`): `sprint-7-refresh-butterfreezone` — Refresh BFZ with post-calibration provenance. → **[GF.2]**
+- [x] **Task 7.3** (`corona-1p5`): `sprint-7-execute-run-N-final` — Final corpus run → run-N-final/. → **[GF.3]**
+- [x] **Task 7.4** (`corona-w1v`): `sprint-7-version-bump` — package.json 0.1.0 → 0.2.0; tag deferred to operator post-commit gate.
+- [x] **Task 7.5** (`corona-2k3`, P0): `sprint-7-e2e-goal-validation` — **E2E Goal Validation per Goal Mapping Appendix.** 160 tests pass + 21/21 PRD goals validated.
 
 ### Dependencies
 - **Sprint 6**: critical findings fixed

@@ -1,0 +1,33 @@
+{
+  "event_id": "T5-2024-05-10-window",
+  "detection_window_start": "2024-05-10T12:00:00Z",
+  "detection_window_end": "2024-05-11T12:00:00Z",
+  "signal_count": 2,
+  "signals": [
+    {
+      "signal_time": "2024-05-10T16:45:00Z",
+      "signal_resolution_time": null,
+      "corpus_fp_label": false,
+      "computed_false_positive": false,
+      "classification_reason": "persisted_or_unresolved_at_60min",
+      "anomaly_classification": "cme_passage"
+    },
+    {
+      "signal_time": "2024-05-11T03:15:00Z",
+      "signal_resolution_time": null,
+      "corpus_fp_label": false,
+      "computed_false_positive": false,
+      "classification_reason": "persisted_or_unresolved_at_60min",
+      "anomaly_classification": "cme_passage"
+    }
+  ],
+  "false_positive_count": 0,
+  "stale_feed_events": [],
+  "stale_feed_count": 0,
+  "stale_latencies_sec": [],
+  "switches": [],
+  "switch_count": 0,
+  "bulletin_hits": [],
+  "hit_rate_diagnostic_count": 0,
+  "bulletin_count": 0
+}
