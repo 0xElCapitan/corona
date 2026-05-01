@@ -374,30 +374,30 @@ Compile literature-derived priors and engineering-estimated promotion paths into
 Refit theatre + processor parameters from Run 1 results and Sprint 4 evidence, populate `calibration-manifest.json` with full provenance per PRD §7 schema, build the manifest regression gate (structural + inline-equals-manifest), and execute Run 2 (post-refit) certificates.
 
 ### Deliverables
-- [ ] Refitted constants in `src/theatres/*.js` (thresholds, Wheatland prior, Bz volatility threshold)
-- [ ] Refitted constants in `src/processor/*.js` (WSA-Enlil sigma, doubt-price floors, source-reliability scores)
-- [ ] `grimoires/loa/calibration/corona/calibration-manifest.json` populated per PRD §7 schema
-- [ ] `tests/manifest_structural_test.js` (PRD §7 field validity check)
-- [ ] `tests/manifest_regression_test.js` (inline-equals-manifest gate per SDD §7.3)
-- [ ] (optional) `scripts/manifest-regression-check.sh` pre-commit hook (decision deferred per SDD §7.2)
-- [ ] Run 2 (post-refit) certificates at `grimoires/loa/calibration/corona/run-2/`
-- [ ] Per-theatre delta report (pass/marginal/fail vs Sprint 2 thresholds)
+- [x] Refitted constants in `src/theatres/*.js` (thresholds, Wheatland prior, Bz volatility threshold) — **NO-CHANGE per evidence-driven analysis (NOTES.md S5-1)**
+- [x] Refitted constants in `src/processor/*.js` (WSA-Enlil sigma, doubt-price floors, source-reliability scores) — **NO-CHANGE per evidence-driven analysis (NOTES.md S5-1)**
+- [x] `grimoires/loa/calibration/corona/calibration-manifest.json` populated per PRD §7 schema (30 entries: corona-evidence-001..029)
+- [x] `tests/manifest_structural_test.js` (PRD §7 field validity check) — 22 tests pass
+- [x] `tests/manifest_regression_test.js` (inline-equals-manifest gate per SDD §7.3) — 29 tests pass
+- [ ] (optional) `scripts/manifest-regression-check.sh` pre-commit hook (decision deferred per SDD §7.2 — Approach B chosen for Sprint 5; Approach A optional Sprint 7 polish)
+- [x] Run 2 (post-refit) certificates at `grimoires/loa/calibration/corona/run-2/`
+- [x] Per-theatre delta report (pass/marginal/fail vs Sprint 2 thresholds)
 
 ### Acceptance Criteria
-- [ ] **GC.4**: Calibration manifest committed with full provenance per PRD §7 schema
-- [ ] **GC.5**: Regression gate prevents un-blessed parameter drift (test fails if inline diverges from manifest without manifest update)
-- [ ] All 60 baseline tests + new manifest tests pass
-- [ ] ZERO new runtime deps
+- [x] **GC.4**: Calibration manifest committed with full provenance per PRD §7 schema
+- [x] **GC.5**: Regression gate prevents un-blessed parameter drift (test fails if inline diverges from manifest without manifest update)
+- [x] All 60 baseline tests + new manifest tests pass (144 / 144: 93 baseline + 22 structural + 29 regression)
+- [x] ZERO new runtime deps (`git diff package.json` empty)
 
 ### Technical Tasks (outline)
 
-- [ ] **Task 5.1** (`corona-28z`): `sprint-5-refit-theatre-parameters` — Inline-edit `src/theatres/*.js`. → **[GC.4]**
-- [ ] **Task 5.2** (`corona-8yb`): `sprint-5-refit-processor-parameters` — Inline-edit `src/processor/*.js`. → **[GC.4]**
-- [ ] **Task 5.3** (`corona-25p`, P0): `sprint-5-author-calibration-manifest-json` — Populate `calibration-manifest.json` per PRD §7 schema. → **[GC.4]**
-- [ ] **Task 5.4** (`corona-3o4`): `sprint-5-manifest-structural-test` — `manifest_structural_test.js` per SDD §5.5. → **[GC.4]**
-- [ ] **Task 5.5** (`corona-15v`, P0): `sprint-5-manifest-regression-gate` — `manifest_regression_test.js` (and optional pre-commit hook) per SDD §7. → **[GC.5]**
-- [ ] **Task 5.6** (`corona-3ja`): `sprint-5-execute-run-2` — Re-run backtest harness post-refit → run-2/ certificates. → **[GC.4]**
-- [ ] **Task 5.7** (`corona-33u`): `sprint-5-per-theatre-delta-report` — Author pass/marginal/fail delta vs Sprint 2 thresholds. → **[GC.4]**
+- [x] **Task 5.1** (`corona-28z`): `sprint-5-refit-theatre-parameters` — Inline-edit `src/theatres/*.js`. → **[GC.4]** (NO-CHANGE; manifest entries lock current values)
+- [x] **Task 5.2** (`corona-8yb`): `sprint-5-refit-processor-parameters` — Inline-edit `src/processor/*.js`. → **[GC.4]** (NO-CHANGE; manifest entries lock current values)
+- [x] **Task 5.3** (`corona-25p`, P0): `sprint-5-author-calibration-manifest-json` — Populate `calibration-manifest.json` per PRD §7 schema. → **[GC.4]**
+- [x] **Task 5.4** (`corona-3o4`): `sprint-5-manifest-structural-test` — `manifest_structural_test.js` per SDD §5.5. → **[GC.4]**
+- [x] **Task 5.5** (`corona-15v`, P0): `sprint-5-manifest-regression-gate` — `manifest_regression_test.js` per SDD §7. → **[GC.5]**
+- [x] **Task 5.6** (`corona-3ja`): `sprint-5-execute-run-2` — Re-run backtest harness post-refit → run-2/ certificates. → **[GC.4]**
+- [x] **Task 5.7** (`corona-33u`): `sprint-5-per-theatre-delta-report` — Author pass/marginal/fail delta vs Sprint 2 thresholds. → **[GC.4]**
 
 ### Dependencies
 - **Sprint 4**: literature evidence for non-backtestable priors

@@ -1,0 +1,15 @@
+{
+  "event_id": "T3-2023-12-14-CME001",
+  "cme_id": "2023-12-14T17:30:00-CME-001",
+  "t_predicted": "2023-12-17T03:00:00Z",
+  "t_observed": "2023-12-17T10:30:00Z",
+  "error_hours": 7.5,
+  "within_6h": false,
+  "glancing_blow_flag": false,
+  "within_12h_glancing": null,
+  "z_score": 0.5357142857142857,
+  "sigma_hours_used": 14,
+  "sigma_source": "placeholder_14h_per_round_2_C7",
+  "wsa_enlil_null_flag": false,
+  "observed_l1_source": "DSCOVR_PRIMARY"
+}

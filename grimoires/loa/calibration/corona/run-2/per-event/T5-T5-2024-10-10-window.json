@@ -1,0 +1,46 @@
+{
+  "event_id": "T5-2024-10-10-window",
+  "detection_window_start": "2024-10-10T12:00:00Z",
+  "detection_window_end": "2024-10-11T12:00:00Z",
+  "signal_count": 1,
+  "signals": [
+    {
+      "signal_time": "2024-10-10T16:55:00Z",
+      "signal_resolution_time": null,
+      "corpus_fp_label": false,
+      "computed_false_positive": false,
+      "classification_reason": "persisted_or_unresolved_at_60min",
+      "anomaly_classification": "cme_passage"
+    }
+  ],
+  "false_positive_count": 0,
+  "stale_feed_events": [
+    {
+      "source_index": 0,
+      "actual_onset_time": "2024-10-10T22:00:00Z",
+      "detection_time": "2024-10-10T22:01:30Z",
+      "end_time": "2024-10-10T22:07:00Z",
+      "satellite": "ACE",
+      "latency_seconds": 90
+    }
+  ],
+  "stale_feed_count": 1,
+  "stale_latencies_sec": [
+    90
+  ],
+  "switches": [
+    {
+      "switch_time": "2024-10-10T20:00:00Z",
+      "from": "DSCOVR_PRIMARY",
+      "to": "ACE",
+      "reason": "dscovr_primary_outage",
+      "transition_end_time": "2024-10-10T20:15:00Z",
+      "handled": true,
+      "handling_note": "no_spurious_signal_in_post_quiet_window"
+    }
+  ],
+  "switch_count": 1,
+  "bulletin_hits": [],
+  "hit_rate_diagnostic_count": 0,
+  "bulletin_count": 0
+}

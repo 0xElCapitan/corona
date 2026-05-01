@@ -1,0 +1,15 @@
+{
+  "event_id": "T3-2017-09-10-CME002",
+  "cme_id": "2017-09-10T16:00:00-CME-001",
+  "t_predicted": "2017-09-12T20:00:00Z",
+  "t_observed": "2017-09-13T05:00:00Z",
+  "error_hours": 9,
+  "within_6h": false,
+  "glancing_blow_flag": true,
+  "within_12h_glancing": true,
+  "z_score": 0.6428571428571429,
+  "sigma_hours_used": 14,
+  "sigma_source": "corpus_value",
+  "wsa_enlil_null_flag": false,
+  "observed_l1_source": "DSCOVR_PRIMARY"
+}

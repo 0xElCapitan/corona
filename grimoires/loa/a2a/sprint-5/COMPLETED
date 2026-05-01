@@ -1,0 +1,51 @@
+Sprint 5 — CORONA cycle-001 (Refit + Manifest + Regression Gate)
+================================================================
+
+Status: COMPLETED
+Date: 2026-05-01
+Sprint epic: corona-3fg
+
+Audit verdict: APPROVED - LETS FUCKING GO
+Auditor: Paranoid Cypherpunk (auditing-security skill)
+Findings: 0 CRITICAL / 0 HIGH / 0 MEDIUM / 1 LOW informational
+
+Senior reviewer verdict: All good (with noted concerns)
+Reviewer: Senior tech lead (reviewing-code skill)
+
+Deliverables (all present + verified):
+  - grimoires/loa/calibration/corona/calibration-manifest.json (30 entries)
+  - tests/manifest_structural_test.js (22 tests)
+  - tests/manifest_regression_test.js (29 tests)
+  - grimoires/loa/calibration/corona/run-2/ (T1-T5 reports + summary + per-event + delta-report)
+  - grimoires/loa/a2a/sprint-5/reviewer.md
+  - grimoires/loa/a2a/sprint-5/engineer-feedback.md
+  - grimoires/loa/a2a/sprint-5/auditor-sprint-feedback.md
+  - grimoires/loa/a2a/sprint-5/COMPLETED (this file)
+
+Test gate: 144 / 144 pass (93 baseline + 22 structural + 29 regression)
+Hash invariants: corpus_hash + script_hash byte-identical to Run 1
+Scope discipline: zero src/ / scripts/ / tests/corona_test.js / construct.yaml / package.json mutations
+
+Beads tasks closed:
+  - corona-3fg (epic)
+  - corona-8yb (sprint-5-refit-processor-parameters) — evidence-driven NO-CHANGE
+  - corona-28z (sprint-5-refit-theatre-parameters) — evidence-driven NO-CHANGE
+  - corona-25p (sprint-5-author-calibration-manifest-json)
+  - corona-3o4 (sprint-5-manifest-structural-test)
+  - corona-15v (sprint-5-manifest-regression-gate)
+  - corona-3ja (sprint-5-execute-run-2)
+  - corona-33u (sprint-5-per-theatre-delta-report)
+
+Carry-forward to Sprint 7 / future cycle:
+  - LOW-1: corona-evidence-020 match_pattern strengthening (non-blocking)
+  - Harness extension to wire runtime predictions into scoring
+  - DOI verification of citations (promotion of provisional entries to VERIFIED_FROM_SOURCE)
+
+Carry-forward to Sprint 6:
+  - PEX-1: payload.event_type direct property access in proton-cascade.js:266, 284
+    (corona-r4y input-validation review natural owner)
+
+Operator action required:
+  - Stop. Do not auto-commit per operator stop condition.
+  - Operator may commit Sprint 5 when ready, mirroring Sprint 0-4 commit pattern.
+  - Do not auto-start Sprint 6.

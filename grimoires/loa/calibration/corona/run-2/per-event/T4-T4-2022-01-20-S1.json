@@ -1,0 +1,31 @@
+{
+  "event_id": "T4-2022-01-20-S1",
+  "s_event_count_predicted_distribution": [
+    0.2,
+    0.2,
+    0.2,
+    0.2,
+    0.2
+  ],
+  "s_event_count_observed": 1,
+  "bucket_predicted": 0,
+  "bucket_observed": 0,
+  "bucket_labels": [
+    "0-1",
+    "2-3",
+    "4-6",
+    "7-10",
+    "11+"
+  ],
+  "brier_score": 0.16000000000000006,
+  "qualifying_events": [
+    {
+      "time": "2022-01-20T07:00:00Z",
+      "peak_pfu": 12,
+      "energy_channel": ">=10 MeV",
+      "satellite": "GOES-16"
+    }
+  ],
+  "window_override": false,
+  "annotation_warning": null
+}

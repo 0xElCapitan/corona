@@ -511,3 +511,86 @@ acceptance criterion rather than block Sprint 3 close.
   follow-up bug cycle (`/bug` triage) addresses the corpus-loader gap
   and re-runs Sprint 3 regression tests.
 
+## Decision Log — 2026-05-01 (CORONA cycle-001 Sprint 5 — refit + manifest + regression gate)
+
+### S5-1 — Refit decision: NO runtime parameter changes
+
+**Sprint 5 owner tasks corona-8yb (processor refit) + corona-28z (theatre refit) close
+with NO runtime constant changes.** Each runtime constant referenced by Sprint 4
+empirical-evidence.md §3-§8 was evaluated against (a) Sprint 4 evidence
+(literature_derived constants), and (b) Run 1 numerics (potential backtest_derived
+refits). Decision per parameter:
+
+| Parameter | Decision | Rationale |
+|-----------|----------|-----------|
+| `T3_NULL_SIGMA_PLACEHOLDER_HOURS` (14) | KEEP | Run 1 mean z-score 0.538 is well within [0,1]; the 14h midpoint of the 10-18h literature range is performing reasonably. No refit motivated. |
+| `glancing_blow_sigma_multiplier` (1.5) | KEEP | Sprint 4 §3.4 marks HYPOTHESIS_OR_HEURISTIC; corpus has only 1 glancing-blow event (insufficient for refit). |
+| `flare.doubt_base_in_progress` (0.4) | KEEP | Run 1 corpus T1 events all post-event; no in-progress events to refit against. Sprint 4 evidence supports. |
+| `flare.doubt_base_complete` (0.1) | KEEP | Sprint 4 §4.4 confidence=HIGH. No refit motivated. |
+| `flare.doubt_base_donki_cross_val` (0.05) | KEEP | engineering_estimated; Sprint 7 polish. |
+| `kp.sigma_definitive` (0.33) | KEEP | Sprint 4 §4.5 medium-confidence ENGINEER_CURATED_REQUIRES_VERIFICATION. Run 1 T2 GFZ-vs-SWPC convergence 0.963 confirms scale; specific decimal needs Sprint 7 DOI verification (not in Sprint 5 scope). |
+| `kp.sigma_preliminary` (0.67) | KEEP | Same reasoning. |
+| `wheatland_lambda_x_class` (8) | KEEP | Sprint 4 §5.4 medium-confidence; corpus has 4 X-class T4 events (insufficient for §4.4.2 re-balance: requires 3+ events per bucket but Run 1 distribution is 1/2/2/0/0). |
+| `wheatland_decay_x_class` (0.85) | KEEP | Same. |
+| `wheatland_lambda_m_class` (4) | KEEP | Sprint 4 §5.4 medium-confidence. |
+| `wheatland_decay_m_class` (0.90) | KEEP, `provisional: true` + promotion_path | Sprint 4 §9 settlement-critical engineering_estimated; promotion path explicitly notes corpus extension to 15+ M-triggers required. Refit on n=1 sample is **not recommended**. |
+| `wheatland_lambda_default` (3) | KEEP, `provisional: true` | Sprint 7 polish: confirm default branch unreachable post-M5+ trigger gate. |
+| `wheatland_decay_default` (0.92) | KEEP, `provisional: true` | Same. |
+| `bz_divergence_threshold_nt` (5) | KEEP | Run 1 T5 FP=25% is corpus-driven (corpus_fp_label-anchored), not runtime-driven (T5 scoring reads pre-annotated divergence_signals from corpus, not raw DSCOVR/ACE volatility). Increasing threshold would not change Run 2 numerics. |
+| `sustained_minutes` (30) | KEEP | NOAA SWPC operational L1-coherence guidance supports. |
+| `detection_window_hours` (24) | KEEP, `provisional: true` | engineering_estimated; Sprint 5 deferral acknowledged in Sprint 4 §6.4. |
+| `SOURCE_RELIABILITY` keys (7 entries) | KEEP all | Sprint 4 §7.4 medium-confidence OPERATIONAL_DOC_ONLY / ENGINEER_CURATED_REQUIRES_VERIFICATION. Promotion is Sprint 7 territory. |
+| `CLASS_RELIABILITY` keys (5 entries) | KEEP all | Same. |
+| `normal_cdf z-score multiplier` (1.96) | KEEP | Standard probability convention; HIGH-confidence textbook claim. |
+| `log_flux linearization` | KEEP, `provisional: true` | Sprint 4 §8.4 / Round 3 verification_status=OPERATIONAL_DOC_ONLY; not load-bearing settlement criterion in current scoring. |
+
+**Why no refit**: Sprint 5 evidence-driven analysis finds zero parameters where
+Sprint 4 evidence + Run 1 motivate a change. Backtest_derived refits require
+corpus extension (5 events per theatre is too small for the §4.4.2 re-balance
+license requiring 3+ events per bucket). Literature_derived values match the
+runtime; promotion to VERIFIED_FROM_SOURCE requires DOI verification that is
+out of Sprint 5 scope (offline-curation constraint, same as Sprint 4).
+
+**How to apply**: Sprint 5 / `corona-8yb` + `corona-28z` close as NO-OP for
+runtime constants but produce the manifest entries that lock the parameter
+values as the source of truth for parameter provenance per PRD §7. Sprint 7
+final-validate inherits the promotion-path obligations.
+
+### S5-2 — Run 2 numerical equivalence with Run 1 (expected, not bug)
+
+**Run 2 will produce numerically identical Brier/MAE/FP-rate values to Run 1.**
+
+The Sprint 3 backtest harness uses `UNIFORM_PRIOR` baselines for T1, T2, T4
+scoring (the entrypoint at `scripts/corona-backtest.js:148` calls
+`score(events[theatre])` without passing `options.predictedDistribution`). T3
+reads `wsa_enlil_predicted_arrival_time` directly from the corpus. T5 FP rate
+is computed from `corpus_fp_label`-anchored corpus annotations. **None of
+these scoring paths consume runtime parameter constants.** Therefore changing
+runtime constants does not affect run numerics.
+
+**Implication**: Run 2 verifies the harness is reproducible against the
+unchanged corpus_hash, NOT that runtime refits improved scores. Sprint 5's
+delta report calls this out explicitly. Sprint 7 / `corona-1ml` final-validate
+or a future cycle should wire runtime predictions into the entrypoint
+(`predictedDistribution: runtimeForecast(corpusEvent)`) if numerical
+sensitivity to parameter changes is desired. This is harness extension, NOT
+scoring-semantics change (operator hard constraint #5 untouched).
+
+### S5-3 — corona-evidence-018 split: DSCOVR + ACE separated
+
+**Sprint 4 §7.5 sketched corona-evidence-018 as a combined entry** with
+`current_value: { dscovr: 0.90, ace: 0.85 }`. Sprint 5 / `corona-25p`
+**splits** this into two separate manifest entries
+(`corona-evidence-018-dscovr` and `corona-evidence-018-ace`) per the sprint
+plan instruction "Sprint 5 expands to one entry per `SOURCE_RELIABILITY` and
+`CLASS_RELIABILITY` key" (handoff §9 entry-count target).
+
+**Why**: per-key entries enable the regression gate to verify each key's
+inline constant separately. A combined entry would require complex
+inline_lookup logic to verify both lines simultaneously.
+
+**How to apply**: All other manifest entries follow Sprint 4 IDs verbatim
+(corona-evidence-001 through corona-evidence-020). New IDs corona-evidence-021
+through corona-evidence-029 cover the per-key expansion of SOURCE_RELIABILITY
+(SWPC_GOES_SECONDARY, DONKI, GFZ, SWPC_KP) and CLASS_RELIABILITY (X, M, C, B, A).
+
