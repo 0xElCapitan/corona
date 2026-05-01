@@ -1,0 +1,33 @@
+Sprint 4 — CORONA cycle-001-corona-v3-calibration
+
+Status: COMPLETED (audit approved Round 3)
+Date: 2026-05-01
+Epic: corona-uqt
+Tasks: 3 closed (corona-2zs research, corona-1ve promotion paths, corona-36t author empirical-evidence.md)
+
+Pipeline:
+- /implement sprint-4              → reviewer.md (3 tasks, 887-line empirical-evidence.md draft)
+- /review-sprint sprint-4 (R1)     → CHANGES_REQUIRED (CI-1 Singer 2001, CI-2 HIGH-on-operational, CI-3 numerical-claim labels, CI-4 uncertain titles)
+- Round 2 fixes                     → §1.1 Citation Verification Status taxonomy + manifest entry shape + section-level disclaimers + inline tags + Singer/Wheatland/Veronig/Pulkkinen tags + §7.4 demotions + §8.3 demotion (1139 lines, +252)
+- /review-sprint sprint-4 (R2)     → All good
+- /audit-sprint sprint-4 (R1)      → CHANGES_REQUIRED (CR-1 corona-evidence-006 + CR-2 corona-evidence-020 YAML inconsistent with body labels)
+- Round 3 fixes                     → corona-evidence-006 + corona-evidence-020 YAML demoted to medium + verification_status + provisional + promotion_path (YAML-only, ~10 lines edited)
+- /audit-sprint sprint-4 (R3)      → APPROVED - LETS FUCKING GO
+
+Deliverable:
+- grimoires/loa/calibration/corona/empirical-evidence.md (1139 lines)
+  - 6 PRD §5.5 coverage targets addressed (WSA-Enlil sigma, doubt-price floors, Wheatland prior, Bz volatility, source-reliability scores, uncertainty pricing)
+  - 14 primary-literature citations (4 tagged `requires operator-side verification`)
+  - 20 manifest entry sketches per PRD §7 schema (with verification_status field)
+  - §1.1 Citation Verification Status taxonomy (4 labels)
+  - §9 engineering-estimated parameter index (5 entries, 1 settlement-critical with explicit Sprint 5 promotion path)
+
+Verification:
+- Tests: 93/93 pass (unchanged from Sprint 3 close — markdown-only deliverable)
+- Validator: green (construct.yaml conforms to v3)
+- package.json: untouched (zero-dep invariant intact)
+- calibration-manifest.json: [] (Sprint 5 territory preserved)
+- src/ scripts/ tests/ construct.yaml protocol authority run-1/ corpus/: untouched
+- No Sprint 5 work started
+
+Awaiting operator commit + push. Do not auto-commit per stop condition.

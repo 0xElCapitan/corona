@@ -332,19 +332,19 @@ Build the `scripts/corona-backtest/` harness with era-aware DONKI ingestor, sepa
 Compile literature-derived priors and engineering-estimated promotion paths into `empirical-evidence.md` covering all non-backtestable parameters identified by the Sprint 3 baseline.
 
 ### Deliverables
-- [ ] `grimoires/loa/calibration/corona/empirical-evidence.md` authored
-- [ ] Coverage of: WSA-Enlil sigma (T3), doubt-price floors (T1, T2), Wheatland prior (T4), Bz volatility threshold (T5), source-reliability scores, uncertainty pricing constants
-- [ ] Each parameter documented with: current value, citations (primary literature preferred), confidence rating (high/medium/low), `engineering_estimated` flag if applicable
-- [ ] Settlement-critical engineering-estimated parameters carry documented `promotion_path` to literature_derived or backtest_derived
+- [x] `grimoires/loa/calibration/corona/empirical-evidence.md` authored
+- [x] Coverage of: WSA-Enlil sigma (T3), doubt-price floors (T1, T2), Wheatland prior (T4), Bz volatility threshold (T5), source-reliability scores, uncertainty pricing constants
+- [x] Each parameter documented with: current value, citations (primary literature preferred), confidence rating (high/medium/low), `engineering_estimated` flag if applicable
+- [x] Settlement-critical engineering-estimated parameters carry documented `promotion_path` to literature_derived or backtest_derived
 
 ### Acceptance Criteria
-- [ ] **GC.3**: `empirical-evidence.md` covers all non-backtestable priors
+- [x] **GC.3**: `empirical-evidence.md` covers all non-backtestable priors
 
 ### Technical Tasks (outline)
 
-- [ ] **Task 4.1** (`corona-2zs`): `sprint-4-research-non-backtestable-priors` — Compile literature evidence per PRD §5.5 coverage targets. → **[GC.3]**
-- [ ] **Task 4.2** (`corona-1ve`): `sprint-4-document-engineering-estimated-promotion-paths` — Document promotion_path per settlement-critical engineering-estimated parameter (PRD §8.5). → **[GC.3]**
-- [ ] **Task 4.3** (`corona-36t`): `sprint-4-author-empirical-evidence-md` — Compile findings into `empirical-evidence.md`. → **[GC.3]**
+- [x] **Task 4.1** (`corona-2zs`): `sprint-4-research-non-backtestable-priors` — Compile literature evidence per PRD §5.5 coverage targets. → **[GC.3]**
+- [x] **Task 4.2** (`corona-1ve`): `sprint-4-document-engineering-estimated-promotion-paths` — Document promotion_path per settlement-critical engineering-estimated parameter (PRD §8.5). → **[GC.3]**
+- [x] **Task 4.3** (`corona-36t`): `sprint-4-author-empirical-evidence-md` — Compile findings into `empirical-evidence.md`. → **[GC.3]**
 
 ### Dependencies
 - **Sprint 3**: Run 1 baseline (identifies which parameters are backtest-tunable vs need literature)
