@@ -2,11 +2,15 @@
 
 **Coronal Oracle & Realtime Observation Network Agent**
 
-Space weather intelligence construct for [Echelon](https://github.com/AITOBIAS04/Echelon) prediction market framework, built on constructs by [Soju](https://github.com/zkSoju). Ridden by [Loa](https://github.com/0xHoneyJar/loa). CORONA monitors solar activity through structured prediction markets (Theatres), producing Brier-scored training data for the RLMF pipeline.
+CORONA is a space-weather intelligence construct that turns public solar, geomagnetic, CME, proton, and solar-wind feeds into structured prediction-market surfaces and Brier-scored calibration certificates.
+
+It is designed for construct-network / RLMF-style agent learning pipelines: each Theatre defines a bounded forecast surface, explicit settlement authority, and auditable provenance trail.
+
+> **v0.2.0** — cycle-001 closed. **Trust level**: L1 (Tested). **Calibration**: infrastructure committed, no parameter refits. **L2 publish-readiness**: not yet — see [Calibration Status](#calibration-status).
 
 ## What It Does
 
-CORONA watches the Sun. When solar flares erupt, CMEs launch toward Earth, or geomagnetic storms brew, CORONA opens prediction markets and updates positions as evidence streams in from NOAA and NASA data feeds. Every resolved market exports a calibration certificate — the construct's verifiable track record of forecasting accuracy.
+CORONA watches the Sun. When solar flares erupt, CMEs launch toward Earth, or geomagnetic storms brew, CORONA opens prediction markets and updates positions as evidence streams in from NOAA and NASA data feeds. Every resolved market exports a calibration certificate — calibration infrastructure and provenance are committed; predictive uplift has not yet been demonstrated.
 
 ```
   NOAA SWPC ──→ ┌──────────────┐     ┌──────────┐     ┌──────────┐
@@ -33,16 +37,23 @@ CORONA watches the Sun. When solar flares erupt, CMEs launch toward Earth, or ge
 All free, all JSON, minimal auth.
 
 - **NOAA SWPC** (`services.swpc.noaa.gov`) — GOES X-ray flux, planetary Kp, proton flux, DSCOVR solar wind. No auth required.
-- **NASA DONKI** (`api.nasa.gov/DONKI`) — Solar flares, CMEs, geomagnetic storms with cause-effect linkages. Free API key (`DEMO_KEY` for development).
+- **NASA DONKI** (`api.nasa.gov/DONKI`) — Discovery, labels, and evidence enrichment for solar flares, CMEs, and geomagnetic storms with cause-effect linkages. **DONKI is NOT a universal settlement authority** — settlement is theatre-specific (e.g., T1 settles against GOES X-ray flux; T2 against GFZ definitive Kp; T3 against L1 shock observation). See [`grimoires/loa/calibration/corona/theatre-authority.md`](grimoires/loa/calibration/corona/theatre-authority.md). Free API key (`DEMO_KEY` for development).
 - **GFZ Potsdam** — Definitive Kp/Hp index (ground truth for Kp settlement).
 
 ## Quick Start
 
 ```bash
-# Run tests (zero dependencies required)
-node --test tests/corona_test.js
+# Validate v3 manifest (Sprint 0 deliverable)
+./scripts/construct-validate.sh construct.yaml
 
-# Poll SWPC feeds
+# Run full v0.2.0 test suite — 160 tests across 29 suites, zero dependencies required
+npm test
+
+# Reproduce the v0.2.0 calibration run (writes to a scratch dir; does NOT overwrite the
+# committed run-1 / run-2 / run-3-final certificates)
+CORONA_OUTPUT_DIR=run-scratch node scripts/corona-backtest.js
+
+# Poll SWPC feeds (live, standalone)
 node src/oracles/swpc.js
 
 # Programmatic usage
@@ -86,6 +97,28 @@ Follows TREMOR's established construct pattern:
 
 Zero external dependencies. Node.js 20+ built-in test runner.
 
+## Calibration Status
+
+cycle-001 closed at **v0.2.0** — `git show v0.2.0` for the canonical release record.
+
+**What v0.2.0 IS:**
+
+- **L1 tested** — 160 tests across 29 suites pass; zero runtime dependencies (`package.json` `"dependencies": {}`)
+- **v3-ready** — `construct.yaml` validates against `schemas/construct.schema.json @ b98e9ef`; `./scripts/construct-validate.sh construct.yaml` exits 0
+- **Provenance-locked** — 30-entry [`calibration-manifest.json`](grimoires/loa/calibration/corona/calibration-manifest.json) registers each runtime parameter with `verification_status` (1 `VERIFIED_FROM_SOURCE`, 29 provisional with documented `promotion_path`)
+- **Regression-gated** — 29 inline-equals-manifest tests prevent un-blessed parameter drift (per SDD §7.3)
+- **Hardened** — Sprint 6 input-validation review: 0 critical / 0 high / 0 medium audit findings ([`security-review.md`](grimoires/loa/calibration/corona/security-review.md))
+- **Reproducible** — 3 calibration runs (`run-1/`, `run-2/`, `run-3-final/`) under [`grimoires/loa/calibration/corona/`](grimoires/loa/calibration/corona/) share invariant `corpus_hash` (`b1caef3...`) and `script_hash` (`17f6380b...`)
+
+**What v0.2.0 is NOT:**
+
+- **NOT calibration-improved** — Run 1 = Run 2 = Run-3-final numerically by current harness architecture: the offline scoring layer uses uniform-prior baselines (T1, T2, T4) and corpus-anchored ground truth (T3, T5); the live runtime CORONA processor parameters (`flareThresholdProbability`, `kpThresholdProbability`, `buildCMEArrivalUncertainty`, etc.) are not exercised by the offline scoring path. Sprint 5 made an evidence-driven NO-CHANGE decision per Sprint 4 literature evidence; predictive uplift is a future-cycle deliverable.
+- **NOT L2 publish-ready** in the strict construct-network sense — Sprint 0 carry-forward gaps (commands.path JS-vs-md convention, `schemas/CHECKSUMS.txt`, tempfile EXIT trap, `ajv-formats` install) block L2 publish. v0.2.0 is "construct + calibration committed", not "L2 published".
+
+**Final composite verdict** at [`run-3-final/summary.md`](grimoires/loa/calibration/corona/run-3-final/summary.md): **`fail`** (per-theatre: T1 fail, T2 pass, T3 fail, T4 fail, T5 fail). This reflects (a) corpus characteristics (T1 / T4 buckets sparse — observed_count = 0 in 5/6 buckets), (b) WSA-Enlil corpus prediction error (T3 MAE 6.76 h dominated by one 16 h-error event), and (c) intentional T5 FP-rate test labels — **not evidence of runtime parameter degradation**.
+
+For the full posture, Known Limitations, future-cycle owner items, and the Sprint 0-7 calibration timeline, see [`BUTTERFREEZONE.md`](BUTTERFREEZONE.md).
+
 ## Calibration Edge Cases
 
 - **GOES satellite switching**: Primary/secondary reliability scores tracked per bundle
@@ -109,18 +142,24 @@ CORONA is the second Echelon construct. It follows the same architectural patter
 
 RLMF certificates share the same schema for pipeline compatibility.
 
+## Ecosystem Context
+
+CORONA was developed in the [Echelon](https://github.com/AITOBIAS04/Echelon) construct ecosystem (constructs originated by [Soju](https://github.com/zkSoju)) and maintained through [Loa](https://github.com/0xHoneyJar/loa)-assisted sprint workflows. These are integration contexts, not required trust assumptions for understanding the construct: CORONA is self-contained, has zero runtime dependencies, and can be exercised against the validator + test suite + backtest harness without any ecosystem dependency at runtime.
+
 ## Tests
 
-60 tests, 21 suites, all passing:
+160 tests, 29 suites, all passing:
 
 ```
-node --test tests/corona_test.js
+npm test
 
-# tests 60
-# suites 21
-# pass 60
+# tests 160
+# suites 29
+# pass 160
 # fail 0
 ```
+
+Per-file breakdown: 93 baseline (`tests/corona_test.js`) + 22 manifest structural (`tests/manifest_structural_test.js`, Sprint 5) + 29 manifest regression (`tests/manifest_regression_test.js`, Sprint 5) + 6 PEX-1 security (`tests/security/proton-cascade-pex1-test.js`, Sprint 6) + 10 C-006 security (`tests/security/corpus-loader-low1-test.js`, Sprint 6).
 
 ## License
 
