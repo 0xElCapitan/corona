@@ -33,8 +33,8 @@ export function createFlareClassGate({
   threshold_class,
   window_hours,
   base_rate = 0.15,
-}) {
-  const now = Date.now();
+}, { now: nowFn = () => Date.now() } = {}) {
+  const now = nowFn();
   const closes_at = now + window_hours * 60 * 60 * 1000;
   const thresholdRank = flareRank(threshold_class);
 
@@ -74,13 +74,14 @@ export function createFlareClassGate({
  *   - Sub-threshold activity → mild positive signal
  *   - Solar wind / Kp conditions → ambient adjustment
  */
-export function processFlareClassGate(theatre, bundle) {
+export function processFlareClassGate(theatre, bundle, { now: nowFn = () => Date.now() } = {}) {
   if (theatre.state === 'resolved' || theatre.state === 'expired') return theatre;
 
   const updated = { ...theatre };
   updated.evidence_bundles = [...theatre.evidence_bundles, bundle.bundle_id];
 
   const payload = bundle.payload;
+  const now = nowFn();
 
   // Only process flare events for resolution
   if (payload.event_type !== 'solar_flare') return updated;
@@ -98,12 +99,12 @@ export function processFlareClassGate(theatre, bundle) {
     updated.state = bundle.evidence_class === 'ground_truth' ? 'resolved' : 'provisional_hold';
     updated.outcome = true;
     updated.resolving_bundle_id = bundle.bundle_id;
-    updated.resolved_at = Date.now();
+    updated.resolved_at = now;
     updated.current_position = 1.0;
     updated.position_history = [
       ...theatre.position_history,
       {
-        t: Date.now(),
+        t: now,
         p: 1.0,
         evidence: bundle.bundle_id,
         reason: `${flare.class_string} flare — threshold ≥${theatre.threshold_class} crossed (${bundle.evidence_class})`,
@@ -135,7 +136,7 @@ export function processFlareClassGate(theatre, bundle) {
     updated.position_history = [
       ...theatre.position_history,
       {
-        t: Date.now(),
+        t: now,
         p: updated.current_position,
         evidence: bundle.bundle_id,
         reason: `${flare.class_string} (${payload.status}) — crossing_prob=${crossingProb.toFixed(3)}, quality=${qualityWeight.toFixed(3)}`,
@@ -149,18 +150,19 @@ export function processFlareClassGate(theatre, bundle) {
 /**
  * Expire a Flare Class Gate that ran out of time without a qualifying event.
  */
-export function expireFlareClassGate(theatre) {
+export function expireFlareClassGate(theatre, { now: nowFn = () => Date.now() } = {}) {
   if (theatre.state === 'resolved') return theatre;
 
+  const now = nowFn();
   return {
     ...theatre,
     state: 'resolved',
     outcome: false,
-    resolved_at: Date.now(),
+    resolved_at: now,
     position_history: [
       ...theatre.position_history,
       {
-        t: Date.now(),
+        t: now,
         p: theatre.current_position,
         evidence: null,
         reason: 'Theatre expired — no qualifying flare',

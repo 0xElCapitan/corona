@@ -37,8 +37,8 @@ export function createGeomagneticStormGate({
   kp_threshold,
   window_hours,
   base_rate = 0.10,
-}) {
-  const now = Date.now();
+}, { now: nowFn = () => Date.now() } = {}) {
+  const now = nowFn();
   const gScale = kpToGScale(kp_threshold);
 
   return {
@@ -84,7 +84,7 @@ export function createGeomagneticStormGate({
  *   3. CME arrival predictions shift position hours/days in advance
  *   4. DONKI GST events confirm storms
  */
-export function processGeomagneticStormGate(theatre, bundle) {
+export function processGeomagneticStormGate(theatre, bundle, { now: nowFn = () => Date.now() } = {}) {
   if (theatre.state === 'resolved' || theatre.state === 'expired') return theatre;
 
   const updated = { ...theatre };
@@ -94,22 +94,22 @@ export function processGeomagneticStormGate(theatre, bundle) {
 
   // --- Kp index observation ---
   if (payload.event_type === 'kp_index') {
-    return processKpObservation(updated, bundle);
+    return processKpObservation(updated, bundle, nowFn);
   }
 
   // --- Solar wind conditions ---
   if (payload.event_type === 'solar_wind') {
-    return processSolarWindSignal(updated, bundle);
+    return processSolarWindSignal(updated, bundle, nowFn);
   }
 
   // --- CME arrival prediction ---
   if (payload.event_type === 'cme') {
-    return processCMEArrival(updated, bundle);
+    return processCMEArrival(updated, bundle, nowFn);
   }
 
   // --- DONKI geomagnetic storm ---
   if (payload.event_type === 'geomagnetic_storm') {
-    return processGSTEvent(updated, bundle);
+    return processGSTEvent(updated, bundle, nowFn);
   }
 
   return updated;
@@ -118,7 +118,8 @@ export function processGeomagneticStormGate(theatre, bundle) {
 /**
  * Process a Kp index observation.
  */
-function processKpObservation(theatre, bundle) {
+function processKpObservation(theatre, bundle, nowFn) {
+  const now = nowFn();
   const kp = bundle.payload.kp.value;
   const uncertainty = bundle.payload.kp.uncertainty;
   const threshold = theatre.kp_threshold;
@@ -137,12 +138,12 @@ function processKpObservation(theatre, bundle) {
     theatre.state = bundle.evidence_class === 'ground_truth' ? 'resolved' : 'provisional_hold';
     theatre.outcome = true;
     theatre.resolving_bundle_id = bundle.bundle_id;
-    theatre.resolved_at = Date.now();
+    theatre.resolved_at = now;
     theatre.current_position = 1.0;
     theatre.position_history = [
       ...theatre.position_history,
       {
-        t: Date.now(),
+        t: now,
         p: 1.0,
         evidence: bundle.bundle_id,
         reason: `Kp=${kp} — threshold ≥${threshold} crossed (${bundle.evidence_class})`,
@@ -173,7 +174,7 @@ function processKpObservation(theatre, bundle) {
   theatre.position_history = [
     ...theatre.position_history,
     {
-      t: Date.now(),
+      t: now,
       p: theatre.current_position,
       evidence: bundle.bundle_id,
       reason: `Kp=${kp} — crossing_prob=${crossingProb.toFixed(3)}, peak=${theatre.peak_kp_observed}`,
@@ -189,7 +190,7 @@ function processKpObservation(theatre, bundle) {
  * Strong southward Bz (-10+ nT) with elevated speed (>400 km/s)
  * is a 15-30 minute leading indicator of Kp increase.
  */
-function processSolarWindSignal(theatre, bundle) {
+function processSolarWindSignal(theatre, bundle, nowFn) {
   const indicators = bundle.payload.indicators;
   if (!indicators) return theatre;
 
@@ -219,7 +220,7 @@ function processSolarWindSignal(theatre, bundle) {
   theatre.position_history = [
     ...theatre.position_history,
     {
-      t: Date.now(),
+      t: nowFn(),
       p: theatre.current_position,
       evidence: bundle.bundle_id,
       reason,
@@ -235,7 +236,7 @@ function processSolarWindSignal(theatre, bundle) {
  * An Earth-directed CME with predicted arrival within our window
  * is a strong leading indicator for geomagnetic storms.
  */
-function processCMEArrival(theatre, bundle) {
+function processCMEArrival(theatre, bundle, nowFn) {
   const earthArrival = bundle.payload.earth_arrival;
   if (!earthArrival) return theatre;
 
@@ -289,7 +290,7 @@ function processCMEArrival(theatre, bundle) {
   theatre.position_history = [
     ...theatre.position_history,
     {
-      t: Date.now(),
+      t: nowFn(),
       p: theatre.current_position,
       evidence: bundle.bundle_id,
       reason,
@@ -302,19 +303,20 @@ function processCMEArrival(theatre, bundle) {
 /**
  * Process DONKI geomagnetic storm event.
  */
-function processGSTEvent(theatre, bundle) {
+function processGSTEvent(theatre, bundle, nowFn) {
   const maxKp = bundle.payload.storm?.max_kp ?? 0;
 
   if (maxKp >= theatre.kp_threshold && bundle.evidence_class === 'ground_truth') {
+    const now = nowFn();
     theatre.state = 'resolved';
     theatre.outcome = true;
     theatre.resolving_bundle_id = bundle.bundle_id;
-    theatre.resolved_at = Date.now();
+    theatre.resolved_at = now;
     theatre.current_position = 1.0;
     theatre.position_history = [
       ...theatre.position_history,
       {
-        t: Date.now(),
+        t: now,
         p: 1.0,
         evidence: bundle.bundle_id,
         reason: `DONKI GST: max Kp=${maxKp} — threshold crossed`,
@@ -329,18 +331,19 @@ function processGSTEvent(theatre, bundle) {
 /**
  * Expire a Geomagnetic Storm Gate.
  */
-export function expireGeomagneticStormGate(theatre) {
+export function expireGeomagneticStormGate(theatre, { now: nowFn = () => Date.now() } = {}) {
   if (theatre.state === 'resolved') return theatre;
 
+  const now = nowFn();
   return {
     ...theatre,
     state: 'resolved',
     outcome: false,
-    resolved_at: Date.now(),
+    resolved_at: now,
     position_history: [
       ...theatre.position_history,
       {
-        t: Date.now(),
+        t: now,
         p: theatre.current_position,
         evidence: null,
         reason: `Theatre expired — peak Kp observed: ${theatre.peak_kp_observed}`,

@@ -183,7 +183,7 @@ export function createProtonEventCascade({
   triggerBundle,
   s_scale_threshold = 'S1',
   window_hours = 72,
-}) {
+}, { now: nowFn = () => Date.now() } = {}) {
   const flare = triggerBundle.payload.flare;
   if (!flare) return null;
 
@@ -191,7 +191,7 @@ export function createProtonEventCascade({
   const triggerRank = flare.rank;
   if (triggerRank < flareRank('M5.0')) return null;
 
-  const now = Date.now();
+  const now = nowFn();
   const countThresholdPfu = S_SCALE_THRESHOLDS_PFU[s_scale_threshold] ?? S_SCALE_THRESHOLDS_PFU.S1;
   const expectedCount = estimateExpectedCount(flare.class_string, window_hours);
   const initialProbs = countToBucketProbabilities(expectedCount);
@@ -254,14 +254,14 @@ export function createProtonEventCascade({
  * but not counted (Wheatland prior carries the trigger-conditioned forecast
  * via createProtonEventCascade; subsequent flares no longer qualify).
  */
-export function processProtonEventCascade(theatre, bundle) {
+export function processProtonEventCascade(theatre, bundle, { now: nowFn = () => Date.now() } = {}) {
   if (theatre.state === 'resolved' || theatre.state === 'expired') return theatre;
 
   const updated = { ...theatre };
   updated.evidence_bundles = [...theatre.evidence_bundles, bundle.bundle_id];
 
   const payload = bundle.payload;
-  const now = Date.now();
+  const now = nowFn();
 
   if (payload?.event_type === 'solar_flare' || payload?.event_type === 'donki_flare') {
     // Sprint 2: flare events are correlation/informational. Wheatland trigger
@@ -407,9 +407,10 @@ export function processProtonEventCascade(theatre, bundle) {
 /**
  * Resolve the Proton Event Cascade at theatre close.
  */
-export function resolveProtonEventCascade(theatre) {
+export function resolveProtonEventCascade(theatre, { now: nowFn = () => Date.now() } = {}) {
   if (theatre.state === 'resolved') return theatre;
 
+  const now = nowFn();
   const count = theatre.qualifying_event_count;
   const outcomeIndex = BUCKETS.findIndex(
     ({ min, max }) => count >= min && count <= max
@@ -419,11 +420,11 @@ export function resolveProtonEventCascade(theatre) {
     ...theatre,
     state: 'resolved',
     outcome: outcomeIndex >= 0 ? outcomeIndex : BUCKETS.length - 1,
-    resolved_at: Date.now(),
+    resolved_at: now,
     position_history: [
       ...theatre.position_history,
       {
-        t: Date.now(),
+        t: now,
         p: theatre.current_position,
         qualifying_count: count,
         evidence: null,
