@@ -1,0 +1,54 @@
+CORONA cycle-002 Sprint 04 — T3 / T5 posture document (Option A)
+
+Audit verdict: APPROVED - LETS FUCKING GO
+Audit date:    2026-05-02
+Routing:       cycle-002 SPRINT-LEDGER (operator ratification: Option A only)
+
+Sprint chain (cycle-002 ledger):
+  /implement sprint-04      → grimoires/loa/a2a/cycle-002/sprint-04/T3-T5-POSTURE.md
+                              grimoires/loa/a2a/cycle-002/sprint-04/reviewer.md
+  /review-sprint sprint-04  → grimoires/loa/a2a/cycle-002/sprint-04/engineer-feedback.md  (APPROVED)
+  /audit-sprint sprint-04   → grimoires/loa/a2a/cycle-002/sprint-04/auditor-sprint-feedback.md  (APPROVED - LETS FUCKING GO)
+
+Tests: 279 pass / 0 fail / 0 skip (Sprint 03 baseline preserved verbatim; Sprint 04 added 0).
+
+Cycle-001 invariants preserved verbatim:
+  scripts/corona-backtest.js                   sha256 = 17f6380b623f591bcaa5aa17e343eb775fb81960520d2ca9624b784acf1730f1
+  calibration-manifest.json                    sha256 = e53a40d1f880f4743567924d7fa10718dfb5caa740c48e998a344de4f85db34a
+  src/rlmf/certificates.js                     sha256 = 5c1af347bd0845b33452352dec5257dc1d3a44dd7bc8554e6b2a27341020a782
+
+Cycle-002 anchor (Sprint 03 close, preserved):
+  replay_script_hash / runtime_replay_hash     = bfbfd70d2402763ffb2033668c61f0ea9d547b1b7afe4d7da0028587de380a60
+
+Operator hard stops: none triggered.
+Honest-framing grep gate: clean (all matches in negation / forbidden-framing / grep-gate / meta-review context).
+T1/T2 prior-only disclosure: preserved (citation block sentence 4).
+T3/T5 diagnostic-only posture: preserved (citation block sentences 1 + 2).
+T4 framing: not overclaimed (cited only as "clean owned-uplift theatre" + "first sensitivity-proof target for Sprint 05").
+Cross-regime Baseline A vs Baseline B uplift claim: none.
+RLMF certificate (src/rlmf/certificates.js): untouched.
+Cycle-001 calibration manifest: untouched.
+Cycle-001 run outputs (run-1, run-2, run-3-final): untouched.
+Cycle-002 manifest (Sprint 03 close): untouched (Sprint 04 docs-only).
+src/: no modifications.
+Tests: no additions or removals.
+package.json: version 0.2.0 + dependencies {} invariants preserved.
+
+Reviewer-phase observations O1 / O2 / O3: all confirmed advisory under audit lens; no escalation per operator instruction.
+
+Option A scope:
+  T5 trajectory emission DEFERRED for cycle-002.
+  scripts/corona-backtest/replay/t5-replay.js — does not exist (and must not be created).
+  src/theatres/solar-wind-divergence.js — zero-diff (Option A invariant).
+  src/theatres/cme-arrival.js — zero-diff (T3 source freeze).
+  Existing T3/T5 scoring numerics — unchanged.
+  Option B — closed for cycle-002 (no operator ratification line issued).
+
+Sprint 06 citation block (verbatim, ready for copy-paste):
+  "T3 [external-model] is not counted toward CORONA-owned predictive uplift."
+  "T5 [quality-of-behavior] is not counted toward CORONA-owned predictive uplift."
+  "Cycle-002 runtime-uplift claims are restricted to T1/T2/T4, with T4 as the clean owned-uplift theatre."
+  "T1/T2 are runtime-wired but prior-only on the current cycle-001 corpus shape and cannot claim calibration improvement in cycle-002."
+
+Sprint 04 is ready for operator commit approval.
+Do not commit. Do not tag. Do not start Sprint 05. Awaiting operator HITL gate.
