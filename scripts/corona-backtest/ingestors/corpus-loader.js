@@ -431,6 +431,187 @@ export function loadCorpus(corpusDir, options = {}) {
   return { events, errors, stats };
 }
 
+// =====================================================================
+// Cycle-002 additive export: loadCorpusWithCutoff
+//
+// Per CONTRACT §7.3 + REPLAY-SEAM §6 + SDD §3.3, this returns the
+// existing loadCorpus payload PLUS:
+//   - cutoffs:  { [event_id]: { time_ms, rule } }
+//   - evidence: { [event_id]: { pre_cutoff: [...], settlement: {...} } }
+// and an additive per-theatre stats.cutoff_derived_count.
+//
+// Existing loadCorpus export is unchanged. This is the structural fix
+// for Sprint 02 audit finding §A1 (evidence-leakage prevention by
+// author convention → loader-enforced split). The cycle-002 entrypoint
+// at scripts/corona-backtest-cycle-002.js is the first consumer.
+//
+// Cycle-001 T1/T2 corpus events lack pre-cutoff time-series; for those
+// theatres pre_cutoff is empty by corpus shape (matches the Sprint 02
+// honest-framing disclosure that T1/T2 trajectories are prior-only).
+// =====================================================================
+
+function parseIsoMsLocal(iso) {
+  if (typeof iso === 'number' && Number.isFinite(iso)) return iso;
+  if (typeof iso !== 'string') return NaN;
+  const ms = new Date(iso).getTime();
+  return Number.isFinite(ms) ? ms : NaN;
+}
+
+function deriveCutoffT1(event) {
+  const peak = parseIsoMsLocal(event.flare_peak_time);
+  if (!Number.isFinite(peak)) return null;
+  return { time_ms: peak - 1, rule: 'flare_peak_minus_epsilon' };
+}
+function deriveCutoffT2(event) {
+  const windowEnd = parseIsoMsLocal(event.kp_window_end);
+  if (!Number.isFinite(windowEnd)) return null;
+  return { time_ms: windowEnd, rule: 'first_threshold_crossing_or_window_end' };
+}
+function deriveCutoffT3(event) {
+  const shock = parseIsoMsLocal(event.observed_l1_shock_time);
+  if (!Number.isFinite(shock)) return null;
+  return { time_ms: shock, rule: 'observed_l1_shock_or_window_close' };
+}
+function deriveCutoffT4(event) {
+  const triggerPeak = parseIsoMsLocal(event.trigger_flare_peak_time);
+  const windowHours = event.prediction_window_hours;
+  if (!Number.isFinite(triggerPeak)) return null;
+  if (typeof windowHours !== 'number' || !Number.isFinite(windowHours) || windowHours <= 0) return null;
+  return { time_ms: triggerPeak + windowHours * 3600_000, rule: 'window_end' };
+}
+function deriveCutoffT5(event) {
+  const windowEnd = parseIsoMsLocal(event.detection_window_end);
+  if (!Number.isFinite(windowEnd)) return null;
+  return { time_ms: windowEnd, rule: 'window_end' };
+}
+
+const CUTOFF_DERIVATIONS = {
+  T1: deriveCutoffT1,
+  T2: deriveCutoffT2,
+  T3: deriveCutoffT3,
+  T4: deriveCutoffT4,
+  T5: deriveCutoffT5,
+};
+
+// Per CONTRACT §7.1 (allowed pre-cutoff evidence) and §7.2 (forbidden
+// post-cutoff evidence). Pre-cutoff lists are restricted to time-keyed
+// observations strictly before cutoff; settlement carries only outcome
+// fields per §7.2.
+function deriveEvidenceT1(event) {
+  return {
+    pre_cutoff: [],
+    settlement: {
+      flare_class_observed: event.flare_class_observed ?? null,
+      flare_peak_time: event.flare_peak_time ?? null,
+    },
+  };
+}
+function deriveEvidenceT2(event) {
+  return {
+    pre_cutoff: [],
+    settlement: {
+      kp_swpc_observed: event.kp_swpc_observed ?? null,
+      kp_gfz_observed: event.kp_gfz_observed ?? null,
+    },
+  };
+}
+function deriveEvidenceT3(event) {
+  return {
+    pre_cutoff: [],
+    settlement: {
+      observed_l1_shock_time: event.observed_l1_shock_time ?? null,
+      observed_l1_source: event.observed_l1_source ?? null,
+    },
+  };
+}
+function deriveEvidenceT4(event, cutoff) {
+  const observations = Array.isArray(event.proton_flux_observations) ? event.proton_flux_observations : [];
+  const preCutoff = [];
+  for (const obs of observations) {
+    const obsMs = parseIsoMsLocal(obs.time);
+    if (!Number.isFinite(obsMs)) continue;
+    if (obsMs >= cutoff.time_ms) continue;
+    preCutoff.push({
+      event_time_ms: obsMs,
+      time: obs.time,
+      peak_pfu: obs.peak_pfu ?? null,
+      energy_channel: obs.energy_channel ?? null,
+      satellite: obs.satellite ?? null,
+    });
+  }
+  preCutoff.sort((a, b) => a.event_time_ms - b.event_time_ms);
+  return {
+    pre_cutoff: preCutoff,
+    settlement: {
+      qualifying_event_count_observed_derived:
+        event._derived?.qualifying_event_count_observed_derived ?? null,
+      bucket_observed: event._derived?.bucket_observed ?? null,
+    },
+  };
+}
+function deriveEvidenceT5(event) {
+  return {
+    pre_cutoff: [],
+    settlement: {
+      divergence_signal_count: Array.isArray(event.divergence_signals) ? event.divergence_signals.length : 0,
+      anomaly_bulletin_refs: Array.isArray(event.anomaly_bulletin_refs) ? event.anomaly_bulletin_refs : [],
+    },
+  };
+}
+
+const EVIDENCE_DERIVATIONS = {
+  T1: deriveEvidenceT1,
+  T2: deriveEvidenceT2,
+  T3: deriveEvidenceT3,
+  T4: deriveEvidenceT4,
+  T5: deriveEvidenceT5,
+};
+
+/**
+ * Cycle-002 additive loader. Same payload as loadCorpus plus structural
+ * cutoff and evidence-split fields. Existing loadCorpus is untouched.
+ *
+ * @param {string} [corpusDir]
+ * @param {{theatres?: string[]}} [options]
+ * @returns {{
+ *   events: Record<string, object[]>,
+ *   errors: string[],
+ *   stats: Record<string, {loaded:number, rejected:number, cutoff_derived_count:number}>,
+ *   cutoffs: Record<string, {time_ms:number, rule:string}>,
+ *   evidence: Record<string, {pre_cutoff:object[], settlement:object}>,
+ * }}
+ */
+export function loadCorpusWithCutoff(corpusDir, options = {}) {
+  const base = loadCorpus(corpusDir, options);
+  const wantedTheatres = options.theatres ?? THEATRES;
+  const cutoffs = {};
+  const evidence = {};
+  const stats = {};
+  for (const t of wantedTheatres) {
+    stats[t] = {
+      ...(base.stats[t] ?? { loaded: 0, rejected: 0 }),
+      cutoff_derived_count: 0,
+    };
+  }
+  const errors = [...base.errors];
+  for (const theatre of wantedTheatres) {
+    const fn = CUTOFF_DERIVATIONS[theatre];
+    const evFn = EVIDENCE_DERIVATIONS[theatre];
+    if (!fn || !evFn) continue;
+    for (const event of base.events[theatre] ?? []) {
+      const cutoff = fn(event);
+      if (cutoff == null) {
+        errors.push(`${event.event_id}: cutoff derivation failed for ${theatre} (missing canonical timestamp field)`);
+        continue;
+      }
+      cutoffs[event.event_id] = cutoff;
+      evidence[event.event_id] = evFn(event, cutoff);
+      stats[theatre].cutoff_derived_count += 1;
+    }
+  }
+  return { events: base.events, errors, stats, cutoffs, evidence };
+}
+
 // Re-export internals for unit-test access.
 export {
   validateCommonEnvelope as _validateCommonEnvelope,
@@ -441,6 +622,8 @@ export {
   validateT5 as _validateT5,
   loadEventFile as _loadEventFile,
   deriveT4QualifyingEvents as _deriveT4QualifyingEvents,
+  CUTOFF_DERIVATIONS as _CUTOFF_DERIVATIONS,
+  EVIDENCE_DERIVATIONS as _EVIDENCE_DERIVATIONS,
   T1_BUCKETS,
   T2_BUCKETS,
   T4_BUCKETS_RUNTIME,

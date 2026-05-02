@@ -153,7 +153,7 @@ Sprint folders use the cycle-002 zero-padded namespace under `grimoires/loa/a2a/
 ### 4.1 Sprint 03 — Runtime replay entrypoint + additive cycle-002 manifest
 
 **Folder**: `grimoires/loa/a2a/cycle-002/sprint-03/`
-**Spec name**: `ENTRYPOINT-MANIFEST.md` (proposed; ratified at Sprint 03 entry)
+**Spec**: Operator ratification: Sprint 03 intentionally skips a separate `ENTRYPOINT-MANIFEST.md`. The existing cycle-002 PRD, SDD, sprint plan, ledger, and ratified Sprint 00–02 artifacts are the binding Sprint 03 implementation spec. `/implement sprint-03` routes through the cycle-002 ledger and proceeds directly against those documents.
 **Earns**: Rung 1 (full entrypoint-wired form for T4; T1/T2 narrow form per Sprint 02 honest-framing disclosure).
 **Anchors**: Baseline B at Sprint 03 close.
 
@@ -223,8 +223,7 @@ Wire the cycle-002 deterministic replay seam (Sprint 02 deliverable) into the to
 | `grimoires/loa/calibration/corona/cycle-002-run-1/corpus_hash.txt` | New (expected `b1caef3f…11bb1`). |
 | `grimoires/loa/calibration/corona/cycle-002-run-1/replay_script_hash.txt` (or named per Sprint 03 spec) | New. |
 | `package.json` | Edit (additive `scripts.test` entries only; version unchanged). |
-| `grimoires/loa/a2a/cycle-002/sprint-03/ENTRYPOINT-MANIFEST.md` | New (Sprint 03 spec, before implementation). |
-| `grimoires/loa/a2a/cycle-002/sprint-03/{reviewer,engineer-feedback,auditor-sprint-feedback}.md` | New (after implement / review / audit). |
+| `grimoires/loa/a2a/cycle-002/sprint-03/{reviewer,engineer-feedback,auditor-sprint-feedback}.md` | New (after implement / review / audit). Operator ratification: Sprint 03 intentionally skips a separate `ENTRYPOINT-MANIFEST.md`. The existing cycle-002 PRD, SDD, sprint plan, ledger, and ratified Sprint 00–02 artifacts are the binding Sprint 03 implementation spec. |
 
 #### 4.1.5 Forbidden files (Sprint 03 MUST NOT touch)
 
@@ -709,7 +708,7 @@ This preserves the auditability of the cycle-002 sprint chain and matches the cy
 - `sprint-00` → `grimoires/loa/a2a/cycle-002/sprint-00/CHARTER.md` (ratified).
 - `sprint-01` → `grimoires/loa/a2a/cycle-002/sprint-01/CONTRACT.md` (ratified).
 - `sprint-02` → `grimoires/loa/a2a/cycle-002/sprint-02/REPLAY-SEAM.md` + reviewer/engineer/auditor (committed at `c9535386`).
-- `sprint-03` → `grimoires/loa/a2a/cycle-002/sprint-03/ENTRYPOINT-MANIFEST.md` (proposed; ratified at Sprint 03 entry).
+- `sprint-03` → existing cycle-002 PRD, SDD, sprint plan, ledger, and ratified Sprint 00–02 artifacts (operator ratification: Sprint 03 intentionally skips a separate `ENTRYPOINT-MANIFEST.md`; `/implement sprint-03` routes through the cycle-002 ledger and proceeds directly against those documents).
 - Sprint folders 04, 05, 06 — likewise.
 
 When the operator invokes `/implement sprint-03` (etc.), routing resolves through THIS ledger, not through frozen cycle-001 sprint files at `grimoires/loa/a2a/sprint-{0..7}/`.

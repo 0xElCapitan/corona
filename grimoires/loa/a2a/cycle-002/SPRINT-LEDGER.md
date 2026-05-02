@@ -66,11 +66,9 @@ Cycle-001 artifacts remain frozen historical records and must not be overwritten
 
 ### Sprint 03 — Runtime replay entrypoint + additive manifest
 
-**Spec**: TBD.
+**Spec**: Operator ratification: Sprint 03 intentionally skips a separate `ENTRYPOINT-MANIFEST.md`. The existing cycle-002 PRD, SDD, sprint plan, ledger, and ratified Sprint 00–02 artifacts are the binding Sprint 03 implementation spec. `/implement sprint-03` routes through the cycle-002 ledger and proceeds directly against those documents.
 
-**Expected future path**: `grimoires/loa/a2a/cycle-002/sprint-03/ENTRYPOINT-MANIFEST.md`
-
-**Status**: Not started.
+**Status**: In progress.
 
 **Expected scope**:
 

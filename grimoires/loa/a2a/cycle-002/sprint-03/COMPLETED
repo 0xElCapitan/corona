@@ -1,0 +1,36 @@
+CORONA cycle-002 Sprint 03 — Runtime-replay entrypoint + additive cycle-002 manifest
+
+Audit verdict: APPROVED - LETS FUCKING GO
+Audit date:    2026-05-02
+Routing:       cycle-002 SPRINT-LEDGER (operator ratification; no separate ENTRYPOINT-MANIFEST.md)
+
+Sprint chain (cycle-002 ledger):
+  /implement sprint-03      → grimoires/loa/a2a/cycle-002/sprint-03/reviewer.md
+  /review-sprint sprint-03  → grimoires/loa/a2a/cycle-002/sprint-03/engineer-feedback.md  (APPROVED WITH NON-BLOCKING CONCERNS)
+  engineer fix C1 + C2      → grimoires/loa/a2a/cycle-002/sprint-03/engineer-review-response.md
+  /audit-sprint sprint-03   → grimoires/loa/a2a/cycle-002/sprint-03/auditor-sprint-feedback.md  (APPROVED - LETS FUCKING GO)
+
+Tests: 279 pass / 0 fail / 0 skip (Sprint 02 baseline 261 + 18 new cycle-002 entrypoint tests).
+
+Cycle-001 invariants preserved verbatim:
+  scripts/corona-backtest.js                   sha256 = 17f6380b623f591bcaa5aa17e343eb775fb81960520d2ca9624b784acf1730f1
+  calibration-manifest.json                    sha256 = e53a40d1f880f4743567924d7fa10718dfb5caa740c48e998a344de4f85db34a
+  corpus_hash                                         = b1caef3faa1d046301229825c40e76e6ea23061a288d15ee6c49e78fbef11bb1
+
+Cycle-002 anchors (Baseline B at Sprint 03 close):
+  replay_script_hash / runtime_replay_hash     = bfbfd70d2402763ffb2033668c61f0ea9d547b1b7afe4d7da0028587de380a60
+  file set                                     = 12 files (9 operator-required + 3 Sprint 03 helpers)
+  cycle-002-run-1/                             = corpus_hash.txt, replay_script_hash.txt, cycle_001_script_hash.txt, runtime-uplift-summary.md, diagnostic-summary.md
+  cycle-002/runtime-replay-manifest.json       = additive cycle-002 manifest
+
+Operator hard stops: none triggered.
+Honest-framing grep gate: clean (all matches in negation / source-guard / meta-discussion context).
+T1/T2 prior-only disclosure: preserved verbatim from Sprint 02 reviewer.md M2 lines 456-464.
+Cross-regime Baseline A vs Baseline B uplift claim: none (only forbidden-language guard text).
+RLMF certificate (src/rlmf/certificates.js): untouched.
+Cycle-001 calibration manifest: untouched.
+Cycle-001 run outputs (run-1, run-2, run-3-final): untouched.
+src/: no modifications.
+
+Sprint 03 is ready for operator commit approval.
+Do not commit. Do not tag. Do not start Sprint 04. Awaiting operator HITL gate.

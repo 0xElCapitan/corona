@@ -15,7 +15,7 @@
     "./rlmf/*": "./src/rlmf/*.js"
   },
   "scripts": {
-    "test": "node --test tests/corona_test.js tests/manifest_structural_test.js tests/manifest_regression_test.js tests/security/corpus-loader-low1-test.js tests/security/proton-cascade-pex1-test.js tests/canonical-json-test.js tests/replay-clock-injection-default-test.js tests/replay-trajectory-shape-T4-test.js tests/replay-determinism-T4-test.js tests/replay-T4-scored-through-runtime-bucket-test.js tests/replay-rlmf-cert-non-mutation-test.js tests/replay-trajectory-shape-T1-test.js tests/replay-trajectory-shape-T2-test.js tests/replay-determinism-T1T2-test.js tests/replay-T1T2-binary-brier-scoring-test.js tests/replay-clock-injection-default-T1T2-test.js",
+    "test": "node --test tests/corona_test.js tests/manifest_structural_test.js tests/manifest_regression_test.js tests/security/corpus-loader-low1-test.js tests/security/proton-cascade-pex1-test.js tests/canonical-json-test.js tests/replay-clock-injection-default-test.js tests/replay-trajectory-shape-T4-test.js tests/replay-determinism-T4-test.js tests/replay-T4-scored-through-runtime-bucket-test.js tests/replay-rlmf-cert-non-mutation-test.js tests/replay-trajectory-shape-T1-test.js tests/replay-trajectory-shape-T2-test.js tests/replay-determinism-T1T2-test.js tests/replay-T1T2-binary-brier-scoring-test.js tests/replay-clock-injection-default-T1T2-test.js tests/cycle-002-entrypoint-test.js",
     "poll": "node src/oracles/swpc.js",
     "poll:donki": "node src/oracles/donki.js"
   },

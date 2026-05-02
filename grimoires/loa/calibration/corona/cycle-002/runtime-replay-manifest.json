@@ -1,0 +1,131 @@
+{
+  "schema_version": "0.1.0",
+  "cycle": "cycle-002",
+  "additive": true,
+  "predecessor_manifest": {
+    "path": "grimoires/loa/calibration/corona/calibration-manifest.json",
+    "cycle": "cycle-001",
+    "immutable": true,
+    "note": "Cycle-001 manifest entries' hashes are NEVER mutated. Cycle-002 is an additive separate file per CHARTER §6 / OPEN-QUESTIONS Q4."
+  },
+  "run_id": "cycle-002-run-1",
+  "generated_at": "2026-05-02T17:15:36.497Z",
+  "code_revision": "2bb5f85d74e98b33a96274accfc9a1e39a2e127a",
+  "corpus_hash": "b1caef3faa1d046301229825c40e76e6ea23061a288d15ee6c49e78fbef11bb1",
+  "cycle_001_script_hash": "17f6380b623f591bcaa5aa17e343eb775fb81960520d2ca9624b784acf1730f1",
+  "cycle_001_script_hash_note": "cycle-001 script_hash = sha256(scripts/corona-backtest.js) covers ONLY the cycle-001 entrypoint file. It is INSUFFICIENT for cycle-002 provenance because it does not cover the replay seam dependencies (replay/*.js, scoring/t{1,2}-binary-brier.js) that drive cycle-002 trajectory output. Cycle-002 introduces replay_script_hash to cover the trajectory-driving file set per SDD §6.",
+  "replay_script_hash": "bfbfd70d2402763ffb2033668c61f0ea9d547b1b7afe4d7da0028587de380a60",
+  "runtime_replay_hash": "bfbfd70d2402763ffb2033668c61f0ea9d547b1b7afe4d7da0028587de380a60",
+  "replay_script_hash_file_count": 12,
+  "replay_script_hash_files": [
+    "scripts/corona-backtest-cycle-002.js",
+    "scripts/corona-backtest/manifest/runtime-replay-manifest.js",
+    "scripts/corona-backtest/replay/canonical-json.js",
+    "scripts/corona-backtest/replay/context.js",
+    "scripts/corona-backtest/replay/hashes.js",
+    "scripts/corona-backtest/replay/t1-replay.js",
+    "scripts/corona-backtest/replay/t2-replay.js",
+    "scripts/corona-backtest/replay/t4-replay.js",
+    "scripts/corona-backtest/reporting/diagnostic-summary.js",
+    "scripts/corona-backtest/reporting/runtime-uplift-summary.js",
+    "scripts/corona-backtest/scoring/t1-binary-brier.js",
+    "scripts/corona-backtest/scoring/t2-binary-brier.js"
+  ],
+  "theatre_posture": {
+    "T1": "runtime-binary",
+    "T2": "runtime-binary",
+    "T3": "external-model",
+    "T4": "runtime-bucket",
+    "T5": "quality-of-behavior"
+  },
+  "runtime_uplift_composite_membership": {
+    "T1": true,
+    "T2": true,
+    "T3": false,
+    "T4": true,
+    "T5": false
+  },
+  "entries": [
+    {
+      "id": "cycle-002-t1-runtime-replay-anchor",
+      "cycle": "cycle-002",
+      "theatre": "T1",
+      "posture": "runtime-binary",
+      "included_in_runtime_uplift_composite": true,
+      "gate_thresholds": {
+        "threshold_class": "M1.0",
+        "window_hours": 24
+      },
+      "scoring_path": "t1_binary_brier_cycle002",
+      "n_events": 5,
+      "brier": 0.7224999999999999,
+      "trajectory_hashes": {
+        "T1-2017-09-06-X9p3": "02ec8d0fb8ab6f64874ed8a13a9d6271779cbf778897083ce1548a88ce443821",
+        "T1-2017-09-10-X8p2": "c47bd7827f9e799fd7f832eee2408673e909707491440f23e19b395f29ce0c2b",
+        "T1-2023-12-14-X2p8": "f33b27012aa6b86276cd9d2bf86096a14ea2874baff412baf0171b0185d5e7c3",
+        "T1-2024-05-14-X8p7": "551354b5d5ad01761c47a6419001f14076ed982a32f531e6668f0c3ec06426a0",
+        "T1-2024-10-03-X9p0": "74fffe247433efa838a2ccae948022eea6e7ba1c39047371c8ddf5bc7edcb04a"
+      }
+    },
+    {
+      "id": "cycle-002-t2-runtime-replay-anchor",
+      "cycle": "cycle-002",
+      "theatre": "T2",
+      "posture": "runtime-binary",
+      "included_in_runtime_uplift_composite": true,
+      "gate_thresholds": {
+        "kp_threshold": 5,
+        "window_hours": 72
+      },
+      "scoring_path": "t2_binary_brier_cycle002",
+      "n_events": 5,
+      "brier": 0.8100000000000002,
+      "trajectory_hashes": {
+        "T2-2017-09-08-Kp8": "b8874b70ff822d446227a8a694219c930147eab2dbbd12f57bf89a9ec214e653",
+        "T2-2022-02-03-Kp767": "13cd05565920c9b6493805949edf93d68cea882d3e3700a81248b83393c071ec",
+        "T2-2023-04-23-Kp767": "fb26f6cd5b487a1642c864b8d9b99fb9b055ab799e24fe68d81692bed0e9d6e9",
+        "T2-2024-05-11-Kp9": "8a0b032eea9d1d66e7cccb165ff5c8c8ddda878ab89ddf5a4dd18538f2c334f5",
+        "T2-2024-10-10-Kp867": "7ce3994d06ff96f6f27951da7b43bca1ca7b0d8e1f4624883c103409016a83f5"
+      }
+    },
+    {
+      "id": "cycle-002-t4-runtime-replay-anchor",
+      "cycle": "cycle-002",
+      "theatre": "T4",
+      "posture": "runtime-bucket",
+      "included_in_runtime_uplift_composite": true,
+      "gate_thresholds": {
+        "s_scale_threshold": "S1",
+        "window_hours": 72
+      },
+      "scoring_path": "t4_bucket_brier_runtime_wired_cycle002",
+      "n_events": 5,
+      "brier": 0.38183588,
+      "trajectory_hashes": {
+        "T4-2017-09-06-S2": "16c6998885ebefb6976b3b8d5ef912bad0443e4bcfc06cb756415e2d20f57c4f",
+        "T4-2017-09-10-S3": "839fbf32d97cc475a3f0a2384d67921c17dcb72e852d06244128455dda62eec3",
+        "T4-2022-01-20-S1": "7a43441a16835c0200efe6a0a5b53466653172b7e177ea28b669f04f80fe34ce",
+        "T4-2024-05-11-S2": "2815728f542364d187dfe19ac60c220a007db931d2afa8bb69624bc541201782",
+        "T4-2024-05-15-S1": "c1cad8e0669983bf7e71695c8aa465be9a3c2383dc00505d4affe65409b8f138"
+      }
+    },
+    {
+      "id": "cycle-002-t3-diagnostic-only",
+      "cycle": "cycle-002",
+      "theatre": "T3",
+      "posture": "external-model",
+      "included_in_runtime_uplift_composite": false,
+      "diagnostic_only": true,
+      "n_events": 5
+    },
+    {
+      "id": "cycle-002-t5-diagnostic-only",
+      "cycle": "cycle-002",
+      "theatre": "T5",
+      "posture": "quality-of-behavior",
+      "included_in_runtime_uplift_composite": false,
+      "diagnostic_only": true,
+      "n_events": 5
+    }
+  ]
+}

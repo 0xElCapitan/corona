@@ -162,7 +162,7 @@ Closed set of `distribution_shape` values:
 
 ## 3. Sprint 03 — Replay entrypoint design target
 
-Source: [SPRINT-PLAN §4.1](CYCLE-002-SPRINT-PLAN.md). NOT a Sprint 03 spec; that lives at `grimoires/loa/a2a/cycle-002/sprint-03/ENTRYPOINT-MANIFEST.md` when drafted. This SDD constrains the design surface, not the implementation.
+Source: [SPRINT-PLAN §4.1](CYCLE-002-SPRINT-PLAN.md). Operator ratification: Sprint 03 intentionally skips a separate `ENTRYPOINT-MANIFEST.md`. The existing cycle-002 PRD, SDD, sprint plan, ledger, and ratified Sprint 00–02 artifacts are the binding Sprint 03 implementation spec. `/implement sprint-03` routes through the cycle-002 ledger and proceeds directly against those documents. This SDD constrains the design surface, not the implementation.
 
 ### 3.1 Two separate entrypoints (binding architecture)
 
@@ -697,7 +697,7 @@ This SDD does NOT:
 - Replace the cycle-001 SDD at [grimoires/loa/sdd.md](../../sdd.md). The cycle-001 SDD remains FROZEN historical.
 - Modify any source, test, script, manifest, or runtime file.
 - Bind any commit, tag, or version change.
-- Constitute a Sprint 03 spec. The Sprint 03 spec lives at `grimoires/loa/a2a/cycle-002/sprint-03/ENTRYPOINT-MANIFEST.md` (proposed name) and is drafted only after operator authorization.
+- Constitute a Sprint 03 spec. Operator ratification: Sprint 03 intentionally skips a separate `ENTRYPOINT-MANIFEST.md`. The existing cycle-002 PRD, SDD, sprint plan, ledger, and ratified Sprint 00–02 artifacts are the binding Sprint 03 implementation spec. `/implement sprint-03` routes through the cycle-002 ledger and proceeds directly against those documents.
 
 ---
 
