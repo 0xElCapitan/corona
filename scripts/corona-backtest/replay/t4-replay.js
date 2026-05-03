@@ -58,10 +58,19 @@ function corpusEventForHash(event) {
  *
  * @param {object} corpus_event - T4 event from loadCorpus (with _derived populated by the loader)
  * @param {object} ctx - frozen replay context from createReplayContext({ theatre_id: 'T4', ... })
+ * @param {object} [options]
+ * @param {number} [options.lambdaScalar=1.0] - Sprint 05 sensitivity-proof
+ *   injection seam (CYCLE-002-SPRINT-PLAN.md §4.3.1 lines 449–451). Forwarded
+ *   into createProtonEventCascade's option-bag, which forwards into
+ *   estimateExpectedCount's PRODUCTIVITY_PARAMS lambda multiplier. Default
+ *   1.0 is byte-identical to pre-Sprint-05 behavior; the cycle-002 dispatch
+ *   entrypoint (scripts/corona-backtest-cycle-002.js) does not pass this
+ *   option, so all live cycle-002 replays remain unperturbed by construction.
  * @returns {object} PredictionTrajectory matching CONTRACT §3
  */
-export function replay_T4_event(corpus_event, ctx) {
+export function replay_T4_event(corpus_event, ctx, options = {}) {
   assertReplayMode(ctx);
+  const { lambdaScalar = 1.0 } = options;
   if (corpus_event?.theatre !== 'T4') {
     throw new Error(`replay_T4_event: expected T4 corpus event, got theatre="${corpus_event?.theatre}"`);
   }
@@ -132,7 +141,7 @@ export function replay_T4_event(corpus_event, ctx) {
       s_scale_threshold: 'S1',
       window_hours: windowHours,
     },
-    { now },
+    { now, lambdaScalar },
   );
   if (theatre == null) {
     throw new Error(

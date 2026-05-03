@@ -1,0 +1,42 @@
+Sprint 05 — T4 Two-Direction Sensitivity Proof (Path B, real runtime injection)
+
+Status: COMPLETED
+Audit verdict: AUDIT PASSED WITH NON-BLOCKING CONCERNS — APPROVED - LETS FUCKING GO
+Authored: 2026-05-03
+Cycle / Sprint: cycle-002 / sprint-05
+
+Summary:
+- Sprint 05 earns Rung 2 (runtime-sensitive) for T4 per CHARTER §10.
+- Direction A (lambdaScalar=1.25): T4 Brier 0.39533664; delta +0.01350076; trajectory_hashes 5/5 differ from Sprint 03 run-1 anchor.
+- Direction B (lambdaScalar=1.0 default): T4 Brier 0.38183588 byte-identical to Baseline B; trajectory_hashes 5/5 byte-identical to Sprint 03 run-1 anchor.
+- Perturbation flows through the actual cycle-002 runtime path (replay_T4_event → createProtonEventCascade → estimateExpectedCount → params.lambda * lambdaScalar).
+- Scoring consumes trajectory.current_position_at_cutoff directly. No post-runtime substitution.
+- Test would FAIL if runtime ignored lambdaScalar (verified by adversarial simulation).
+
+Frozen invariants preserved:
+- scripts/corona-backtest.js sha256: 17f6380b623f591bcaa5aa17e343eb775fb81960520d2ca9624b784acf1730f1
+- cycle-001 calibration-manifest.json sha256: e53a40d1f880f4743567924d7fa10718dfb5caa740c48e998a344de4f85db34a
+- corpus_hash: b1caef3faa1d046301229825c40e76e6ea23061a288d15ee6c49e78fbef11bb1 (run-1, run-2, run-3)
+- Sprint 03 cycle-002-run-1 directory: not mutated (git diff empty)
+- src/rlmf/certificates.js: zero diff
+- package.json version: 0.2.0
+- dependencies: {}
+
+Provenance (post-Sprint-05):
+- replay_script_hash: a919ec7d3f472f65435b0e6bec9b2c4e082e40186ceecc8921b527013470940b (drifted from Sprint 03 anchor; documented in cycle-002 manifest sensitivity_proof.provenance)
+- src/theatres/proton-cascade.js sha256: 095ef077541ba0bfc994b253d0c1572abbd0479db10e2de7e06ddd1e0d38d549 (new sensitivity-proof dependency; documented in manifest)
+- PRODUCTIVITY_PARAMS literal values: byte-unchanged (no-refit covenant CHARTER §8.3 holds)
+
+Scope:
+- T4 only (no T1/T2/T3/T5 sensitivity proof)
+- No calibration-improved claim
+- No L2-publish claim
+- No README/BFZ/version/tag/Sprint 06 work
+
+Tests: 296 pass / 0 fail / 0 skip (Sprint 04 baseline 279 + 17 sensitivity-proof tests).
+
+Awaiting operator HITL on:
+- Whether to commit Sprint 05 deliverables
+- Sprint 06 closeout (separate sprint, not started)
+
+Authored by audit phase under operator authorization for Path B (one default-preserving src/ edit at src/theatres/proton-cascade.js).

@@ -109,9 +109,20 @@ const PRODUCTIVITY_PARAMS = {
  *
  * @param {string} triggerClass - Flare class of triggering event (e.g. "X2.5")
  * @param {number} windowHours - Prediction window
+ * @param {number} [lambdaScalar=1.0] - Sprint 05 sensitivity-proof injection
+ *   seam (CYCLE-002-SPRINT-PLAN.md §4.3.1 lines 449–451). Multiplicative
+ *   scalar on PRODUCTIVITY_PARAMS lambda. Default 1.0 is byte-identical to
+ *   pre-Sprint-05 behavior: `params.lambda * 1.0 === params.lambda` per
+ *   IEEE-754, so the live runtime path (which never supplies this argument)
+ *   produces identical output. Non-default values are used by
+ *   tests/sensitivity-proof-T4-test.js to demonstrate the cycle-002 replay
+ *   harness is sensitive to a controlled T4 runtime parameter perturbation.
+ *   No-refit covenant (CHARTER §8.3) holds: this seam never mutates
+ *   PRODUCTIVITY_PARAMS itself; it only scales at call time when the caller
+ *   asks for a sensitivity perturbation.
  * @returns {number} Expected count of S1+ proton events
  */
-function estimateExpectedCount(triggerClass, windowHours) {
+function estimateExpectedCount(triggerClass, windowHours, lambdaScalar = 1.0) {
   const letter = (triggerClass ?? 'M1.0')[0].toUpperCase();
   const params = letter === 'X' ? PRODUCTIVITY_PARAMS.X_class :
     letter === 'M' ? PRODUCTIVITY_PARAMS.M_class :
@@ -121,9 +132,12 @@ function estimateExpectedCount(triggerClass, windowHours) {
   const number = parseFloat((triggerClass ?? 'M1.0').slice(1)) || 1;
   const intensityMultiplier = letter === 'X' ? (1 + number * 0.15) : (1 + number * 0.05);
 
-  // Integrate decaying rate: N(T) = lambda * (1 - decay^(T/24)) / (1 - decay)
+  // Integrate decaying rate: N(T) = lambda * (1 - decay^(T/24)) / (1 - decay).
+  // lambdaScalar=1.0 (default) is a no-op: params.lambda * 1.0 === params.lambda
+  // in IEEE-754, so the multiplication is byte-identical to the pre-Sprint-05
+  // form `params.lambda * intensityMultiplier * ...`.
   const days = windowHours / 24;
-  const expectedN = params.lambda * intensityMultiplier *
+  const expectedN = params.lambda * lambdaScalar * intensityMultiplier *
     (1 - Math.pow(params.decay, days)) / (1 - params.decay);
 
   return Math.max(0, expectedN);
@@ -177,13 +191,21 @@ function logFactorial(n) {
  * @param {object} params.triggerBundle - Evidence bundle for the triggering flare
  * @param {string} [params.s_scale_threshold] - Minimum S-scale for counting (default S1) — maps to PFU via S_SCALE_THRESHOLDS_PFU
  * @param {number} [params.window_hours] - Prediction window (default 72)
+ * @param {object} [options]
+ * @param {Function} [options.now] - Default-preserving clock-injection seam (Sprint 02; CONTRACT §10.1).
+ * @param {number} [options.lambdaScalar=1.0] - Sprint 05 sensitivity-proof
+ *   injection seam (CYCLE-002-SPRINT-PLAN.md §4.3.1 lines 449–451). Forwarded
+ *   to estimateExpectedCount; default 1.0 is byte-identical to pre-Sprint-05
+ *   behavior. Used only by tests/sensitivity-proof-T4-test.js to demonstrate
+ *   harness sensitivity to a T4 runtime parameter perturbation. The live
+ *   runtime path never supplies this argument.
  * @returns {object|null} Theatre definition
  */
 export function createProtonEventCascade({
   triggerBundle,
   s_scale_threshold = 'S1',
   window_hours = 72,
-}, { now: nowFn = () => Date.now() } = {}) {
+}, { now: nowFn = () => Date.now(), lambdaScalar = 1.0 } = {}) {
   const flare = triggerBundle.payload.flare;
   if (!flare) return null;
 
@@ -193,7 +215,7 @@ export function createProtonEventCascade({
 
   const now = nowFn();
   const countThresholdPfu = S_SCALE_THRESHOLDS_PFU[s_scale_threshold] ?? S_SCALE_THRESHOLDS_PFU.S1;
-  const expectedCount = estimateExpectedCount(flare.class_string, window_hours);
+  const expectedCount = estimateExpectedCount(flare.class_string, window_hours, lambdaScalar);
   const initialProbs = countToBucketProbabilities(expectedCount);
 
   return {

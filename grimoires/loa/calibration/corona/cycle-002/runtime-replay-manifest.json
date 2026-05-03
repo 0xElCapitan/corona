@@ -127,5 +127,90 @@
       "diagnostic_only": true,
       "n_events": 5
     }
-  ]
+  ],
+  "sensitivity_proof": {
+    "sprint": "cycle-002/sprint-05",
+    "earned_rung": "Rung 2 (runtime-sensitive)",
+    "operator_authorization": "Path B (real runtime injection seam). One default-preserving src/ edit authorized at src/theatres/proton-cascade.js to expose lambdaScalar option-bag arg on createProtonEventCascade. Forwarded through scripts/corona-backtest/replay/t4-replay.js (in cycle-002 replay file set). No other src/ files modified. RLMF certificate behavior unchanged. T1/T2/T3/T5 behavior unchanged. PRODUCTIVITY_PARAMS literal values unchanged.",
+    "perturbation": {
+      "knob": "PRODUCTIVITY_PARAMS lambda (Wheatland-prior productivity scalar)",
+      "knob_source": "src/theatres/proton-cascade.js lines 101–105",
+      "scalar": 1.25,
+      "magnitude_label": "+25% multiplicative scaling on per-class lambda",
+      "mechanism": "Real runtime injection. Direction A passes lambdaScalar=1.25 to replay_T4_event's third options arg. The option flows: replay_T4_event → createProtonEventCascade({...}, { now, lambdaScalar }) → estimateExpectedCount(triggerClass, windowHours, lambdaScalar) → lambda = params.lambda * lambdaScalar. The runtime path including every processProtonEventCascade qualifying-event blend uses the perturbed prior's expected_count. The trajectory's current_position_at_cutoff is the runtime's actual output under the perturbation; scoreEventT4 consumes it directly. NO post-runtime distribution substitution.",
+      "reverted_in_direction_B": true,
+      "reversibility_proof": "Direction B passes lambdaScalar=1.0 (the option-bag default). IEEE-754 guarantees params.lambda * 1.0 === params.lambda byte-identically. Direction B trajectories and Brier are byte-identical to Baseline B (cycle-002-run-1). Asserted by deepStrictEqual and assert.strictEqual gates in tests/sensitivity-proof-T4-test.js."
+    },
+    "baseline_B": {
+      "run_id": "cycle-002-run-1",
+      "t4_brier": 0.38183588,
+      "t4_trajectory_hashes": {
+        "T4-2017-09-06-S2": "16c6998885ebefb6976b3b8d5ef912bad0443e4bcfc06cb756415e2d20f57c4f",
+        "T4-2017-09-10-S3": "839fbf32d97cc475a3f0a2384d67921c17dcb72e852d06244128455dda62eec3",
+        "T4-2022-01-20-S1": "7a43441a16835c0200efe6a0a5b53466653172b7e177ea28b669f04f80fe34ce",
+        "T4-2024-05-11-S2": "2815728f542364d187dfe19ac60c220a007db931d2afa8bb69624bc541201782",
+        "T4-2024-05-15-S1": "c1cad8e0669983bf7e71695c8aa465be9a3c2383dc00505d4affe65409b8f138"
+      }
+    },
+    "direction_A": {
+      "run_id": "cycle-002-run-2",
+      "run_dir": "grimoires/loa/calibration/corona/cycle-002-run-2",
+      "t4_brier": 0.39533664,
+      "delta_vs_baseline_B_label": "+0.01350076 (~3.5% relative)",
+      "delta_vs_baseline_B": 0.01350076,
+      "delta_min_required": 0.01,
+      "generated_at": "2026-05-02T18:00:00.000Z",
+      "per_event_brier": {
+        "T4-2017-09-06-S2": 0.4,
+        "T4-2017-09-10-S3": 0.4,
+        "T4-2022-01-20-S1": 0.3872228,
+        "T4-2024-05-11-S2": 0.4,
+        "T4-2024-05-15-S1": 0.38946040000000004
+      },
+      "trajectory_hashes": {
+        "T4-2017-09-06-S2": "76d40ce431a3fb0db8465e79a9c84419ad619a5c2a7aaded42d9bc0835d446c0",
+        "T4-2017-09-10-S3": "aec03ea26ba155f49ee1afae8dbbd6dcf2cfb3180295ec4fbfaa713244a78312",
+        "T4-2022-01-20-S1": "6cf40c581102389047189d9db76e98762bff9b026f857668cfb2dceb291ca36d",
+        "T4-2024-05-11-S2": "2f41640a3252a173a3b62aee9fbeca20ab771b715f8ceab5e8e46b0ceaad2107",
+        "T4-2024-05-15-S1": "9f1f3fb5df19759f0da039ca8688dede09721b323e86ba181196268fe8623918"
+      },
+      "trajectory_hashes_differ_from_baseline_B": true,
+      "trajectory_hashes_differ_note": "Direction A trajectories differ from Baseline B at every per-event level where the perturbation is observable. The trajectory_hash captures the entire trajectory content including current_position_at_cutoff; under a real runtime perturbation those hashes change. Sprint 05 review #7 required assertion satisfied: Direction A runtime trajectory current_position_at_cutoff differs from Baseline B T4 trajectory."
+    },
+    "direction_B": {
+      "run_id": "cycle-002-run-3",
+      "run_dir": "grimoires/loa/calibration/corona/cycle-002-run-3",
+      "t4_brier": 0.38183588,
+      "byte_identical_to_baseline_B": true,
+      "generated_at": "2026-05-02T18:00:01.000Z",
+      "trajectory_hashes": {
+        "T4-2017-09-06-S2": "16c6998885ebefb6976b3b8d5ef912bad0443e4bcfc06cb756415e2d20f57c4f",
+        "T4-2017-09-10-S3": "839fbf32d97cc475a3f0a2384d67921c17dcb72e852d06244128455dda62eec3",
+        "T4-2022-01-20-S1": "7a43441a16835c0200efe6a0a5b53466653172b7e177ea28b669f04f80fe34ce",
+        "T4-2024-05-11-S2": "2815728f542364d187dfe19ac60c220a007db931d2afa8bb69624bc541201782",
+        "T4-2024-05-15-S1": "c1cad8e0669983bf7e71695c8aa465be9a3c2383dc00505d4affe65409b8f138"
+      }
+    },
+    "invariants_verified": {
+      "corpus_hash_unchanged": true,
+      "cycle_001_script_hash_unchanged": true,
+      "cycle_001_manifest_hash_unchanged": true,
+      "cycle_002_run_1_artifacts_preserved": true,
+      "no_t1_t2_t3_t5_perturbation": true,
+      "no_rlmf_certificate_change": true,
+      "no_dependency_change": true,
+      "package_version_unchanged": true
+    },
+    "provenance": {
+      "code_revision": "d93cada9e9d33f79702d4d14f0b65fdd5ad93814",
+      "corpus_hash": "b1caef3faa1d046301229825c40e76e6ea23061a288d15ee6c49e78fbef11bb1",
+      "cycle_001_script_hash": "17f6380b623f591bcaa5aa17e343eb775fb81960520d2ca9624b784acf1730f1",
+      "replay_script_hash_at_sprint_05": "a919ec7d3f472f65435b0e6bec9b2c4e082e40186ceecc8921b527013470940b",
+      "replay_script_hash_at_sprint_03_anchor": "bfbfd70d2402763ffb2033668c61f0ea9d547b1b7afe4d7da0028587de380a60",
+      "replay_script_hash_drift_reason": "Sprint 05 added a default-preserving lambdaScalar option-bag arg to scripts/corona-backtest/replay/t4-replay.js (in the cycle-002 replay file set), which changes its sha256 and therefore the aggregate replay_script_hash. Default behavior (lambdaScalar=1.0, never supplied by the live runtime path) is byte-identical to pre-Sprint-05 — verified by Direction B byte-identity to Baseline B numerics + trajectory hashes.",
+      "src_theatres_proton_cascade_hash_at_sprint_05": "095ef077541ba0bfc994b253d0c1572abbd0479db10e2de7e06ddd1e0d38d549",
+      "src_theatres_proton_cascade_dependency_note": "src/theatres/proton-cascade.js is now part of the sensitivity-proof dependency surface because createProtonEventCascade accepts the lambdaScalar option-bag arg per Sprint 05 review Path B authorization. Modification is default-preserving (lambdaScalar=1.0 produces byte-identical output to pre-Sprint-05). PRODUCTIVITY_PARAMS literal values (X_class lambda=8, M_class lambda=4, default lambda=3) remain unchanged — no parameter refit. Verified by Direction B byte-identity.",
+      "test_file": "tests/sensitivity-proof-T4-test.js"
+    }
+  }
 }
