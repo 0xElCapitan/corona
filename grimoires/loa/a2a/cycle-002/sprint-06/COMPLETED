@@ -1,0 +1,35 @@
+# Sprint 06 — COMPLETED
+
+**Cycle / Sprint**: cycle-002 / sprint-06 (CLOSEOUT)
+**Status**: COMPLETED
+**Date**: 2026-05-28
+**Base commit**: 70fd2da
+
+## Gate chain
+
+- Closeout artifact created: `grimoires/loa/a2a/cycle-002/sprint-06/CLOSEOUT.md`.
+- Review: APPROVED (`engineer-feedback.md`).
+- Audit: APPROVED (`auditor-sprint-feedback.md`).
+
+## Cycle-002 closure (Rung 2 only)
+
+- T4 `[runtime-bucket]` earned **Rung 2 (runtime-sensitive)** only.
+- Rung 3 (calibration-improved): **NOT earned**.
+- Rung 4 (L2 publish-ready): **NOT earned**.
+
+## Honest-framing posture (binding)
+
+- No calibration-improved claim.
+- No L2 publish-ready claim.
+- No tag, no version bump, no release — published version remains **v0.2.0**.
+
+## Pending separate operator authorization (NOT performed)
+
+- Commit / push still require separate operator authorization.
+
+## Frozen invariants (intact at 70fd2da)
+
+- `scripts/corona-backtest.js` sha256 = `17f6380b…1730f1`
+- cycle-001 `calibration-manifest.json` sha256 = `e53a40d1…5db34a`
+- `corpus_hash` = `b1caef3f…11bb1`
+- `package.json` version = `0.2.0`; RLMF cert `version: '0.1.0'`
