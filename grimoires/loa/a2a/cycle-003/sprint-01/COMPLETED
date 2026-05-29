@@ -1,0 +1,28 @@
+CORONA cycle-003 Sprint S01 — Archive Verification / Sanity Samples
+AUDIT VERDICT: PASS WITH NON-BLOCKING NOTES (APPROVED)
+Audited: 2026-05-29 (Paranoid Cypherpunk Auditor, adversarial, artifacts re-verified independently)
+Branch: cycle-003-s01-archive-verification @ base eaaf5e4 (0 commits since base)
+
+Gate results:
+- Scope: working tree limited to grimoires/loa/a2a/cycle-003/sprint-01/ (nothing else, tracked or durable-untracked)
+- Forbidden-path: src/ scripts/ tests/ untouched; no corpus-cycle-003/ tree; README/BFZ/package.json untouched; no commit/push/tag/release/S02
+- Frozen invariants (committed-blob): corona-backtest.js 17f6380b PASS; calibration-manifest e53a40d1 PASS; corpus_hash b1caef3f present; package.json 0.2.0; RLMF cert 0.1.0
+- Claim-language grep: 0 unsafe positive claims (all negation/prohibition/definition-ceiling)
+- Posture: T1/T2 = source retrievability + wired-capable substrate only (NOT runtime-sensitive/calibration); T3/T5 no uplift; T4 = supply verification only
+
+Theatre verification:
+- T1 VERIFIED: NCEI GOES-R XRS 1-min 1-8A (xrsb_flux) retrievable (N=5 windows present, 2024-05-14 content-verified); DONKI FLR label join (5/5 windows)
+- T2 VERIFIED: GFZ definitive per-3hr Kp retrievable (8/day, 1932-2026); GFZ ~30-day lag empirically 28d; DONKI GST join (1 sample; others demo-throttled)
+- T4 VERIFIED (supply): GOES-R-era >=2017 S1+ count = 46 (source: current NOAA/NCEI SPE list, ngdc.noaa.gov, Last-Modified 2026-01-21; NOT stale umbra mirror)
+    per-year  2017:3 2018:0 2019:0 2020:0 2021:3 2022:5 2023:12 2024:14 2025:8 2026:1
+    S-mag     S1:28 S2:13 S3:4 S4:1 S5:0
+    includes  2024-02-09 1530 / 187 pfu / S2
+    parsing lesson recorded: NOAA table 2024-01-29 row missing </tr> -> S04/S05 must parse </tr>-independently
+
+Scope boundary preserved:
+- T4 [0-1,2-3,4-6,7-10,11+] are 72h-post-M5+-trigger CASCADE-COUNT buckets, NOT S-scale magnitude bins
+- S04 bucket work is UNBLOCKED, NOT completed in S01
+
+Non-blocking notes (for S03/S04): event-level T1 joins; authenticated NASA_API_KEY for broader DONKI joins; keep explicit pfu>=10 filter; thin high-S magnitude diversity (S05 underpowered, document not pad); re-pull NOAA list at S04 construction (46 is "as published through 2026-01-18").
+
+Operator gate: commit/merge of sprint-01/ artifacts (incl. this marker) reserved to operator. This audit performed NO commit/push/tag/release/S02.
