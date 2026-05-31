@@ -1,0 +1,4 @@
+# Skeleton placeholder (cycle-003 S02). This leaf directory is intentionally
+# empty in S02. T1 events carrying the additive `xray_flux_observations[]`
+# pre-cutoff series are populated in S03 (T1/T2 corpus construction).
+# See ../../README.md and ../../schema/xray-flux-observations.schema.json.

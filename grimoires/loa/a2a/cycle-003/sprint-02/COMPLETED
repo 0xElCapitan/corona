@@ -1,0 +1,44 @@
+CORONA cycle-003 Sprint S02 — Corpus Namespace + Schema Skeleton
+AUDIT VERDICT: PASS WITH NON-BLOCKING NOTES (APPROVED)
+Audited: 2026-05-30 (Paranoid Cypherpunk Auditor, adversarial; artifacts re-verified independently; CN-4 smoke test re-run a 3rd time)
+Branch: cycle-003-s02-corpus-namespace @ base fdfdb99 (0 commits since base)
+
+Gate results:
+- Scope: working tree limited to corpus-cycle-003/ + a2a/cycle-003/sprint-02/ (tracked diff empty); pre-existing unrelated untracked .agents/ .codex/ AGENTS.md must NOT be staged
+- Forbidden-path: src/ scripts/ tests/ untouched (0-line diff incl. corpus-loader.js, t1-replay.js, t2-replay.js); frozen corpus/ 0-diff; no cycle-001/002 mutation; no README/BFZ/package/tag/release/push/S03
+- Frozen invariants (committed-blob): corona-backtest.js 17f6380b PASS; calibration-manifest e53a40d1 PASS; corpus_hash b1caef3f present (30x); package.json 0.2.0; RLMF cert 0.1.0
+- Claim-language grep: 0 unsafe positive claims (canonical CSG-9 = 2 matches: 1 grep-command self-reference + 1 negation; broader hits all negation/prohibition/definition)
+- Secret/PII hygiene: no secrets, no NASA_API_KEY value, no home-path/username leak (0x007/C:\Users/Users/ = 0)
+
+Skeleton-only:
+- corpus-cycle-003/ is a NEW sibling tree (8 files: README, manifest, 2 schemas, 4 .gitkeep)
+- primary/ + secondary/ contain ONLY .gitkeep markers; event-record probe = 0 hits; no real or placeholder event records committed anywhere in corpus-cycle-003/
+
+Schema:
+- T1 additive field = xray_flux_observations[]; T2 = kp_observations[] (match SDD 4.2/5.2)
+- describe ONLY additive arrays (frozen envelope not redefined); explicitly IGNORED by loader at evidence.pre_cutoff; surfacing = deferred Layer-A/B (HS-2/OQ-9); no current-consumption claim
+- entry-object over-constraint (additionalProperties:false + all-required) ADJUDICATED acceptable as advisory skeleton-only (schemas not loader-enforced); S03 reconciles vs real shape (non-blocking)
+
+Manifest:
+- corpus_hash = null / "PENDING — NOT FINAL"; entries = []; generated_by_run=false; status=skeleton
+- NO final cycle-003 corpus hash computed; CN-2 distinctness + no-comparison-to-b1caef3f rule encoded
+- predecessor pointers accurate + immutable; does NOT replace/mutate cycle-001 corpus hash
+- "hash computed" sub-metric deferral logged + justified (report 4) in cycle-003 namespace (NOT frozen NOTES.md)
+
+CN-4 smoke test:
+- satisfied by EPHEMERAL loader-tolerance smoke test, NOT durable sample records
+- throwaway fixture OUTSIDE repo, removed after run, zero repo trace; independently re-run by audit = PASS (T1/T2/T4 loaded:1 rejected:0, additive keys survive)
+- proved ONLY frozen-loader tolerance for additive keys; no processFlareClassGate/processGeomagneticStormGate, no replay/scoring/refit/trajectory; no loader edit
+
+S01 carry-forward preserved:
+- T4 source = current NOAA/NCEI SPE list (ngdc.noaa.gov, Last-Modified 2026-01-21); umbra mirror referenced only as stale/superseded
+- GOES-R-era S1+ count = 46 (per-year 2017:3 2018:0 2019:0 2020:0 2021:3 2022:5 2023:12 2024:14 2025:8 2026:1; S-mag S1:28 S2:13 S3:4 S4:1 S5:0) — cross-checked exact vs S01 ledger
+- </tr>-independent parse + pfu>=10 lesson preserved for S04; cascade buckets = 72h-post-M5+-trigger CASCADE-COUNT, S04 UNBLOCKED not completed
+
+Scope boundary preserved:
+- S02 proves skeleton shape and loader tolerance only. It does not create corpus events, does not prove T1/T2 runtime wiring, and does not advance any rung.
+- Cycle-002 ceiling preserved unweakened: Rung 2, T4 runtime-sensitive only; v0.2.0; calibration-attempted, not improved
+
+Non-blocking notes (S03/S04/S05): reconcile schema strictness vs real fetched shape; pin corpus_hash set-canonicalization procedure (verify CRLF-determinism via committed blobs); ajv v8 + ajv-formats + --spec=draft2020 if validating; S04 re-pull NOAA list + </tr>-independent parse + pfu>=10; S05 T4 held-out likely underpowered (document, do not pad).
+
+Operator gate: commit/merge of sprint-02/ artifacts + corpus-cycle-003/ skeleton (incl. this marker) reserved to operator. This audit performed NO commit/push/tag/release/S03. Do NOT stage .agents/ .codex/ AGENTS.md.

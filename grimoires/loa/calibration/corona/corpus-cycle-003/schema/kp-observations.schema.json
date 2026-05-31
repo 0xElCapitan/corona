@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "corona/corpus-cycle-003/schema/kp-observations.schema.json",
+  "title": "T2 additive pre-cutoff Kp series (kp_observations[])",
+  "description": "SKELETON (cycle-003 S02). Pins the OQ-1 additive field name and entry sub-schema for the T2 Geomagnetic Storm Gate pre-cutoff series, per SDD cycle-003 §5.2. This schema describes ONLY the cycle-003 additive top-level array; the frozen common envelope + per-theatre required fields remain owned by scripts/corona-backtest/ingestors/corpus-loader.js (validateCommonEnvelope + validateT2) and calibration-protocol.md §3.7 and are NOT redefined here. The array is an ADDITIVE annotation the existing loader tolerates and IGNORES at the evidence.pre_cutoff layer — surfacing it is the deferred Layer-A/B replay+loader change (HS-2 / OQ-9), OUT OF SCOPE for cycle-003. Carrying this series is wired-CAPABLE substrate shape only; it is NOT a wired, runtime-sensitivity, or calibration-improvement claim (HAZ-1, CSG-3/CSG-4).",
+  "$comment": "S02 pins shape only. No T2 event records (real or placeholder) are created in cycle-003 S02; T2 events are populated in S03. Construction-time invariants S03 MUST enforce (not fully expressible in JSON Schema because they reference the event's own window/settlement fields): (T2S-1, HARD) every entry.time is STRICTLY before the event cutoff = kp_window_end (deriveCutoffT2, corpus-loader.js); a single at/after-cutoff sample is a settlement leak (HS-7/CSG-1). (T2S-2) GFZ ~30-day publication lag honored — events whose definitive Kp is still inside the lag window are regression-tier-INELIGIBLE (validateT2 sets regression_tier_eligible only when kp_gfz_observed != null; protocol §3.6); pre-cutoff provisional series allowed for SHAPE only. (T2S-3/FR-C6-4) settlement labels (kp_swpc_observed, kp_gfz_observed) stay in the event body / settlement set and are NEVER copied into this array. (T2S-4) entries time-keyed, sortable, structurally analogous to proton_flux_observations[].",
+  "type": "object",
+  "properties": {
+    "kp_observations": {
+      "type": "array",
+      "description": "Per-3hr Kp (and/or 1-hr Hp) lead-in readings before the cutoff (kp_window_end), strictly time-ordered ascending, every entry strictly pre-cutoff. Sources: GFZ Potsdam definitive Kp (regression authority) + SWPC provisional Kp (live tier), per-entry provenance-tagged (S01-verified retrievable). Empty/absent until S03.",
+      "items": { "$ref": "#/$defs/kpObservation" }
+    }
+  },
+  "$defs": {
+    "kpObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["time", "kp", "index", "provenance", "satellite"],
+      "properties": {
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 UTC timestamp of the reading. MUST be strictly before the event cutoff (kp_window_end)."
+        },
+        "kp": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9,
+          "description": "Planetary K-index value for the interval (0-9, third-integer steps in the GFZ product)."
+        },
+        "index": {
+          "type": "string",
+          "enum": ["Kp", "Hp"],
+          "description": "Which index this reading is: \"Kp\" (per-3hr planetary K) or \"Hp\" (per-hour Hp variant)."
+        },
+        "provenance": {
+          "type": "string",
+          "enum": ["gfz_definitive", "swpc_provisional"],
+          "description": "Authority of the reading: GFZ definitive (regression authority) or SWPC provisional (live tier). Drives T2S-2 GFZ-lag eligibility."
+        },
+        "satellite": {
+          "type": ["string", "null"],
+          "description": "Source satellite where applicable; null for ground-network-derived Kp."
+        }
+      }
+    }
+  }
+}

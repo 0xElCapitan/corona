@@ -1,0 +1,125 @@
+{
+  "schema_version": "0.1.0",
+  "manifest_kind": "corpus",
+  "status": "skeleton",
+  "cycle": "cycle-003",
+  "sprint": "S02",
+  "additive": true,
+  "generated_by_run": false,
+  "authored_date": "2026-05-30",
+  "authoring_note": "Hand-authored SKELETON manifest (cycle-003 S02 — corpus namespace + schema skeleton). NOT produced by a backtest/replay run. Populated additively by later sprints: S03 (T1/T2 entries), S04 (T4 entries), S05 (held-out seal), S06 (closeout verification). S02 creates NO corpus event records.",
+
+  "corpus_hash": null,
+  "corpus_hash_status": "PENDING — NOT FINAL",
+  "corpus_hash_note": "No corpus_hash is computed in S02 (the corpus carries zero event records). When events exist (S03/S04), corpus_hash is computed over the cycle-003 file set ONLY, by the same canonicalization the cycle-001 manifest used: sorted-key canonical JSON -> SHA-256 (the scripts/corona-backtest/replay/canonical-json.js + replay/hashes.js convention, referenced READ-ONLY; no edit to those files). CN-2 (binding): the cycle-003 corpus_hash is a DISTINCT value over a DISTINCT file set; it is NEVER substituted for, nor compared against, the frozen cycle-001 corpus_hash b1caef3f...11bb1 as if measuring the same corpus, and any future expanded-corpus baseline on it is a NEW regime, never an uplift delta vs Baseline A/B (HAZ-3 / CSG-2).",
+
+  "isolation": {
+    "this_root": "grimoires/loa/calibration/corona/corpus-cycle-003/",
+    "selected_by": "CORONA_CORPUS_DIR seam (config.js resolveCorpusDir); the existing loader runs against this root unchanged via the env var",
+    "frozen_corpus_root": "grimoires/loa/calibration/corona/corpus/",
+    "cn1_invariant": "The frozen corpus/ tree and the frozen cycle-001 corpus_hash b1caef3f...11bb1 are byte-immutable; cycle-003 never opens them for write. This is a NEW sibling tree, not a subtree of corpus/ and not a wrapper around the frozen manifests (CN-1, CN-3, NG-5, HS-3)."
+  },
+
+  "predecessor_manifests": [
+    {
+      "path": "grimoires/loa/calibration/corona/calibration-manifest.json",
+      "cycle": "cycle-001",
+      "immutable": true,
+      "frozen_sha256": "e53a40d1f880f4743567924d7fa10718dfb5caa740c48e998a344de4f85db34a",
+      "records_frozen_corpus_hash": "b1caef3faa1d046301229825c40e76e6ea23061a288d15ee6c49e78fbef11bb1",
+      "note": "Cycle-001 manifest entries' hashes are NEVER mutated. This cycle-003 manifest is an additive, self-contained, separate file; it does NOT wrap or supersede the frozen manifest (CN-3)."
+    },
+    {
+      "path": "grimoires/loa/calibration/corona/cycle-002/runtime-replay-manifest.json",
+      "cycle": "cycle-002",
+      "immutable": true,
+      "note": "Cycle-002 additive-manifest precedent; byte-frozen. Referenced for lineage only; not wrapped."
+    }
+  ],
+
+  "frozen_invariants_referenced_read_only": {
+    "note": "Recorded for provenance/isolation only; these are frozen artifacts cycle-003 does NOT touch. Verified intact (committed-blob sha256) at S02 pre-flight; see sprint-02/implementation-report.md.",
+    "scripts/corona-backtest.js": "17f6380b623f591bcaa5aa17e343eb775fb81960520d2ca9624b784acf1730f1",
+    "cycle-001 calibration-manifest.json": "e53a40d1f880f4743567924d7fa10718dfb5caa740c48e998a344de4f85db34a",
+    "cycle-001 corpus_hash": "b1caef3faa1d046301229825c40e76e6ea23061a288d15ee6c49e78fbef11bb1",
+    "package.json version": "0.2.0",
+    "rlmf_cert_version": "0.1.0"
+  },
+
+  "theatre_posture": {
+    "T1": "runtime-binary",
+    "T2": "runtime-binary",
+    "T3": "external-model",
+    "T4": "runtime-bucket",
+    "T5": "quality-of-behavior",
+    "note": "Carried forward verbatim from cycle-002. T3/T5 remain diagnostic-only and are EXCLUDED from any uplift-bearing target (OBJ-T3-1/T5-1, HAZ-4, CSG-7)."
+  },
+
+  "series_fields": {
+    "note": "OQ-1 additive series field names pinned in S02. These are ADDITIVE-ONLY annotations: the existing corpus-loader.js tolerates them (composes {...body,_derived,_file}) and IGNORES them at the evidence.pre_cutoff layer. Surfacing them into evidence.pre_cutoff is the deferred Layer-A/B replay+loader change (HS-2 / OQ-9), OUT OF SCOPE for cycle-003. Carrying them is wired-CAPABLE substrate shape only — NOT a wired/runtime-sensitivity/calibration claim (HAZ-1).",
+    "T1": {
+      "field": "xray_flux_observations",
+      "schema": "schema/xray-flux-observations.schema.json",
+      "entry_keys": ["time", "long_channel_wm2", "energy_channel", "satellite"],
+      "cutoff_rule": "flare_peak_time - 1 ms (deriveCutoffT1)",
+      "status": "pinned (shape only); populated in S03"
+    },
+    "T2": {
+      "field": "kp_observations",
+      "schema": "schema/kp-observations.schema.json",
+      "entry_keys": ["time", "kp", "index", "provenance", "satellite"],
+      "cutoff_rule": "kp_window_end (deriveCutoffT2)",
+      "status": "pinned (shape only); populated in S03"
+    }
+  },
+
+  "corpus_layout": {
+    "primary/T1-flare-class": { "status": "empty skeleton", "populated_in": "S03", "additive_series": "xray_flux_observations[]" },
+    "primary/T2-geomag-storm": { "status": "empty skeleton", "populated_in": "S03", "additive_series": "kp_observations[]" },
+    "primary/T4-proton-cascade": { "status": "empty skeleton", "populated_in": "S04", "additive_series": "proton_flux_observations[] (existing frozen shape, more events)" },
+    "primary/T3-cme-arrival": { "status": "ABSENT by default (OQ-6 default OFF; diagnostic-only)" },
+    "primary/T5-solar-wind-divergence": { "status": "ABSENT by default (OQ-6 default OFF; diagnostic-only)" },
+    "secondary": { "status": "EMPTY (pre-2017 secondary-tier is operator-gated, default OFF — OQ-3 / T4X-5)" }
+  },
+
+  "per_theatre_targets": {
+    "note": "Planning targets carried from PRD §6 / sprint plan, grounded in S01 verification (sprint-01/verification-ledger.md). Honest, supply-aware; never padded (HAZ-2). Counts are S03/S04 construction figures, NOT asserted as achieved here.",
+    "T1": { "target": "~30 (S01-confirmed not supply-constrained)", "verified_source": "NOAA NCEI GOES-R XRS 1-min 1-8A archive + DONKI FLR", "populate_in": "S03" },
+    "T2": { "target": "~30 (S01-confirmed not supply-constrained)", "verified_source": "GFZ Potsdam definitive Kp + SWPC provisional Kp + DONKI GST", "populate_in": "S03" },
+    "T4": {
+      "target": "supply-bounded, NOT 30 (HAZ-2)",
+      "s01_verified_goes_r_era_s1plus_supply": 46,
+      "s01_verified_per_year": { "2017": 3, "2018": 0, "2019": 0, "2020": 0, "2021": 3, "2022": 5, "2023": 12, "2024": 14, "2025": 8, "2026": 1 },
+      "s01_verified_s_magnitude_tally": { "S1": 28, "S2": 13, "S3": 4, "S4": 1, "S5": 0 },
+      "verified_source": "NOAA NCEI 'Solar Proton Events Affecting the Earth Environment' (ngdc.noaa.gov; Last-Modified 2026-01-21; last event 2026-01-18). NOT the stale umbra/SDAC mirror.",
+      "cascade_buckets_note": "The CORONA T4 buckets [0-1, 2-3, 4-6, 7-10, 11+] are 72h-post-M5+-trigger CASCADE-COUNT buckets (calibration-protocol §4.4.2) and are DISTINCT from the S-scale magnitude tally above. The per-bucket cascade-count distribution requires an M5+-trigger <-> S-event join and is S04 work — UNBLOCKED by the S01 source, NOT computed in S01 or S02.",
+      "parse_warning": "S04 must re-pull the NOAA SPE list at construction time and parse it </tr>-INDEPENDENTLY (source markup defect: the 2024-01-29 row is missing its </tr>, which an earlier <tr>-delimited parse made swallow the 2024-02-09 S2 row). Keep an explicit pfu>=10 filter (do not assume list membership => S1+).",
+      "populate_in": "S04"
+    }
+  },
+
+  "heldout_split": {
+    "file": "heldout-split.json",
+    "status": "PENDING — declared, frozen, and sealed in S05 (NOT created in S02)",
+    "seal": null,
+    "note": "S05 declares the leakage-free train/held-out methodology + assignment, hashes heldout-split.json, and records the seal pointer here. T4 held-out is likely UNDERPOWERED given thin high-S magnitude diversity (S05 HO-6 / OQ-3) — to be documented, never padded."
+  },
+
+  "entries": [],
+  "entries_status": "EMPTY in S02. No corpus event records exist yet. Per-file SHA-256 entries are added additively by S03 (T1/T2) and S04 (T4).",
+
+  "claim_boundary": {
+    "binding_statement": "S02 proves skeleton shape and loader tolerance only. It does not create corpus events, does not prove T1/T2 runtime wiring, and does not advance any rung.",
+    "cycle_posture": "Cycle-002 closed at Rung 2 (runtime-sensitive, T4 ONLY); published version v0.2.0; 'calibration-attempted, not improved'. Cycle-003 is a corpus-shape / data-substrate cycle: it earns NO new rung and advances NO theatre's rung (OQ-8).",
+    "prohibitions": [
+      "No calibration-improved claim (CSG-4)",
+      "No T1/T2 runtime-sensitivity claim (CSG-3)",
+      "No forecasting-accuracy claim (CSG-5)",
+      "No verifiable-track-record claim",
+      "No cross-regime uplift comparison vs Baseline A/B (CSG-2 / HAZ-3)",
+      "No L2 publish-ready claim (CSG-6)",
+      "No T3/T5 predictive-uplift claim (CSG-7)",
+      "No release / tag / version bump (CSG-8); published version stays v0.2.0"
+    ]
+  }
+}

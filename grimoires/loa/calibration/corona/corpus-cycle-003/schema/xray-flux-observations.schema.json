@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "corona/corpus-cycle-003/schema/xray-flux-observations.schema.json",
+  "title": "T1 additive pre-cutoff GOES X-ray flux series (xray_flux_observations[])",
+  "description": "SKELETON (cycle-003 S02). Pins the OQ-1 additive field name and entry sub-schema for the T1 Flare Class Gate pre-cutoff series, per SDD cycle-003 §4.2. This schema describes ONLY the cycle-003 additive top-level array; the frozen common envelope + per-theatre required fields remain owned by scripts/corona-backtest/ingestors/corpus-loader.js (validateCommonEnvelope + validateT1) and calibration-protocol.md §3.7 and are NOT redefined here. The array is an ADDITIVE annotation the existing loader tolerates (loadEventFile composes {...body,_derived,_file}) and IGNORES at the evidence.pre_cutoff layer — surfacing it into evidence.pre_cutoff is the deferred Layer-A/B replay+loader change (HS-2 / OQ-9), OUT OF SCOPE for cycle-003. Carrying this series is wired-CAPABLE substrate shape only; it is NOT a wired, runtime-sensitivity, or calibration-improvement claim (HAZ-1, CSG-3/CSG-4).",
+  "$comment": "S02 pins shape only. No T1 event records (real or placeholder) are created in cycle-003 S02; T1 events are populated in S03. Construction-time invariants S03 MUST enforce (not fully expressible in JSON Schema because they reference the event's own settlement fields): (T1S-1, HARD) every entry.time is STRICTLY before the event cutoff = flare_peak_time - 1 ms (deriveCutoffT1, corpus-loader.js); a single at/after-cutoff sample is a settlement leak (HS-7/CSG-1). (T1S-2/FR-C6-4) settlement labels (flare_class_observed, flare_peak_time, flare_peak_xray_flux, flare_end_time) stay in the event body / settlement set and are NEVER copied into this array. (T1S-3) entries are time-keyed and sortable, structurally analogous to the existing proton_flux_observations[].",
+  "type": "object",
+  "properties": {
+    "xray_flux_observations": {
+      "type": "array",
+      "description": "1-minute GOES long-channel (1-8 Angstrom / 0.1-0.8 nm) X-ray flux samples from gate-open toward the cutoff, strictly time-ordered ascending, every entry strictly pre-cutoff. Source: NOAA NCEI GOES-R XRS 1-min science archive (S01-verified retrievable). Empty/absent until S03.",
+      "items": { "$ref": "#/$defs/xrayFluxObservation" }
+    }
+  },
+  "$defs": {
+    "xrayFluxObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["time", "long_channel_wm2", "energy_channel", "satellite"],
+      "properties": {
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 UTC timestamp of the 1-min sample. MUST be strictly before the event cutoff (flare_peak_time - 1 ms)."
+        },
+        "long_channel_wm2": {
+          "type": "number",
+          "description": "Long-channel (1-8 Angstrom) X-ray irradiance in W/m^2."
+        },
+        "energy_channel": {
+          "type": "string",
+          "description": "Channel label, e.g. \"0.1-0.8 nm\" (the GOES XRS long / B channel)."
+        },
+        "satellite": {
+          "type": "string",
+          "description": "Source satellite, e.g. \"GOES-16\" / \"GOES-18\"."
+        }
+      }
+    }
+  }
+}

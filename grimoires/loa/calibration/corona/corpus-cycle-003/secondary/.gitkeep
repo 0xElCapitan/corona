@@ -1,0 +1,4 @@
+# Skeleton placeholder (cycle-003 S02). The `secondary/` tier is intentionally
+# EMPTY by default. Pre-2017 (pre-GOES-R) secondary-tier events are an
+# operator-gated, default-OFF decision (OQ-3 / T4X-5 / S0X-T4sec). No secondary
+# events are admitted in default cycle-003 scope. See ../README.md.

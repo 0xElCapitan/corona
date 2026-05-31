@@ -1,0 +1,5 @@
+# Skeleton placeholder (cycle-003 S02). This leaf directory is intentionally
+# empty in S02. T4 events (existing `proton_flux_observations[]` shape, more
+# events up to the GOES-R-era S1+ supply ceiling) are populated in S04.
+# See ../../README.md. The S04 NOAA/NCEI SPE parse MUST be </tr>-independent
+# (source markup defect on the 2024-01-29 row; carried from S01 §3 T4).
