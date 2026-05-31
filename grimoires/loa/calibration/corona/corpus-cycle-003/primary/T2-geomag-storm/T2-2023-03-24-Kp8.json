@@ -1,0 +1,101 @@
+{
+  "event_id": "T2-2023-03-24-Kp8",
+  "theatre": "T2",
+  "tier": "primary",
+  "event_time": "2023-03-24T03:00:00Z",
+  "donki_record_ref": "2023-03-23T12:00:00-GST-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+  "kp_swpc_observed": 8.0,
+  "kp_gfz_observed": 8.0,
+  "kp_window_start": "2023-03-24T03:00:00Z",
+  "kp_window_end": "2023-03-24T06:00:00Z",
+  "donki_gst_id": "2023-03-23T12:00:00-GST-001",
+  "kp_observations": [
+    {
+      "time": "2023-03-22T15:00:00Z",
+      "kp": 3.0,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    },
+    {
+      "time": "2023-03-22T18:00:00Z",
+      "kp": 3.333,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    },
+    {
+      "time": "2023-03-22T21:00:00Z",
+      "kp": 0.333,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    },
+    {
+      "time": "2023-03-23T00:00:00Z",
+      "kp": 0.667,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    },
+    {
+      "time": "2023-03-23T03:00:00Z",
+      "kp": 1.667,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    },
+    {
+      "time": "2023-03-23T06:00:00Z",
+      "kp": 3.0,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    },
+    {
+      "time": "2023-03-23T09:00:00Z",
+      "kp": 4.667,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    },
+    {
+      "time": "2023-03-23T12:00:00Z",
+      "kp": 6.667,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    },
+    {
+      "time": "2023-03-23T15:00:00Z",
+      "kp": 4.667,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    },
+    {
+      "time": "2023-03-23T18:00:00Z",
+      "kp": 6.333,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    },
+    {
+      "time": "2023-03-23T21:00:00Z",
+      "kp": 7.0,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    },
+    {
+      "time": "2023-03-24T00:00:00Z",
+      "kp": 7.333,
+      "index": "Kp",
+      "provenance": "gfz_definitive",
+      "satellite": null
+    }
+  ],
+  "notes": "Geomagnetic storm; definitive peak Kp 8 (G4) over 3-hr window 2023-03-24T03:00:00Z..2023-03-24T06:00:00Z. kp_observations[] = per-3hr GFZ Potsdam DEFINITIVE Kp (D>=1; Matzka et al. 2021) lead-in, strictly pre-window (settlement peak interval excluded; leakage-free). kp_swpc_observed = DONKI GST allKpIndex peak (source NOAA/SWPC). Retrieved 2026-05-31. Evidence-shape only; loader ignores kp_observations at evidence.pre_cutoff (SDD S2 / wired-capable)."
+}

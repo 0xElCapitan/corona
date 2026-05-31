@@ -1,0 +1,27 @@
+CORONA cycle-003 Sprint S03 — T1/T2 Corpus Construction (wired-capable only)
+AUDIT VERDICT: PASS WITH NON-BLOCKING NOTES (APPROVED)
+Audited: 2026-05-31 (Paranoid Cypherpunk Auditor, adversarial; artifacts re-verified independently — conformance probe re-run a 3rd time, NCEI .nc re-fetched FRESH + sha256-matched to cache, all 5,557 series entries schema-validated, source values re-extracted)
+Branch: cycle-003-s03-t1-t2-corpus @ base 0f217a2 (0 commits since base)
+
+VERIFIED
+- 30 real T1 + 30 real T2 records; leakage-free strictly-pre-cutoff series; conformance probe 0 violations (60 events / 5,557 entries) via the UNMODIFIED loader (no processX / replay / scoring).
+- T1 xray_flux_observations[] = real NOAA NCEI GOES-R XRS 1-8A (fresh re-fetch sha256-IDENTICAL to cache; 2024-05-14 peak 8.688e-4 W/m2 @ 16:51:00Z = X8.7). T2 kp_observations[] = real GFZ Potsdam DEFINITIVE per-3hr Kp (D>=1).
+- Series schema-conformant (5,197 T1 + 360 T2 entries, 0 violations) — the loader-ignored gap is clean.
+- Frozen invariants intact: corona-backtest.js 17f6380b..., calibration-manifest e53a40d1..., corpus_hash b1caef3f... (untouched), package.json 0.2.0, RLMF 0.1.0. Frozen corpus/ tree byte-unchanged (git diff empty).
+- Manifest: 60 entries with verifiable per-file canonical-JSON SHA-256; top-level corpus_hash PENDING/null (final = S06 over complete tree, LF/committed-blob semantics); cycle-001 b1caef3f referenced as predecessor, never replaced/equated.
+- 0 unsafe positive claims (grep gate: negations/prohibitions/cycle-002 ceiling/self-reference only). No code edit, no processX, no scoring/Brier, no refit, no T4 population, no held-out split, no commit, no push.
+- D-1 (T1 settlement from GOES XRS argmax, not DONKI peakTime): correct + necessary for leakage-correct cutoff (SDD §4.3). ACCEPTED.
+- D-2 (T1 restricted to >=2020, GOES-R true-scale era): scope clearly documented; NO artifact implies full 2017-2026 T1 coverage. ACCEPTABLE.
+
+NON-BLOCKING NOTES
+- NB-1: T1 era 2020-2026 narrower than T2 2017-2026 (2017-09 flares intentionally omitted; legacy-scale rationale). Documented + accepted; operator should consciously accept this T1 scope.
+- NB-2: cutoff=peak-1ms (frozen rule) -> T1 last sample ~95% of peak; OQ-9 Layer-A/B context, not an S03 defect.
+- NB-3: 6 T2 records show real SWPC-vs-GFZ G-bucket differences; loader buckets on GFZ definitive.
+- NB-4: README carries both S01 "retrievable (2017+)" and S03 ">=2020 coverage"; distinct + documented (minor clarity, optional future tidy).
+- Pending: S04 (T4 expansion, supply ceiling 46), S05 (held-out seal), S06 (final corpus_hash + closeout).
+
+POSTURE PRESERVED
+Cycle-002 ceiling unweakened: "CORONA demonstrated T4 runtime sensitivity only" (Rung 2, T4); published v0.2.0; "calibration-attempted, not improved". Cycle-003 earns NO new rung and advances NO theatre's rung. S03 proves wired-CAPABLE corpus shape ONLY — NOT T1/T2 runtime wiring, runtime sensitivity, calibration improvement, forecasting accuracy, predictive uplift, or L2 readiness.
+
+RECOMMENDATION: READY for operator approval + commit. No release; v0.2.0 unchanged.
+Cross-model Flatline disabled in config (flatline_protocol.*.enabled=false); single-model adversarial audit per project config (consistent with S01/S02).

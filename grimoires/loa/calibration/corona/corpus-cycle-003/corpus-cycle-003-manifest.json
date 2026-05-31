@@ -1,25 +1,22 @@
 {
   "schema_version": "0.1.0",
   "manifest_kind": "corpus",
-  "status": "skeleton",
+  "status": "s03-partial (T1+T2 populated; T4=S04, held-out=S05, final hash=S06)",
   "cycle": "cycle-003",
   "sprint": "S02",
   "additive": true,
   "generated_by_run": false,
   "authored_date": "2026-05-30",
   "authoring_note": "Hand-authored SKELETON manifest (cycle-003 S02 — corpus namespace + schema skeleton). NOT produced by a backtest/replay run. Populated additively by later sprints: S03 (T1/T2 entries), S04 (T4 entries), S05 (held-out seal), S06 (closeout verification). S02 creates NO corpus event records.",
-
   "corpus_hash": null,
-  "corpus_hash_status": "PENDING — NOT FINAL",
-  "corpus_hash_note": "No corpus_hash is computed in S02 (the corpus carries zero event records). When events exist (S03/S04), corpus_hash is computed over the cycle-003 file set ONLY, by the same canonicalization the cycle-001 manifest used: sorted-key canonical JSON -> SHA-256 (the scripts/corona-backtest/replay/canonical-json.js + replay/hashes.js convention, referenced READ-ONLY; no edit to those files). CN-2 (binding): the cycle-003 corpus_hash is a DISTINCT value over a DISTINCT file set; it is NEVER substituted for, nor compared against, the frozen cycle-001 corpus_hash b1caef3f...11bb1 as if measuring the same corpus, and any future expanded-corpus baseline on it is a NEW regime, never an uplift delta vs Baseline A/B (HAZ-3 / CSG-2).",
-
+  "corpus_hash_status": "PENDING — NOT FINAL. Real T1/T2 records now exist, but the corpus is INCOMPLETE (T4 added in S04, held-out seal in S05). The final top-level corpus_hash is computed in S06 over the COMPLETE tree. Per-file integrity is provided now via entries[].sha256_canonical.",
+  "corpus_hash_note": "No corpus_hash is computed in S02 (the corpus carries zero event records). When events exist (S03/S04), corpus_hash is computed over the cycle-003 file set ONLY, by the same canonicalization the cycle-001 manifest used: sorted-key canonical JSON -> SHA-256 (the scripts/corona-backtest/replay/canonical-json.js + replay/hashes.js convention, referenced READ-ONLY; no edit to those files). CN-2 (binding): the cycle-003 corpus_hash is a DISTINCT value over a DISTINCT file set; it is NEVER substituted for, nor compared against, the frozen cycle-001 corpus_hash b1caef3f...11bb1 as if measuring the same corpus, and any future expanded-corpus baseline on it is a NEW regime, never an uplift delta vs Baseline A/B (HAZ-3 / CSG-2). || [S03 UPDATE 2026-05-31] entries[] now carries a per-file EOL-immune canonical-JSON SHA-256 (sha256OfCanonical = SHA-256 over replay/canonical-json.js RFC-8785-spirit canonicalization; stable across CRLF/LF). The FINAL top-level corpus_hash stays PENDING/null and is computed in S06 over the COMPLETE T1+T2+T4 tree via reporting/hash-utils.js computeCorpusHash (path-sorted; per file: relative-path + NUL + RAW FILE BYTES + NUL; SHA-256). NOTE (Windows/CRLF): computeCorpusHash hashes raw bytes, so S06 MUST run it over LF/committed-blob content (git autocrlf=true yields on-disk CRLF here); otherwise the hash drifts (cycle-001 b1caef3f is over LF content). Not computed in S03 because the corpus is incomplete (no T4).",
   "isolation": {
     "this_root": "grimoires/loa/calibration/corona/corpus-cycle-003/",
     "selected_by": "CORONA_CORPUS_DIR seam (config.js resolveCorpusDir); the existing loader runs against this root unchanged via the env var",
     "frozen_corpus_root": "grimoires/loa/calibration/corona/corpus/",
     "cn1_invariant": "The frozen corpus/ tree and the frozen cycle-001 corpus_hash b1caef3f...11bb1 are byte-immutable; cycle-003 never opens them for write. This is a NEW sibling tree, not a subtree of corpus/ and not a wrapper around the frozen manifests (CN-1, CN-3, NG-5, HS-3)."
   },
-
   "predecessor_manifests": [
     {
       "path": "grimoires/loa/calibration/corona/calibration-manifest.json",
@@ -36,7 +33,6 @@
       "note": "Cycle-002 additive-manifest precedent; byte-frozen. Referenced for lineage only; not wrapped."
     }
   ],
-
   "frozen_invariants_referenced_read_only": {
     "note": "Recorded for provenance/isolation only; these are frozen artifacts cycle-003 does NOT touch. Verified intact (committed-blob sha256) at S02 pre-flight; see sprint-02/implementation-report.md.",
     "scripts/corona-backtest.js": "17f6380b623f591bcaa5aa17e343eb775fb81960520d2ca9624b784acf1730f1",
@@ -45,7 +41,6 @@
     "package.json version": "0.2.0",
     "rlmf_cert_version": "0.1.0"
   },
-
   "theatre_posture": {
     "T1": "runtime-binary",
     "T2": "runtime-binary",
@@ -54,60 +49,769 @@
     "T5": "quality-of-behavior",
     "note": "Carried forward verbatim from cycle-002. T3/T5 remain diagnostic-only and are EXCLUDED from any uplift-bearing target (OBJ-T3-1/T5-1, HAZ-4, CSG-7)."
   },
-
   "series_fields": {
     "note": "OQ-1 additive series field names pinned in S02. These are ADDITIVE-ONLY annotations: the existing corpus-loader.js tolerates them (composes {...body,_derived,_file}) and IGNORES them at the evidence.pre_cutoff layer. Surfacing them into evidence.pre_cutoff is the deferred Layer-A/B replay+loader change (HS-2 / OQ-9), OUT OF SCOPE for cycle-003. Carrying them is wired-CAPABLE substrate shape only — NOT a wired/runtime-sensitivity/calibration claim (HAZ-1).",
     "T1": {
       "field": "xray_flux_observations",
       "schema": "schema/xray-flux-observations.schema.json",
-      "entry_keys": ["time", "long_channel_wm2", "energy_channel", "satellite"],
+      "entry_keys": [
+        "time",
+        "long_channel_wm2",
+        "energy_channel",
+        "satellite"
+      ],
       "cutoff_rule": "flare_peak_time - 1 ms (deriveCutoffT1)",
-      "status": "pinned (shape only); populated in S03"
+      "status": "populated in S03: 30 events, 5197 xray_flux_observations entries"
     },
     "T2": {
       "field": "kp_observations",
       "schema": "schema/kp-observations.schema.json",
-      "entry_keys": ["time", "kp", "index", "provenance", "satellite"],
+      "entry_keys": [
+        "time",
+        "kp",
+        "index",
+        "provenance",
+        "satellite"
+      ],
       "cutoff_rule": "kp_window_end (deriveCutoffT2)",
-      "status": "pinned (shape only); populated in S03"
+      "status": "populated in S03: 30 events, 360 kp_observations entries"
     }
   },
-
   "corpus_layout": {
-    "primary/T1-flare-class": { "status": "empty skeleton", "populated_in": "S03", "additive_series": "xray_flux_observations[]" },
-    "primary/T2-geomag-storm": { "status": "empty skeleton", "populated_in": "S03", "additive_series": "kp_observations[]" },
-    "primary/T4-proton-cascade": { "status": "empty skeleton", "populated_in": "S04", "additive_series": "proton_flux_observations[] (existing frozen shape, more events)" },
-    "primary/T3-cme-arrival": { "status": "ABSENT by default (OQ-6 default OFF; diagnostic-only)" },
-    "primary/T5-solar-wind-divergence": { "status": "ABSENT by default (OQ-6 default OFF; diagnostic-only)" },
-    "secondary": { "status": "EMPTY (pre-2017 secondary-tier is operator-gated, default OFF — OQ-3 / T4X-5)" }
+    "primary/T1-flare-class": {
+      "status": "populated S03 (30 events)",
+      "populated_in": "S03",
+      "additive_series": "xray_flux_observations[]"
+    },
+    "primary/T2-geomag-storm": {
+      "status": "populated S03 (30 events)",
+      "populated_in": "S03",
+      "additive_series": "kp_observations[]"
+    },
+    "primary/T4-proton-cascade": {
+      "status": "empty skeleton",
+      "populated_in": "S04",
+      "additive_series": "proton_flux_observations[] (existing frozen shape, more events)"
+    },
+    "primary/T3-cme-arrival": {
+      "status": "ABSENT by default (OQ-6 default OFF; diagnostic-only)"
+    },
+    "primary/T5-solar-wind-divergence": {
+      "status": "ABSENT by default (OQ-6 default OFF; diagnostic-only)"
+    },
+    "secondary": {
+      "status": "EMPTY (pre-2017 secondary-tier is operator-gated, default OFF — OQ-3 / T4X-5)"
+    }
   },
-
   "per_theatre_targets": {
     "note": "Planning targets carried from PRD §6 / sprint plan, grounded in S01 verification (sprint-01/verification-ledger.md). Honest, supply-aware; never padded (HAZ-2). Counts are S03/S04 construction figures, NOT asserted as achieved here.",
-    "T1": { "target": "~30 (S01-confirmed not supply-constrained)", "verified_source": "NOAA NCEI GOES-R XRS 1-min 1-8A archive + DONKI FLR", "populate_in": "S03" },
-    "T2": { "target": "~30 (S01-confirmed not supply-constrained)", "verified_source": "GFZ Potsdam definitive Kp + SWPC provisional Kp + DONKI GST", "populate_in": "S03" },
+    "T1": {
+      "target": "~30 (S01-confirmed not supply-constrained)",
+      "verified_source": "NOAA NCEI GOES-R XRS 1-min 1-8A archive + DONKI FLR",
+      "populate_in": "S03"
+    },
+    "T2": {
+      "target": "~30 (S01-confirmed not supply-constrained)",
+      "verified_source": "GFZ Potsdam definitive Kp + SWPC provisional Kp + DONKI GST",
+      "populate_in": "S03"
+    },
     "T4": {
       "target": "supply-bounded, NOT 30 (HAZ-2)",
       "s01_verified_goes_r_era_s1plus_supply": 46,
-      "s01_verified_per_year": { "2017": 3, "2018": 0, "2019": 0, "2020": 0, "2021": 3, "2022": 5, "2023": 12, "2024": 14, "2025": 8, "2026": 1 },
-      "s01_verified_s_magnitude_tally": { "S1": 28, "S2": 13, "S3": 4, "S4": 1, "S5": 0 },
+      "s01_verified_per_year": {
+        "2017": 3,
+        "2018": 0,
+        "2019": 0,
+        "2020": 0,
+        "2021": 3,
+        "2022": 5,
+        "2023": 12,
+        "2024": 14,
+        "2025": 8,
+        "2026": 1
+      },
+      "s01_verified_s_magnitude_tally": {
+        "S1": 28,
+        "S2": 13,
+        "S3": 4,
+        "S4": 1,
+        "S5": 0
+      },
       "verified_source": "NOAA NCEI 'Solar Proton Events Affecting the Earth Environment' (ngdc.noaa.gov; Last-Modified 2026-01-21; last event 2026-01-18). NOT the stale umbra/SDAC mirror.",
       "cascade_buckets_note": "The CORONA T4 buckets [0-1, 2-3, 4-6, 7-10, 11+] are 72h-post-M5+-trigger CASCADE-COUNT buckets (calibration-protocol §4.4.2) and are DISTINCT from the S-scale magnitude tally above. The per-bucket cascade-count distribution requires an M5+-trigger <-> S-event join and is S04 work — UNBLOCKED by the S01 source, NOT computed in S01 or S02.",
       "parse_warning": "S04 must re-pull the NOAA SPE list at construction time and parse it </tr>-INDEPENDENTLY (source markup defect: the 2024-01-29 row is missing its </tr>, which an earlier <tr>-delimited parse made swallow the 2024-02-09 S2 row). Keep an explicit pfu>=10 filter (do not assume list membership => S1+).",
       "populate_in": "S04"
     }
   },
-
   "heldout_split": {
     "file": "heldout-split.json",
     "status": "PENDING — declared, frozen, and sealed in S05 (NOT created in S02)",
     "seal": null,
     "note": "S05 declares the leakage-free train/held-out methodology + assignment, hashes heldout-split.json, and records the seal pointer here. T4 held-out is likely UNDERPOWERED given thin high-S magnitude diversity (S05 HO-6 / OQ-3) — to be documented, never padded."
   },
-
-  "entries": [],
-  "entries_status": "EMPTY in S02. No corpus event records exist yet. Per-file SHA-256 entries are added additively by S03 (T1/T2) and S04 (T4).",
-
+  "entries": [
+    {
+      "path": "primary/T1-flare-class/T1-2020-05-29-M1p2.json",
+      "theatre": "T1",
+      "event_id": "T1-2020-05-29-M1p2",
+      "sha256_canonical": "571b7a54e47cedd1ad035780b953e39dad32ceeda5b49aa376701c7c890c6e95",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2020-05-29T07:18:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2020-11-29-M4p4.json",
+      "theatre": "T1",
+      "event_id": "T1-2020-11-29-M4p4",
+      "sha256_canonical": "c526dacc9c828cde09a1f11416e8b1e12bf5053ae83fe1efb9d4aff17a298d1a",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2020-11-29T12:34:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2021-05-07-M3p9.json",
+      "theatre": "T1",
+      "event_id": "T1-2021-05-07-M3p9",
+      "sha256_canonical": "bae5289c1e3999378826280ddad30a65e098269189297933ae4a98c3f4e20ee2",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2021-05-07T18:43:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2021-07-03-X1p6.json",
+      "theatre": "T1",
+      "event_id": "T1-2021-07-03-X1p6",
+      "sha256_canonical": "1a7d2333412029b51a9b5edf82b54d30dce67014c494615ce4ef723813f96bbc",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2021-07-03T14:18:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2021-08-28-M4p8.json",
+      "theatre": "T1",
+      "event_id": "T1-2021-08-28-M4p8",
+      "sha256_canonical": "d3ef46ea0d023c46dbde239d3c72b187b769ec422bbd3d34e5eaf0310d6e9f57",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2021-08-28T05:39:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2021-09-23-M1p9.json",
+      "theatre": "T1",
+      "event_id": "T1-2021-09-23-M1p9",
+      "sha256_canonical": "a98e0d2b4d64e74c045b59691dcf7c426fff754159d5cfc07939d655a797044f",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2021-09-23T15:23:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2021-10-28-X1p0.json",
+      "theatre": "T1",
+      "event_id": "T1-2021-10-28-X1p0",
+      "sha256_canonical": "b2ea0f9ec249182bc2bfa0941d9309ad5d86948470dcffce439a6d01ebf78435",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2021-10-28T15:17:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2021-11-09-M2p0.json",
+      "theatre": "T1",
+      "event_id": "T1-2021-11-09-M2p0",
+      "sha256_canonical": "c6e7f93be5fbbeaee9f3f164fccc130ba0694a6ed5a7f43b364da54ccb7cb32a",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2021-11-09T15:47:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2021-12-20-M1p9.json",
+      "theatre": "T1",
+      "event_id": "T1-2021-12-20-M1p9",
+      "sha256_canonical": "fe7aafc6dc35ba76e4ba27a432e5904ce432eb3b97df5c2a85013779604b83f7",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2021-12-20T11:12:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2021-12-28-M1p9.json",
+      "theatre": "T1",
+      "event_id": "T1-2021-12-28-M1p9",
+      "sha256_canonical": "3c20d5193839300aa583dbc0ddb50c91b803ef5cf5ca914b2d290cfd0d36b002",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2021-12-28T03:50:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2022-03-30-X1p4.json",
+      "theatre": "T1",
+      "event_id": "T1-2022-03-30-X1p4",
+      "sha256_canonical": "b452ec66003c18a50b7264989b231f8557c606894a58b7d2b5dbacb115da7a0a",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2022-03-30T17:21:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2022-03-31-M9p7.json",
+      "theatre": "T1",
+      "event_id": "T1-2022-03-31-M9p7",
+      "sha256_canonical": "333269ffa8166c5326da767b33363790a8e41ac044d8282557c7ef58c47c11e7",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2022-03-31T18:23:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2022-04-20-X2p2.json",
+      "theatre": "T1",
+      "event_id": "T1-2022-04-20-X2p2",
+      "sha256_canonical": "53f4bcc71f816eef0f00cb75fc6f177599473cfdb51902e32a01975797208a86",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2022-04-20T03:41:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2022-04-21-M9p7.json",
+      "theatre": "T1",
+      "event_id": "T1-2022-04-21-M9p7",
+      "sha256_canonical": "192d274b2e638477fcd8e65dd6955978d07e7ab1ed83e6ecd719b9de7b1d5c2d",
+      "series_field": "xray_flux_observations",
+      "series_len": 119,
+      "donki_record_ref": "2022-04-21T01:47:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2022-05-10-X1p5.json",
+      "theatre": "T1",
+      "event_id": "T1-2022-05-10-X1p5",
+      "sha256_canonical": "a9d51b4dbef4f13104b6fab97488b890dd4f73e71a69b852e707bd325e8001dd",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2022-05-10T13:50:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2022-08-26-M7p2.json",
+      "theatre": "T1",
+      "event_id": "T1-2022-08-26-M7p2",
+      "sha256_canonical": "78f25eab247c4b96fa35754091ebdac60b9233d3a332a0f97b9afce93bab669f",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2022-08-26T12:08:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2022-08-29-M8p7.json",
+      "theatre": "T1",
+      "event_id": "T1-2022-08-29-M8p7",
+      "sha256_canonical": "455da0da49d4d15c20a78b561984e054de6a7ce0fe87fd9a2b727d5f699175c4",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2022-08-29T10:48:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2022-09-16-M7p9.json",
+      "theatre": "T1",
+      "event_id": "T1-2022-09-16-M7p9",
+      "sha256_canonical": "03e4a7c736033879afa8a7b8ce06d1491a34bae91ff1b78d3332ff2842f9bf81",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2022-09-16T09:44:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2022-10-02-M8p8.json",
+      "theatre": "T1",
+      "event_id": "T1-2022-10-02-M8p8",
+      "sha256_canonical": "4101466ec52c65fbc953c5093e54bdcb7a3fbfd162e9f0e18de5007091fe9cc7",
+      "series_field": "xray_flux_observations",
+      "series_len": 141,
+      "donki_record_ref": "2022-10-02T02:08:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2023-12-14-X2p8.json",
+      "theatre": "T1",
+      "event_id": "T1-2023-12-14-X2p8",
+      "sha256_canonical": "c9aaee32e4b1960c24d81d02fd9ea79cc3f63ed4d0bb0678623fe41eddfdfb33",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2023-12-14T16:47:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2023-12-31-X4p9.json",
+      "theatre": "T1",
+      "event_id": "T1-2023-12-31-X4p9",
+      "sha256_canonical": "0686d9259de174d8c3f2b803c12abdb9ec2033253629ea9db7d1bdacfd1648a0",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2023-12-31T21:40:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2024-05-14-X8p7.json",
+      "theatre": "T1",
+      "event_id": "T1-2024-05-14-X8p7",
+      "sha256_canonical": "440b52de244d206e58ac9a368338f567d75fc7dc47509d297bddddc7a76ed2c3",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2024-05-14T16:46:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2024-10-01-X7p1.json",
+      "theatre": "T1",
+      "event_id": "T1-2024-10-01-X7p1",
+      "sha256_canonical": "aa740e25c32fddcb24a9c53b999e6fcbbe4c646ba9f0c9ef627d8162e635f89f",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2024-10-01T21:58:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2024-10-03-X8p9.json",
+      "theatre": "T1",
+      "event_id": "T1-2024-10-03-X8p9",
+      "sha256_canonical": "0e579511f6b221c621b84c6e26e349fbb4585e047b6aae9bc8524704d6d28082",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2024-10-03T12:08:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2025-11-11-X5p2.json",
+      "theatre": "T1",
+      "event_id": "T1-2025-11-11-X5p2",
+      "sha256_canonical": "88d48cb5c851a0fe97430c3e7a71e640c898f329d93bbff1b0e94a69b60c7241",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2025-11-11T09:49:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2025-11-14-X4p0.json",
+      "theatre": "T1",
+      "event_id": "T1-2025-11-14-X4p0",
+      "sha256_canonical": "198c938030ab92519ffb078731be4e231024d5b188120779a3033e95fd55f120",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2025-11-14T07:44:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2026-02-01-X8p1.json",
+      "theatre": "T1",
+      "event_id": "T1-2026-02-01-X8p1",
+      "sha256_canonical": "8f124f14ca82fa8d8cdcd0e6cdfc032cfae43e3a2fb7b63a14b6c6cb3f16aa81",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2026-02-01T23:44:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2026-02-03-M7p2.json",
+      "theatre": "T1",
+      "event_id": "T1-2026-02-03-M7p2",
+      "sha256_canonical": "7890f46db09a2adb106f4ecfd60fda5c0895c756d6aac49224ea33f6b8547686",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2026-02-03T06:43:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2026-02-04-X4p2.json",
+      "theatre": "T1",
+      "event_id": "T1-2026-02-04-X4p2",
+      "sha256_canonical": "e07ac57a9f1ac37ce4a3af0d92b91eb34f89cfede85be744951e755271c618fb",
+      "series_field": "xray_flux_observations",
+      "series_len": 180,
+      "donki_record_ref": "2026-02-04T12:02:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T1-flare-class/T1-2026-04-04-M7p5.json",
+      "theatre": "T1",
+      "event_id": "T1-2026-04-04-M7p5",
+      "sha256_canonical": "1bb5b363267e8437a3151917ba9a082150d70e9fbe5454cd9536e9a615926b62",
+      "series_field": "xray_flux_observations",
+      "series_len": 77,
+      "donki_record_ref": "2026-04-04T01:07:00-FLR-001",
+      "source": "NCEI GOES-R XRS avg1m_science 1-8A (netCDF-4 via h5py) + DONKI FLR catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2017-03-27-Kp6.33.json",
+      "theatre": "T2",
+      "event_id": "T2-2017-03-27-Kp6.33",
+      "sha256_canonical": "a9b952cbd6b8535f4293ff556404f75e0fb54a8b76f52883b80765b6e3554672",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2017-03-27T09:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2017-05-28-Kp7.json",
+      "theatre": "T2",
+      "event_id": "T2-2017-05-28-Kp7",
+      "sha256_canonical": "28236bc5118bdf94de030c8189a270688f59cc31d3160c309891bff3791f8d67",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2017-05-27T21:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2017-09-08-Kp8.33.json",
+      "theatre": "T2",
+      "event_id": "T2-2017-09-08-Kp8.33",
+      "sha256_canonical": "54e8a7dc2b881e10ffc4e2482d7b08ae82bf899168242ee95028ef6de3e54d0a",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2017-09-07T21:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2017-09-28-Kp6.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2017-09-28-Kp6.67",
+      "sha256_canonical": "13b03e6df6e76a2f0529525f893e9ad721225d01c24f2d222287a1a6d8aa7e8c",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2017-09-27T18:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2017-11-07-Kp6.33.json",
+      "theatre": "T2",
+      "event_id": "T2-2017-11-07-Kp6.33",
+      "sha256_canonical": "e8d9f13e1bf78da8fa1fd0bc25ac3261d3a2d3b582d7baefaee10b0ddc0d2ba2",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2017-11-07T18:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2018-08-26-Kp7.33.json",
+      "theatre": "T2",
+      "event_id": "T2-2018-08-26-Kp7.33",
+      "sha256_canonical": "c9acc82adacd4dd34f2b887ff85d59daaaf5a3c2d8561a239d554a5fb117433f",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2018-08-26T00:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2021-05-12-Kp7.json",
+      "theatre": "T2",
+      "event_id": "T2-2021-05-12-Kp7",
+      "sha256_canonical": "e70c21b4a1925716b2e5e7efbe244e76ccccdf777a16e8ef13149455df635824",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2021-05-12T12:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2021-11-04-Kp7.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2021-11-04-Kp7.67",
+      "sha256_canonical": "f1834f31c96af5331bb379c3087a0160a6010faffab3b1205a634b19158f669f",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2021-11-03T21:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2022-04-10-Kp6.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2022-04-10-Kp6.67",
+      "sha256_canonical": "e078de6ff9b1efe2cbbabe64b6528ca813bf006999b234f13e481ee4998f5560",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2022-04-10T03:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2022-08-17-Kp6.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2022-08-17-Kp6.67",
+      "sha256_canonical": "0b9289e002e48a124a333eeee1262d5d3d37cb605817f3a89350bc646f8446c2",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2022-08-17T18:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2023-02-27-Kp6.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2023-02-27-Kp6.67",
+      "sha256_canonical": "5aa67454d4d5fcc8c812607f218cf1f7fd4e85c73cd17f3ed9cfb78f28b926f2",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2023-02-27T03:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2023-03-24-Kp8.json",
+      "theatre": "T2",
+      "event_id": "T2-2023-03-24-Kp8",
+      "sha256_canonical": "de5a5dfec7aa88714787edf2361217f8d7928512a24d7dc8aca32c37cac38ee7",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2023-03-23T12:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2023-04-23-Kp8.33.json",
+      "theatre": "T2",
+      "event_id": "T2-2023-04-23-Kp8.33",
+      "sha256_canonical": "49d6db041c74373459001fd30123089352fd0f751ad9373782b9b30a363069a4",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2023-04-23T18:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2023-11-05-Kp7.33.json",
+      "theatre": "T2",
+      "event_id": "T2-2023-11-05-Kp7.33",
+      "sha256_canonical": "ce8f95718983801117a1a8b887bac5731d2038c7f670beb4956dbf405103aecc",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2023-11-05T09:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2023-12-01-Kp6.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2023-12-01-Kp6.67",
+      "sha256_canonical": "d26faec954e2d730beb4d4b24d83e337b7a9d0d2d40abb9866fa75925e27d25d",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2023-12-01T09:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2024-03-24-Kp8.33.json",
+      "theatre": "T2",
+      "event_id": "T2-2024-03-24-Kp8.33",
+      "sha256_canonical": "509da9cb7e43c91a8085d8e5d93c32379eb8f46306253ac83acc664ad25e7beb",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2024-03-24T12:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2024-05-11-Kp9.json",
+      "theatre": "T2",
+      "event_id": "T2-2024-05-11-Kp9",
+      "sha256_canonical": "f2d171850cd860ca0b6df86a5b88471c8599e3134847733f864f12c66883b836",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2024-05-10T15:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2024-06-28-Kp7.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2024-06-28-Kp7.67",
+      "sha256_canonical": "8265fb30a73c74886b4654a6188d817c54dce48ee6ed9bfa6122294ae06f9294",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2024-06-28T09:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2024-08-12-Kp8.json",
+      "theatre": "T2",
+      "event_id": "T2-2024-08-12-Kp8",
+      "sha256_canonical": "e413a9c332efa4838b3c0b45c6a696e01cd012b71e9a975dbab7d145296ca779",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2024-08-12T00:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2024-09-17-Kp7.33.json",
+      "theatre": "T2",
+      "event_id": "T2-2024-09-17-Kp7.33",
+      "sha256_canonical": "f5b4a68e4634d9f385bbef4ace3939d67348a6be75c8d774a70494a46fad78bd",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2024-09-17T00:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2024-10-10-Kp8.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2024-10-10-Kp8.67",
+      "sha256_canonical": "056d212912948572a544e7273b9e20bc2ab210b06881e6672398fa2081854936",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2024-10-10T15:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2025-01-01-Kp8.json",
+      "theatre": "T2",
+      "event_id": "T2-2025-01-01-Kp8",
+      "sha256_canonical": "b94c4b007a3fed04dc460b71e75325d8006c3539b60b19eabc06c79d71847380",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2025-01-01T09:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2025-04-16-Kp7.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2025-04-16-Kp7.67",
+      "sha256_canonical": "659fb4f8169b8f39bdb2eb4c33797f835a5383c69ce4af0df135b196a62f40df",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2025-04-15T18:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2025-06-01-Kp7.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2025-06-01-Kp7.67",
+      "sha256_canonical": "0a24f45190edc5add4718bb607b4f9a9fbe4b19fbd3f583829588800d367b882",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2025-06-01T06:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2025-06-13-Kp6.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2025-06-13-Kp6.67",
+      "sha256_canonical": "9215f9ee6447249edd0f1189e251635d91464c9c41e47351fbfe9a4f46a41561",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2025-06-13T00:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2025-09-30-Kp7.json",
+      "theatre": "T2",
+      "event_id": "T2-2025-09-30-Kp7",
+      "sha256_canonical": "4a6da3a2db1214bee322a9c377d7f5ff8cf7253d2525bab012bad2415e032a78",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2025-09-30T03:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2025-11-12-Kp8.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2025-11-12-Kp8.67",
+      "sha256_canonical": "85a2a4eacd2bf14364d0df1c9d1a649ee1b432365170fc26fa724d4944b1cbb5",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2025-11-12T00:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2026-01-19-Kp8.67.json",
+      "theatre": "T2",
+      "event_id": "T2-2026-01-19-Kp8.67",
+      "sha256_canonical": "ee96c8157673914552e68967d5aa08a71240e310e156325b81a75e73dc2426bc",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2026-01-19T18:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2026-03-21-Kp7.json",
+      "theatre": "T2",
+      "event_id": "T2-2026-03-21-Kp7",
+      "sha256_canonical": "e8ad31597cb493ab685afaf3ce19d074ebfd029946fdae895871ebb85d75159d",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2026-03-20T18:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    },
+    {
+      "path": "primary/T2-geomag-storm/T2-2026-03-22-Kp7.json",
+      "theatre": "T2",
+      "event_id": "T2-2026-03-22-Kp7",
+      "sha256_canonical": "ac4382d14341fa2df5f658972e096c66be7c983174f692e8c03212ca07b2d0a7",
+      "series_field": "kp_observations",
+      "series_len": 12,
+      "donki_record_ref": "2026-03-22T09:00:00-GST-001",
+      "source": "GFZ Potsdam definitive Kp (D>=1, Matzka et al. 2021) + DONKI GST catalog ref",
+      "retrieval_date": "2026-05-31"
+    }
+  ],
+  "entries_status": "S03 populated 60 primary records (30 T1 + 30 T2) with per-file EOL-immune canonical-JSON SHA-256. T4 entries added additively in S04; the held-out seal in S05; the FINAL top-level corpus_hash in S06 over the complete tree.",
   "claim_boundary": {
     "binding_statement": "S02 proves skeleton shape and loader tolerance only. It does not create corpus events, does not prove T1/T2 runtime wiring, and does not advance any rung.",
     "cycle_posture": "Cycle-002 closed at Rung 2 (runtime-sensitive, T4 ONLY); published version v0.2.0; 'calibration-attempted, not improved'. Cycle-003 is a corpus-shape / data-substrate cycle: it earns NO new rung and advances NO theatre's rung (OQ-8).",
@@ -121,5 +825,51 @@
       "No T3/T5 predictive-uplift claim (CSG-7)",
       "No release / tag / version bump (CSG-8); published version stays v0.2.0"
     ]
+  },
+  "s03_summary": {
+    "sprint": "S03",
+    "authored": "2026-05-31",
+    "scope": "Real T1/T2 corpus construction with leakage-free pre-cutoff evidence series (wired-capable shape only).",
+    "proves": [
+      "T1/T2 records carry real pre-cutoff evidence series (xray_flux_observations[]/kp_observations[])",
+      "strictly pre-cutoff + strictly time-ordered (read-only conformance probe, 0 violations)",
+      "loader-tolerant (loadCorpus: 60 loaded, 0 rejected)",
+      "wired-CAPABLE substrate shape"
+    ],
+    "does_not_prove": [
+      "T1/T2 runtime wiring",
+      "T1/T2 runtime sensitivity",
+      "calibration improvement",
+      "forecasting accuracy",
+      "predictive uplift",
+      "any new rung",
+      "L2 readiness"
+    ],
+    "counts": {
+      "T1_events": 30,
+      "T2_events": 30,
+      "T1_series_entries": 5197,
+      "T2_series_entries": 360
+    },
+    "T1_bucket_distribution": {
+      "M1-M4": 8,
+      "X1-X4": 9,
+      "M5-M9": 8,
+      "X5-X9": 5
+    },
+    "T2_gscale_distribution": {
+      "G2": 8,
+      "G3": 12,
+      "G4": 9,
+      "G5": 1
+    },
+    "T1_source": "NCEI GOES-R XRS avg1m_science 1-8A long channel (netCDF-4/HDF5).",
+    "T1_settlement_authority": "flare_peak_time/flux/class derived from GOES XRS argmax (SDD §4.3), NOT DONKI peakTime, for leakage-correct cutoff = flare_peak_time-1ms (deriveCutoffT1).",
+    "T1_scale_decision": "Restricted to >=2020 where GOES-R true XRS-B == canonical NOAA/DONKI class (empirical ratio 0.99-1.08); 2017-2019 excluded (legacy GOES-13/15 0.7-scaled classification, ratio ~1.57) to keep one consistent real scale. Per-event ratio sanity-gate [0.8,1.25] vs DONKI.",
+    "T2_source": "GFZ Potsdam definitive per-3hr Kp (D>=1). cutoff = kp_window_end (deriveCutoffT2); kp_observations[] = lead-in strictly pre kp_window_start (peak interval = settlement, excluded).",
+    "T2_gfz_lag": "T2S-2 honored: definitive frontier 2026-04-30 (retrieved 2026-05-31, ~31d lag). Only definitive (D>=1) peaks admitted; 2 within-lag G1+ storms (2026-05-04 Kp5.33, 2026-05-15 Kp6.0) EXCLUDED (no honest pre-cutoff provisional series source: DONKI GST allKpIndex has no pre-window readings; SWPC live JSON tail-only). All 30 admitted T2 events carry definitive Kp (regression-tier-eligible).",
+    "conformance": "Read-only SDD §2.3 probe via existing loadCorpus + deriveCutoffT1/T2: 60 events, 5557 series entries, 0 violations (strict-pre-cutoff + strict-ascending + no settlement-key in series). No processX, no trajectory, no score.",
+    "extraction_tooling": "EPHEMERAL venv OUTSIDE repo (h5py 3.16.0 / numpy 2.4.6 / Python 3.14.0); NCEI bounded per-event-window fetches. No repo deps, no committed tooling, no scripts/src/tests edit.",
+    "report": "grimoires/loa/a2a/cycle-003/sprint-03/implementation-report.md"
   }
 }

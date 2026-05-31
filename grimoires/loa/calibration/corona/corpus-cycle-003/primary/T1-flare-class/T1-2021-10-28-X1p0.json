@@ -1,0 +1,1098 @@
+{
+  "event_id": "T1-2021-10-28-X1p0",
+  "theatre": "T1",
+  "tier": "primary",
+  "event_time": "2021-10-28T15:17:00Z",
+  "donki_record_ref": "2021-10-28T15:17:00-FLR-001",
+  "goes_satellite": "GOES-16",
+  "goes_secondary_satellite": "GOES-18",
+  "flare_class_observed": "X1.0",
+  "flare_peak_time": "2021-10-28T15:35:00Z",
+  "flare_peak_xray_flux": 9.999e-05,
+  "flare_end_time": "2021-10-28T15:47:00Z",
+  "donki_flr_class_type": "X1.0",
+  "prediction_window_hours": 24,
+  "xray_flux_observations": [
+    {
+      "time": "2021-10-28T12:35:00Z",
+      "long_channel_wm2": 2.089e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:36:00Z",
+      "long_channel_wm2": 2.171e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:37:00Z",
+      "long_channel_wm2": 2.24e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:38:00Z",
+      "long_channel_wm2": 2.263e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:39:00Z",
+      "long_channel_wm2": 2.244e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:40:00Z",
+      "long_channel_wm2": 2.191e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:41:00Z",
+      "long_channel_wm2": 2.117e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:42:00Z",
+      "long_channel_wm2": 2.052e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:43:00Z",
+      "long_channel_wm2": 1.986e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:44:00Z",
+      "long_channel_wm2": 1.908e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:45:00Z",
+      "long_channel_wm2": 1.827e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:46:00Z",
+      "long_channel_wm2": 1.76e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:47:00Z",
+      "long_channel_wm2": 1.711e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:48:00Z",
+      "long_channel_wm2": 1.644e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:49:00Z",
+      "long_channel_wm2": 1.583e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:50:00Z",
+      "long_channel_wm2": 1.524e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:51:00Z",
+      "long_channel_wm2": 1.473e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:52:00Z",
+      "long_channel_wm2": 1.426e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:53:00Z",
+      "long_channel_wm2": 1.38e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:54:00Z",
+      "long_channel_wm2": 1.339e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:55:00Z",
+      "long_channel_wm2": 1.298e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:56:00Z",
+      "long_channel_wm2": 1.253e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:57:00Z",
+      "long_channel_wm2": 1.212e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:58:00Z",
+      "long_channel_wm2": 1.177e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T12:59:00Z",
+      "long_channel_wm2": 1.156e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:00:00Z",
+      "long_channel_wm2": 1.117e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:01:00Z",
+      "long_channel_wm2": 1.083e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:02:00Z",
+      "long_channel_wm2": 1.065e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:03:00Z",
+      "long_channel_wm2": 1.084e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:04:00Z",
+      "long_channel_wm2": 1.075e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:05:00Z",
+      "long_channel_wm2": 1.041e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:06:00Z",
+      "long_channel_wm2": 1.011e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:07:00Z",
+      "long_channel_wm2": 9.989e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:08:00Z",
+      "long_channel_wm2": 9.738e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:09:00Z",
+      "long_channel_wm2": 9.409e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:10:00Z",
+      "long_channel_wm2": 9.045e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:11:00Z",
+      "long_channel_wm2": 8.824e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:12:00Z",
+      "long_channel_wm2": 8.674e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:13:00Z",
+      "long_channel_wm2": 8.59e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:14:00Z",
+      "long_channel_wm2": 8.573e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:15:00Z",
+      "long_channel_wm2": 8.575e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:16:00Z",
+      "long_channel_wm2": 8.81e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:17:00Z",
+      "long_channel_wm2": 9.508e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:18:00Z",
+      "long_channel_wm2": 1.029e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:19:00Z",
+      "long_channel_wm2": 1.403e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:20:00Z",
+      "long_channel_wm2": 2.771e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:21:00Z",
+      "long_channel_wm2": 3.325e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:22:00Z",
+      "long_channel_wm2": 2.971e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:23:00Z",
+      "long_channel_wm2": 2.454e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:24:00Z",
+      "long_channel_wm2": 2.008e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:25:00Z",
+      "long_channel_wm2": 1.662e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:26:00Z",
+      "long_channel_wm2": 1.415e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:27:00Z",
+      "long_channel_wm2": 1.249e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:28:00Z",
+      "long_channel_wm2": 1.15e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:29:00Z",
+      "long_channel_wm2": 1.065e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:30:00Z",
+      "long_channel_wm2": 9.959e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:31:00Z",
+      "long_channel_wm2": 9.42e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:32:00Z",
+      "long_channel_wm2": 9.203e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:33:00Z",
+      "long_channel_wm2": 9.161e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:34:00Z",
+      "long_channel_wm2": 8.967e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:35:00Z",
+      "long_channel_wm2": 8.516e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:36:00Z",
+      "long_channel_wm2": 7.967e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:37:00Z",
+      "long_channel_wm2": 7.531e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:38:00Z",
+      "long_channel_wm2": 7.201e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:39:00Z",
+      "long_channel_wm2": 7e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:40:00Z",
+      "long_channel_wm2": 6.886e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:41:00Z",
+      "long_channel_wm2": 6.781e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:42:00Z",
+      "long_channel_wm2": 6.628e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:43:00Z",
+      "long_channel_wm2": 6.707e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:44:00Z",
+      "long_channel_wm2": 7.022e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:45:00Z",
+      "long_channel_wm2": 6.861e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:46:00Z",
+      "long_channel_wm2": 7.13e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:47:00Z",
+      "long_channel_wm2": 7.527e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:48:00Z",
+      "long_channel_wm2": 7.552e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:49:00Z",
+      "long_channel_wm2": 8.422e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:50:00Z",
+      "long_channel_wm2": 7.911e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:51:00Z",
+      "long_channel_wm2": 7.813e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:52:00Z",
+      "long_channel_wm2": 8.761e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:53:00Z",
+      "long_channel_wm2": 1.124e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:54:00Z",
+      "long_channel_wm2": 1.726e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:55:00Z",
+      "long_channel_wm2": 2.408e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:56:00Z",
+      "long_channel_wm2": 2.76e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:57:00Z",
+      "long_channel_wm2": 3.24e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:58:00Z",
+      "long_channel_wm2": 3.653e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T13:59:00Z",
+      "long_channel_wm2": 3.88e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:00:00Z",
+      "long_channel_wm2": 3.69e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:01:00Z",
+      "long_channel_wm2": 3.263e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:02:00Z",
+      "long_channel_wm2": 2.851e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:03:00Z",
+      "long_channel_wm2": 2.449e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:04:00Z",
+      "long_channel_wm2": 2.153e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:05:00Z",
+      "long_channel_wm2": 1.911e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:06:00Z",
+      "long_channel_wm2": 1.699e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:07:00Z",
+      "long_channel_wm2": 1.486e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:08:00Z",
+      "long_channel_wm2": 1.311e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:09:00Z",
+      "long_channel_wm2": 1.167e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:10:00Z",
+      "long_channel_wm2": 1.061e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:11:00Z",
+      "long_channel_wm2": 9.713e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:12:00Z",
+      "long_channel_wm2": 8.995e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:13:00Z",
+      "long_channel_wm2": 8.37e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:14:00Z",
+      "long_channel_wm2": 7.881e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:15:00Z",
+      "long_channel_wm2": 7.393e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:16:00Z",
+      "long_channel_wm2": 6.952e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:17:00Z",
+      "long_channel_wm2": 6.696e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:18:00Z",
+      "long_channel_wm2": 6.428e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:19:00Z",
+      "long_channel_wm2": 6.433e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:20:00Z",
+      "long_channel_wm2": 6.684e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:21:00Z",
+      "long_channel_wm2": 6.995e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:22:00Z",
+      "long_channel_wm2": 6.86e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:23:00Z",
+      "long_channel_wm2": 7.078e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:24:00Z",
+      "long_channel_wm2": 7.416e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:25:00Z",
+      "long_channel_wm2": 7.728e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:26:00Z",
+      "long_channel_wm2": 7.806e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:27:00Z",
+      "long_channel_wm2": 8.041e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:28:00Z",
+      "long_channel_wm2": 8.309e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:29:00Z",
+      "long_channel_wm2": 8.448e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:30:00Z",
+      "long_channel_wm2": 8.162e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:31:00Z",
+      "long_channel_wm2": 7.817e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:32:00Z",
+      "long_channel_wm2": 7.483e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:33:00Z",
+      "long_channel_wm2": 7.185e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:34:00Z",
+      "long_channel_wm2": 6.823e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:35:00Z",
+      "long_channel_wm2": 6.504e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:36:00Z",
+      "long_channel_wm2": 6.243e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:37:00Z",
+      "long_channel_wm2": 5.996e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:38:00Z",
+      "long_channel_wm2": 5.73e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:39:00Z",
+      "long_channel_wm2": 5.477e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:40:00Z",
+      "long_channel_wm2": 5.294e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:41:00Z",
+      "long_channel_wm2": 5.168e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:42:00Z",
+      "long_channel_wm2": 5.106e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:43:00Z",
+      "long_channel_wm2": 5.092e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:44:00Z",
+      "long_channel_wm2": 5.132e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:45:00Z",
+      "long_channel_wm2": 5.171e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:46:00Z",
+      "long_channel_wm2": 5.266e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:47:00Z",
+      "long_channel_wm2": 5.327e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:48:00Z",
+      "long_channel_wm2": 5.35e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:49:00Z",
+      "long_channel_wm2": 5.342e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:50:00Z",
+      "long_channel_wm2": 5.455e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:51:00Z",
+      "long_channel_wm2": 6.187e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:52:00Z",
+      "long_channel_wm2": 6.211e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:53:00Z",
+      "long_channel_wm2": 6.127e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:54:00Z",
+      "long_channel_wm2": 5.996e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:55:00Z",
+      "long_channel_wm2": 6.052e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:56:00Z",
+      "long_channel_wm2": 6.924e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:57:00Z",
+      "long_channel_wm2": 6.699e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:58:00Z",
+      "long_channel_wm2": 6.341e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T14:59:00Z",
+      "long_channel_wm2": 6.148e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:00:00Z",
+      "long_channel_wm2": 6.004e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:01:00Z",
+      "long_channel_wm2": 5.88e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:02:00Z",
+      "long_channel_wm2": 5.698e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:03:00Z",
+      "long_channel_wm2": 5.542e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:04:00Z",
+      "long_channel_wm2": 5.453e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:05:00Z",
+      "long_channel_wm2": 5.353e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:06:00Z",
+      "long_channel_wm2": 5.245e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:07:00Z",
+      "long_channel_wm2": 5.138e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:08:00Z",
+      "long_channel_wm2": 5.034e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:09:00Z",
+      "long_channel_wm2": 4.965e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:10:00Z",
+      "long_channel_wm2": 4.951e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:11:00Z",
+      "long_channel_wm2": 5.023e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:12:00Z",
+      "long_channel_wm2": 5.098e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:13:00Z",
+      "long_channel_wm2": 5.173e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:14:00Z",
+      "long_channel_wm2": 5.28e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:15:00Z",
+      "long_channel_wm2": 5.315e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:16:00Z",
+      "long_channel_wm2": 5.32e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:17:00Z",
+      "long_channel_wm2": 5.348e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:18:00Z",
+      "long_channel_wm2": 5.436e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:19:00Z",
+      "long_channel_wm2": 5.64e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:20:00Z",
+      "long_channel_wm2": 5.972e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:21:00Z",
+      "long_channel_wm2": 6.235e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:22:00Z",
+      "long_channel_wm2": 6.498e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:23:00Z",
+      "long_channel_wm2": 6.955e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:24:00Z",
+      "long_channel_wm2": 8.034e-07,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:25:00Z",
+      "long_channel_wm2": 1.089e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:26:00Z",
+      "long_channel_wm2": 2.551e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:27:00Z",
+      "long_channel_wm2": 7.95e-06,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:28:00Z",
+      "long_channel_wm2": 2.011e-05,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:29:00Z",
+      "long_channel_wm2": 3.707e-05,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:30:00Z",
+      "long_channel_wm2": 5.737e-05,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:31:00Z",
+      "long_channel_wm2": 7.517e-05,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:32:00Z",
+      "long_channel_wm2": 8.886e-05,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:33:00Z",
+      "long_channel_wm2": 9.703e-05,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    },
+    {
+      "time": "2021-10-28T15:34:00Z",
+      "long_channel_wm2": 9.989e-05,
+      "energy_channel": "0.1-0.8 nm",
+      "satellite": "GOES-16"
+    }
+  ],
+  "notes": "Solar flare; GOES-observed peak X1.0=9.999e-05 W/m2 at 2021-10-28T15:35:00Z (GOES-16 XRS-B 1-8A), DONKI catalog X1.0 (2021-10-28T15:17:00-FLR-001), GOES/DONKI ratio 1.00. flare_peak_time/flux/class from GOES XRS argmax (SDD S4.3 settlement authority; GOES-R true scale == canonical NOAA class for >=2020), NOT DONKI peakTime, for leakage-correct cutoff. xray_flux_observations[] = NCEI GOES-R XRS 1-min 1-8A good (xrsb_flag==0) samples, rising limb in [peak-180min, cutoff), strictly pre-peak (leakage-free). flare_end_time = NOAA half-decay (GOES-derived). Retrieved 2026-05-31. Evidence-shape only; loader ignores series at evidence.pre_cutoff (SDD S2 / wired-capable)."
+}

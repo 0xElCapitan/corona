@@ -12,6 +12,19 @@ corpus event records.**
 > does not create corpus events, does not prove T1/T2 runtime wiring, and does not advance any
 > rung.*
 
+> **S03 population (2026-05-31) — wired-capable shape only.** Sprint S03 populated `primary/T1-flare-class/`
+> with **30 real flare records** (each carrying `xray_flux_observations[]`, NOAA NCEI GOES-R XRS 1-min
+> 1–8 Å, strictly pre-`flare_peak_time − 1 ms`) and `primary/T2-geomag-storm/` with **30 real storm
+> records** (each carrying `kp_observations[]`, GFZ Potsdam **definitive** per-3hr Kp, strictly pre-`kp_window_end`).
+> A read-only conformance probe over all 60 events via the **unmodified** loader returns **0 leakage
+> violations** (5,557 series entries). T1 settlement (peak time/flux/class) is derived from the GOES XRS
+> argmax (SDD §4.3) for leakage-correct cutoffs; T1 is restricted to **≥2020** so the GOES-R true XRS
+> scale equals the canonical NOAA class. The top-level `corpus_hash` stays **PENDING** (corpus incomplete:
+> T4 = S04, held-out seal = S05, final hash = S06); per-file canonical-JSON SHA-256 entries are in the
+> manifest. **S03 proves leakage-free pre-cutoff *shape* only — NOT T1/T2 runtime wiring, sensitivity,
+> calibration improvement, or any rung** (the loader still ignores these series at `evidence.pre_cutoff`;
+> SDD §2 / HS-2 / OQ-9). See [`../../../a2a/cycle-003/sprint-03/implementation-report.md`](../../../a2a/cycle-003/sprint-03/implementation-report.md).
+
 ---
 
 ## Cycle posture (carried forward, unweakened)
