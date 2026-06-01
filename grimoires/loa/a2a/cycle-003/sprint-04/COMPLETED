@@ -1,0 +1,57 @@
+COMPLETED-AS-BLOCKED-PARTIAL
+
+CORONA cycle-003 — Sprint S04 (T4 Expansion + Bucket Report)
+Audited: 2026-05-31 | Branch: cycle-003-s04-t4-expansion @ 2fd40ed (S03 base) | main untouched @ eaaf5e4
+
+VERDICT: APPROVED — LETS FUCKING GO (PASS WITH NON-BLOCKING NOTES)
+
+This marker records S04 as a CLOSED, HONEST, PARTIAL/BLOCKED sprint under operator-chosen
+Option B — NOT as "T4 expansion delivered." S04 produced zero T4 corpus records and zero
+cascade-bucket distribution by design of two honestly-documented blockers.
+
+WHAT S04 DELIVERED (accepted):
+- T4 GOES-R-era S1+ supply RE-VERIFIED = 46 (current NOAA NCEI SEP list, </tr>-independent
+  chunk-by-10 parse; matches S01 exactly; 2024-02-09/1530/187pfu/S2 included; S-scale
+  S1:28 S2:13 S3:4 S4:1 S5:0 = supply characterization only, NOT the cascade buckets).
+- Honest two-kind blocker framing (post E1–E3): (A) T4 record construction = UNAUTHORIZED/
+  UNDER-SPECIFIED in S04 (deferrable scope stop, not impossibility); (B) cascade-bucket
+  distribution = GENUINELY NOT DERIVABLE from the proton-events-only SEP list.
+- Option B recorded as operator decision (2026-05-31); Option A′ recorded as future-possible,
+  NOT executed.
+
+VALIDATION (independently re-derived by a 7-agent adversarial audit; 5/6 dimensions PASS,
+scope_diff PASS after auditor-scratch cleanup, meta-adversary CONCERN→PASS-WITH-NOTES):
+- git diff HEAD empty; no T4 records (.gitkeep only); manifest/S03/frozen tree/src/scripts/
+  tests all unmodified; no commit/tag/S05/held-out/scoring/refit/backtest.
+- Frozen invariants intact: corona-backtest.js 17f6380b…; calibration-manifest e53a40d1…;
+  cycle-001 corpus_hash b1caef3f… present (not substituted); cycle-003 corpus_hash null;
+  package.json 0.2.0; RLMF cert 0.1.0.
+- Claim gate: 0 unsafe positive claims in the 3 deliverables. No new rung; no calibration
+  improvement; no forecasting accuracy; no predictive uplift; no L2 readiness. Cycle-002
+  ceiling ("T4 runtime sensitivity only," v0.2.0) preserved unweakened.
+
+BINDING CARRY-FORWARD TO S06 (operator-accepted condition of this closure):
+- The tracked corpus-cycle-003-manifest.json still carries S02-era T4 language now falsified
+  by S04 — line 141 cascade_buckets_note says the buckets are "S04 work — UNBLOCKED by the
+  S01 source"; lines 92–94 + 143 say T4 status "empty skeleton" / populate_in "S04". Under
+  Option B the manifest was deliberately NOT edited in S04 (acceptance criterion: no manifest
+  changes). The supersession lives in untracked prose (implementation-report §9; blocker-
+  decision-report §7) and is ACCEPTED as known-stale for S04→S05.
+- S06 closeout MUST reconcile the manifest T4 fields to the S04 determination:
+  cascade_buckets_note → "BLOCKED per S04: structurally not derivable from the proton-events-
+  only SEP list; needs the zero-producing M5+ denominator (separate flare catalogue)";
+  T4 status/populate_in → "blocked/deferred to future gated work". corpus_hash stays null;
+  no records; no rung.
+
+DEFERRED TO FUTURE GATED WORK (not S04, not authorized here):
+- T4 record construction (needs raw GOES ≥10 MeV proton-flux time-series + M5+ trigger-window
+  construction under explicit sprint-plan authorization, SDD DV-5).
+- The cascade-bucket distribution (needs the full M5+ trigger population incl. zero-producing
+  windows = a separate flare catalogue; not lifted by a flux fetch).
+- Option A′ bias-free 5-frozen-window proof-of-source sanity-sample (recommended future first
+  step; builds no records, makes no distribution claim).
+
+Artifacts: implementation-report.md · bucket-report.md · blocker-decision-report.md ·
+engineer-feedback.md (senior review, ACCEPT-AS-BLOCKED) · auditor-sprint-feedback.md (this audit).
+
+No commit, push, tag, release, or S05 performed. S04 closed; ready for operator approval + commit.
