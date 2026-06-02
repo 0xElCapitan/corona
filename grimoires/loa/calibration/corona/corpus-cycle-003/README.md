@@ -19,11 +19,16 @@ corpus event records.**
 > A read-only conformance probe over all 60 events via the **unmodified** loader returns **0 leakage
 > violations** (5,557 series entries). T1 settlement (peak time/flux/class) is derived from the GOES XRS
 > argmax (SDD §4.3) for leakage-correct cutoffs; T1 is restricted to **≥2020** so the GOES-R true XRS
-> scale equals the canonical NOAA class. The top-level `corpus_hash` stays **PENDING** (corpus incomplete:
+> scale equals the canonical NOAA class. The top-level `corpus_hash` was **PENDING at S03** (corpus then incomplete; finalized in S06 — see the S06 note below:
 > T4 = S04, held-out seal = S05, final hash = S06); per-file canonical-JSON SHA-256 entries are in the
 > manifest. **S03 proves leakage-free pre-cutoff *shape* only — NOT T1/T2 runtime wiring, sensitivity,
 > calibration improvement, or any rung** (the loader still ignores these series at `evidence.pre_cutoff`;
 > SDD §2 / HS-2 / OQ-9). See [`../../../a2a/cycle-003/sprint-03/implementation-report.md`](../../../a2a/cycle-003/sprint-03/implementation-report.md).
+
+> **S06 closeout (2026-06-01) — FINAL; supersedes any "PENDING" / "S04 populated / unblocked" wording elsewhere in this file.**
+> Cycle-003 is finalized as a **corpus-shape / data-substrate cycle**: **no new rung, no theatre rung advanced**, published version **v0.2.0** unchanged. **Final `corpus_hash` = `7b6c5b4878025cbf7771bb618861002c777bed9bb5144c004a95fa86c6fd5003`** (`7b6c5b48...d5003`), computed over the **60 primary T1/T2 files only** (T4 = 0) by `reporting/hash-utils.js` `computeCorpusHash` over **LF / committed-blob** content, and **validated by reproducing the frozen cycle-001 `b1caef3f...11bb1` exactly** (the on-disk-CRLF value `54af7c63...06a8c` is a non-canonical Windows checkout artifact, not the corpus_hash).
+> **T4 is BLOCKED-PARTIAL** (S04, Option B 2026-05-31): supply-characterized-only (GOES-R-era S1+ = 46), **0 records**, cascade-bucket distribution **BLOCKED**, deferred to future gated work (liftable-but-unbuilt). The S05 held-out seal `f7a851...d4c2a5ea` is preserved (T1 21/9, T2 21/9, T4 0; `heldout-split.json` untouched).
+> Full provenance: [`../../../a2a/cycle-003/sprint-06/hash-provenance.md`](../../../a2a/cycle-003/sprint-06/hash-provenance.md) + [`CLOSEOUT.md`](../../../a2a/cycle-003/sprint-06/CLOSEOUT.md). Cycle-003 claims **no** calibration improvement, T1/T2 runtime sensitivity/wiring, forecasting accuracy, predictive uplift, L2 readiness, or release.
 
 ---
 
@@ -48,7 +53,7 @@ corpus:
 | | Frozen (cycle-001) | This namespace (cycle-003) |
 |---|---|---|
 | Root | `grimoires/loa/calibration/corona/corpus/` | `grimoires/loa/calibration/corona/corpus-cycle-003/` |
-| `corpus_hash` | `b1caef3f…11bb1` (frozen, byte-immutable) | **distinct, PENDING** (computed S03+; never equated to `b1caef3f…`) |
+| `corpus_hash` | `b1caef3f…11bb1` (frozen, byte-immutable) | **distinct, FINAL `7b6c5b48...d5003`** (S06; never equated to `b1caef3f…`) |
 | Manifest | `calibration-manifest.json` (sha256 `e53a40d1…`) | `corpus-cycle-003-manifest.json` (additive, self-contained) |
 | Selected by | default `CORPUS_DIR_DEFAULT` | `CORONA_CORPUS_DIR` seam (`config.js` `resolveCorpusDir`) — the existing loader runs against this root unchanged via the env var |
 
@@ -64,14 +69,14 @@ wrap the frozen manifests (mirrors the cycle-002 additive precedent).
 ```
 corpus-cycle-003/
 ├── README.md                          # this file (provenance + verification ledger + claim boundary)
-├── corpus-cycle-003-manifest.json     # additive manifest SKELETON; corpus_hash PENDING; entries empty
+├── corpus-cycle-003-manifest.json     # additive manifest (reconciled S06); corpus_hash FINAL 7b6c5b48...d5003; 60 entries
 ├── schema/
 │   ├── xray-flux-observations.schema.json   # T1 additive series entry sub-schema (OQ-1)
 │   └── kp-observations.schema.json          # T2 additive series entry sub-schema (OQ-1)
 ├── primary/
 │   ├── T1-flare-class/        (empty in S02 → populated S03; + xray_flux_observations[])
 │   ├── T2-geomag-storm/       (empty in S02 → populated S03; + kp_observations[])
-│   └── T4-proton-cascade/     (empty in S02 → populated S04; existing proton_flux_observations[] shape)
+│   └── T4-proton-cascade/     (empty in S02 → S04 BLOCKED-PARTIAL: 0 records; deferred to future gated work)
 └── secondary/                 (EMPTY; pre-2017 secondary-tier is operator-gated, default OFF)
 ```
 
@@ -134,7 +139,7 @@ retrieval date 2026-05-28; see the ledger for evidence):
 | F6 | T2 SWPC provisional Kp (live tier) retrievable | ✅ verified |
 | F7 | T2 label join: DONKI GST (1 sample; others demo-throttled) | ✅ verified |
 | F9 | **T4 GOES-R-era (≥2017) S1+ proton-event supply count = 46** | ✅ verified (source revised) |
-| F10 | T4 per-bucket `[0-1,2-3,4-6,7-10,11+]` **cascade-count** spread | ◻︎ **S04-deferred** (unblocked, not computed) |
+| F10 | T4 per-bucket `[0-1,2-3,4-6,7-10,11+]` **cascade-count** spread | ◻︎ **BLOCKED** (S04 determination, Option B; not derivable from the proton-only SEP list; deferred to future gated work) |
 
 **T4 supply (S01, binding carry-forward).** GOES-R-era ≥2017 S1+ supply = **46**, from the current
 **NOAA NCEI** "Solar Proton Events Affecting the Earth Environment" list
@@ -147,7 +152,12 @@ mirror.
 - **The CORONA T4 buckets `[0-1, 2-3, 4-6, 7-10, 11+]` are 72h-post-M5+-trigger CASCADE-COUNT
   buckets** (calibration-protocol §4.4.2), **distinct** from the S-scale magnitude tally above.
   Computing the per-bucket cascade distribution requires an M5+-trigger ↔ S-event join and is
-  **S04 work — unblocked by the S01 source, not computed in S01 or S02.**
+  **BLOCKED (S04 determination, Option B 2026-05-31): genuinely not derivable from the proton-only
+  NOAA SEP list** — an honest distribution needs the full M5+ trigger population including the
+  majority of M5+ flares that produce **zero** proton events (the `0-1` bucket), which a proton-only
+  list cannot supply; the zero-producing denominator needs a separate full M5+ flare catalogue. **Not
+  computed in cycle-003; deferred to future gated work.** (Supersedes the S02 "unblocked by the S01
+  source" wording.)
 - **S04 parse requirement:** the NOAA SPE table has a markup defect (the `2024-01-29` row is missing
   its `</tr>`, which an earlier `<tr>`-delimited parse made swallow the `2024-02-09` S2 row). S04
   must re-pull at construction time and parse **`</tr>`-independently**, keeping an explicit
@@ -158,13 +168,17 @@ mirror.
 
 ---
 
-## `corpus_hash` machinery (CN-2)
+## `corpus_hash` machinery (CN-2) — FINAL (S06)
 
-No `corpus_hash` is computed in S02 (the corpus holds zero event records). When events exist
-(S03/S04), `corpus_hash` is computed **over the cycle-003 file set only**, by the same
-canonicalization the cycle-001 manifest used: **sorted-key canonical JSON → SHA-256** (the
-`scripts/corona-backtest/replay/canonical-json.js` + `replay/hashes.js` convention, referenced
-**read-only** — those files are never edited).
+> The cycle-001 *and* cycle-003 `corpus_hash` are computed by
+> `scripts/corona-backtest/reporting/hash-utils.js` `computeCorpusHash` — path-sorted; per file
+> `relative-path + NUL + RAW FILE BYTES + NUL` -> SHA-256 — over **LF / committed-blob** content.
+> This is the validated regime that reproduces the frozen cycle-001 `b1caef3f...11bb1` exactly. It is
+> **not** a canonical-JSON hashing of the corpus. The cycle-003 final value is `7b6c5b48...d5003`. The
+> per-file `entries[].sha256_canonical` values are a **separate**, EOL-immune integrity hash that *do*
+> use the canonical-JSON method (`scripts/corona-backtest/replay/canonical-json.js`, referenced
+> read-only) — distinct from the top-level `corpus_hash` above. Reproduction:
+> [`../../../a2a/cycle-003/sprint-06/hash-provenance.md`](../../../a2a/cycle-003/sprint-06/hash-provenance.md).
 
 **CN-2 (binding):** the cycle-003 `corpus_hash` is a **distinct value over a distinct file set**. It
 is **never** substituted for, nor compared against, the frozen cycle-001 `corpus_hash b1caef3f…11bb1`
@@ -174,12 +188,12 @@ as if measuring the same corpus. Any future expanded-corpus baseline computed on
 
 ---
 
-## What each later sprint adds (pending)
+## What each sprint added (actual)
 
-| Sprint | Adds to this namespace |
+| Sprint | Added to this namespace |
 |--------|------------------------|
-| **S03** | T1 events (+ `xray_flux_observations[]`) and T2 events (+ `kp_observations[]`), leakage-free strictly-pre-cutoff; per-file entries in the manifest; read-only §2.3 substrate-conformance probe report. |
-| **S04** | T4 events (existing `proton_flux_observations[]` shape) up to the GOES-R-era S1+ supply ceiling; honest count + per-bucket cascade-count report. No refit. |
+| **S03** | T1 events (+ `xray_flux_observations[]`) and T2 events (+ `kp_observations[]`), leakage-free strictly-pre-cutoff; 60 per-file entries in the manifest; read-only §2.3 substrate-conformance probe (0 violations). |
+| **S04** | **T4: 0 records (BLOCKED-PARTIAL, Option B).** Authoritative supply re-verification (GOES-R-era S1+ = 46) + S-scale characterization; cascade-bucket distribution **BLOCKED**; deferred to future gated work. No refit. |
 | **S05** | `heldout-split.json` (frozen, leakage-free split + sealed assignment); seal pointer recorded in the manifest. No fit performed. |
 | **S06** | `corpus_hash` finalization verification, honest-framing grep gate, frozen-invariant verification, SC-8 non-achievements, `CLOSEOUT.md`. No release. |
 

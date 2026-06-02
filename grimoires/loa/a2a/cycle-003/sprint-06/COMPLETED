@@ -1,0 +1,53 @@
+COMPLETED
+
+CORONA cycle-003 — Sprint S06 (Review / Audit / Closeout substrate)
+Audited: 2026-06-01 | Branch: cycle-003-s06-closeout @ 34e7680 (S05 base) | main untouched @ eaaf5e4
+
+VERDICT: APPROVED — LETS FUCKING GO (PASS WITH NON-BLOCKING NOTES)
+
+This marker records S06 as a CLOSED, HONEST, docs/manifest-only closeout sprint. It finalizes
+cycle-003 as a corpus-shape / data-substrate cycle: NO new rung, NO theatre rung advanced.
+Cycle-002 ceiling preserved unweakened: "CORONA demonstrated T4 runtime sensitivity only,"
+v0.2.0, "calibration-attempted, not improved." No fit, refit, calibration, scoring, Brier,
+runtime/replay, processX, trajectory, or backtest. No T4 construction. No release/tag/version bump.
+
+WHAT S06 DELIVERED (accepted):
+- Final cycle-003 corpus_hash = 7b6c5b4878025cbf7771bb618861002c777bed9bb5144c004a95fa86c6fd5003
+  (canonical, LF/committed-blob), computed by the existing reporting/hash-utils.js computeCorpusHash
+  over the 60 primary T1/T2 files (T4 = 0); regime validated by reproducing frozen cycle-001
+  b1caef3f...11bb1 exactly. On-disk-CRLF 54af7c63...06a8c recorded ONLY as non-canonical.
+- Manifest (+ corpus README) T4 fields reconciled to S04 BLOCKED-PARTIAL (Option B): supply 46,
+  records 0, cascade buckets BLOCKED, deferred to future gated work, liftable-but-unbuilt. Stale
+  S02 "S04 work — unblocked / populated S04" wording superseded; no live completed/unblocked claim.
+- S05 held-out seal f7a851362929a43c8165e0367952fdd7479e1dad8fbb2155ac3fb7e6d4c2a5ea PRESERVED
+  (heldout-split.json byte-unchanged; assignment T1 21/9, T2 21/9, T4 0). 60 entries + predecessor
+  cycle-001 pointer + CN-2 new-regime discipline preserved.
+- Closeout artifacts under sprint-06/: CLOSEOUT.md, implementation-report.md, hash-provenance.md
+  (+ engineer-feedback.md review record + this audit). SC-8 non-achievements recorded; four
+  verbatim T3/T5 posture sentences carried byte-identical; future Layer A/B (t1/t2-replay call
+  processX; corpus-loader derive evidence.pre_cutoff) preserved as future-cycle work.
+- NB-1 README hash-method polish applied (stale "sorted-key canonical JSON" paragraph struck;
+  verified hash-neutral).
+
+VALIDATION (independently recomputed by the audit, not trusted from reports):
+- corpus_hash recomputed via the actual utility over committed LF blobs -> 7b6c5b48...d5003 == manifest;
+  cycle-001 control -> b1caef3f...11bb1; on-disk CRLF -> 54af7c63...06a8c (non-canonical).
+- Seal recomputed via replay/canonical-json.js -> f7a851...d4c2a5ea == manifest; split unchanged.
+- git: tracked diff = README + manifest ONLY; untracked = sprint-06/ ONLY; forbidden paths empty;
+  frozen corpus/ + cycle-001/002 artifacts untouched; HEAD still 34e7680; no tag; no commit/push.
+- Frozen invariants intact: corona-backtest.js 17f6380b...; cycle-001 calibration-manifest e53a40d1...;
+  cycle-001 corpus_hash b1caef3f... (referenced, not substituted); package.json 0.2.0; RLMF cert 0.1.0.
+- Claim gate: 0 unsafe positive claims (all matches = negation / does_not_prove item / gate-command quote).
+- NB-1 stale hash-method wording GONE from the corpus namespace.
+
+S05 BINDING CARRY-FORWARD: DISCHARGED (T4 manifest detail reconciled; final corpus_hash computed
+over committed/LF blobs).
+
+NON-BLOCKING NOTES (documentation polish; none blocks operator commit): NB-1 resolved; NB-2 noun
+"calibration improvement" slips the past-tense gate regex (safe, does_not_prove only); NB-3 CLOSEOUT
+SC-walk doesn't explicitly cite SC-5/G-5 (independently satisfied); NB-4 G-2 probe cited not re-run
+(acceptable, corpus byte-unchanged); NB-5 no .gitattributes pinning *.json LF (future-cycle hardening).
+
+No commit, push, tag, release, merge, or version bump performed. S06 closed; cycle-003 complete as a
+data-substrate cycle (no rung). Ready for operator commit decision; main stays untouched pending the
+final operator-approved cycle merge.

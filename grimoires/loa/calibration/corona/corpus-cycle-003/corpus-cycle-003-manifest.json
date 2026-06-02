@@ -1,16 +1,16 @@
 {
   "schema_version": "0.1.0",
   "manifest_kind": "corpus",
-  "status": "s05-partial — T1+T2 populated (S03); held-out split SEALED (S05); T4 supply-characterized-only/BLOCKED-PARTIAL (S04, Option B — manifest T4-detail reconciliation deferred to S06); final corpus_hash PENDING (S06)",
+  "status": "s06-closed — cycle-003 corpus-shape / data-substrate cycle finalized (no new rung; no theatre rung advanced; v0.2.0 unchanged). T1+T2 populated (S03: 30+30, leakage-free pre-cutoff series, wired-CAPABLE shape only); held-out split SEALED (S05); T4 supply-characterized-only / BLOCKED-PARTIAL (S04, Option B 2026-05-31: T4 records=0, cascade-bucket distribution BLOCKED, deferred to future gated work); manifest T4-detail RECONCILED (S06); final corpus_hash COMPUTED (S06).",
   "cycle": "cycle-003",
-  "sprint": "S02",
+  "sprint": "S06",
   "additive": true,
   "generated_by_run": false,
   "authored_date": "2026-05-30",
-  "authoring_note": "Hand-authored SKELETON manifest (cycle-003 S02 — corpus namespace + schema skeleton). NOT produced by a backtest/replay run. Populated additively by later sprints: S03 (T1/T2 entries), S04 (T4 entries), S05 (held-out seal), S06 (closeout verification). S02 creates NO corpus event records.",
-  "corpus_hash": null,
-  "corpus_hash_status": "PENDING — NOT FINAL. Real T1/T2 records now exist, but the corpus is INCOMPLETE (T4 added in S04, held-out seal in S05). The final top-level corpus_hash is computed in S06 over the COMPLETE tree. Per-file integrity is provided now via entries[].sha256_canonical.",
-  "corpus_hash_note": "No corpus_hash is computed in S02 (the corpus carries zero event records). When events exist (S03/S04), corpus_hash is computed over the cycle-003 file set ONLY, by the same canonicalization the cycle-001 manifest used: sorted-key canonical JSON -> SHA-256 (the scripts/corona-backtest/replay/canonical-json.js + replay/hashes.js convention, referenced READ-ONLY; no edit to those files). CN-2 (binding): the cycle-003 corpus_hash is a DISTINCT value over a DISTINCT file set; it is NEVER substituted for, nor compared against, the frozen cycle-001 corpus_hash b1caef3f...11bb1 as if measuring the same corpus, and any future expanded-corpus baseline on it is a NEW regime, never an uplift delta vs Baseline A/B (HAZ-3 / CSG-2). || [S03 UPDATE 2026-05-31] entries[] now carries a per-file EOL-immune canonical-JSON SHA-256 (sha256OfCanonical = SHA-256 over replay/canonical-json.js RFC-8785-spirit canonicalization; stable across CRLF/LF). The FINAL top-level corpus_hash stays PENDING/null and is computed in S06 over the COMPLETE T1+T2+T4 tree via reporting/hash-utils.js computeCorpusHash (path-sorted; per file: relative-path + NUL + RAW FILE BYTES + NUL; SHA-256). NOTE (Windows/CRLF): computeCorpusHash hashes raw bytes, so S06 MUST run it over LF/committed-blob content (git autocrlf=true yields on-disk CRLF here); otherwise the hash drifts (cycle-001 b1caef3f is over LF content). Not computed in S03 because the corpus is incomplete (no T4).",
+  "authoring_note": "Hand-authored SKELETON manifest (cycle-003 S02 — corpus namespace + schema skeleton). NOT produced by a backtest/replay run. Populated additively by later sprints: S03 (T1/T2 entries), S04 (T4 entries — built NONE; S04 BLOCKED-PARTIAL, Option B), S05 (held-out seal), S06 (closeout: manifest reconciliation + final corpus_hash). S02 creates NO corpus event records.",
+  "corpus_hash": "7b6c5b4878025cbf7771bb618861002c777bed9bb5144c004a95fa86c6fd5003",
+  "corpus_hash_status": "FINAL (S06) — computed over the completed cycle-003 PRIMARY corpus (60 files: 30 T1 + 30 T2; T4=0, BLOCKED-PARTIAL). Method validated by reproducing the frozen cycle-001 corpus_hash b1caef3f...11bb1 exactly via the same utility. Per-file integrity also provided via entries[].sha256_canonical. Full provenance + reproduction: grimoires/loa/a2a/cycle-003/sprint-06/hash-provenance.md.",
+  "corpus_hash_note": "FINAL (S06). The cycle-003 corpus_hash is computed over the cycle-003 PRIMARY file set ONLY — 60 files: primary/T1-flare-class/*.json (30) + primary/T2-geomag-storm/*.json (30); T4=0 (BLOCKED-PARTIAL). The manifest, README, schema/, secondary/, and all .gitkeep are EXCLUDED — by the SAME repo utility and regime cycle-001 used: scripts/corona-backtest/reporting/hash-utils.js computeCorpusHash (path-sorted; per file: relative-path + NUL + RAW FILE BYTES + NUL; SHA-256; referenced READ-ONLY, no edit to that file). S06 VALIDATED this regime by reproducing the frozen cycle-001 corpus_hash b1caef3f...11bb1 EXACTLY over the cycle-001 corpus via the same utility. NOTE (Windows/CRLF): computeCorpusHash hashes RAW BYTES, so it MUST be run over LF/committed-blob content (this checkout has core.autocrlf=true and no .gitattributes -> on-disk files are CRLF; cycle-001 b1caef3f is over LF). CANONICAL corpus_hash = 7b6c5b4878025cbf7771bb618861002c777bed9bb5144c004a95fa86c6fd5003 (over committed/LF blobs). The on-disk-CRLF value 54af7c634e4402e0b0ff5ebc49390481bc8878b045bf3ecdf23fadc0ec006a8c is a NON-CANONICAL Windows checkout artifact and is NOT the corpus_hash. Exact command + reproduction: grimoires/loa/a2a/cycle-003/sprint-06/hash-provenance.md. CN-2 (binding): the cycle-003 corpus_hash is a DISTINCT value over a DISTINCT file set; it is NEVER substituted for, nor compared against, the frozen cycle-001 corpus_hash b1caef3f...11bb1 as if measuring the same corpus, and any future expanded-corpus baseline on it is a NEW regime, never an uplift delta vs Baseline A/B (HAZ-3 / CSG-2). || [S03 carry-forward] entries[] also carries a per-file EOL-immune canonical-JSON SHA-256 (sha256OfCanonical = SHA-256 over replay/canonical-json.js RFC-8785-spirit canonicalization; stable across CRLF/LF).",
   "isolation": {
     "this_root": "grimoires/loa/calibration/corona/corpus-cycle-003/",
     "selected_by": "CORONA_CORPUS_DIR seam (config.js resolveCorpusDir); the existing loader runs against this root unchanged via the env var",
@@ -89,9 +89,9 @@
       "additive_series": "kp_observations[]"
     },
     "primary/T4-proton-cascade": {
-      "status": "empty skeleton",
-      "populated_in": "S04",
-      "additive_series": "proton_flux_observations[] (existing frozen shape, more events)"
+      "status": "EMPTY — 0 records. S04 BLOCKED-PARTIAL (Option B 2026-05-31): T4 supply-characterized-only (GOES-R-era S1+ supply = 46); cascade-bucket distribution BLOCKED; NOT populated, NOT padded, NO pre-2017 admitted. Liftable-but-unbuilt: deferred to future gated work, not permanently impossible.",
+      "populated_in": "NONE in cycle-003 (S04 BLOCKED-PARTIAL, Option B). Future gated work would need raw GOES >=10 MeV integral-proton flux series + M5+ trigger-window construction; see sprint-04/blocker-decision-report.md §2/§3/§5/§6.",
+      "additive_series": "proton_flux_observations[] (existing frozen shape) — the series a future gated cycle would build; NOT built in cycle-003"
     },
     "primary/T3-cme-arrival": {
       "status": "ABSENT by default (OQ-6 default OFF; diagnostic-only)"
@@ -138,9 +138,21 @@
         "S5": 0
       },
       "verified_source": "NOAA NCEI 'Solar Proton Events Affecting the Earth Environment' (ngdc.noaa.gov; Last-Modified 2026-01-21; last event 2026-01-18). NOT the stale umbra/SDAC mirror.",
-      "cascade_buckets_note": "The CORONA T4 buckets [0-1, 2-3, 4-6, 7-10, 11+] are 72h-post-M5+-trigger CASCADE-COUNT buckets (calibration-protocol §4.4.2) and are DISTINCT from the S-scale magnitude tally above. The per-bucket cascade-count distribution requires an M5+-trigger <-> S-event join and is S04 work — UNBLOCKED by the S01 source, NOT computed in S01 or S02.",
-      "parse_warning": "S04 must re-pull the NOAA SPE list at construction time and parse it </tr>-INDEPENDENTLY (source markup defect: the 2024-01-29 row is missing its </tr>, which an earlier <tr>-delimited parse made swallow the 2024-02-09 S2 row). Keep an explicit pfu>=10 filter (do not assume list membership => S1+).",
-      "populate_in": "S04"
+      "cascade_buckets_note": "The CORONA T4 buckets [0-1, 2-3, 4-6, 7-10, 11+] are 72h-post-M5+-trigger CASCADE-COUNT buckets (calibration-protocol §4.4.2) and are DISTINCT from the S-scale magnitude tally above. [S06 RECONCILED — supersedes the S02 'S04 work — unblocked' wording] The per-bucket cascade-count distribution is BLOCKED (S04 determination, Option B 2026-05-31): it is GENUINELY NOT DERIVABLE from the NOAA SEP proton-event list, because an honest distribution needs the FULL M5+ trigger population including the majority of M5+ flares that produce ZERO proton events (the 0-1 bucket), which a proton-only list cannot supply; recovering the zero-producing denominator needs a separate full M5+ flare catalogue. NOT computed in cycle-003; deferred to future gated work. (This is distinct from, and stronger than, the §2 record-construction scope/authorization stop.)",
+      "parse_warning": "[S06: S04 executed this] S04 re-pulled the NOAA SPE list (2026-05-30) and parsed it </tr>-INDEPENDENTLY (chunk-by-10 over the <td> stream), confirming GOES-R-era S1+ supply = 46 — the 2024-01-29 missing-</tr> defect's swallowed 2024-02-09 S2 row was recovered; explicit pfu>=10 filter applied. No T4 records were constructed (Option B).",
+      "populate_in": "NONE in cycle-003 — S04 BLOCKED-PARTIAL (Option B); T4 records=0; deferred to future gated work (sprint-04/blocker-decision-report.md §5-§6; sprint-06/CLOSEOUT.md).",
+      "t4_s04_outcome": {
+        "decision": "BLOCKED-PARTIAL (Option B; operator-chosen 2026-05-31)",
+        "supply_reverified_s1plus": 46,
+        "records_created": 0,
+        "cascade_bucket_distribution": "BLOCKED",
+        "posture": "supply-characterized-only; liftable-but-unbuilt; NOT permanently impossible",
+        "deferred_to_future_gated_work": {
+          "record_construction_blocker_§2": "needs raw GOES >=10 MeV integral-proton flux time-series + an explicit M5+ trigger-window construction rule (sprint-plan-gated bounded fetch; SDD DV-5)",
+          "cascade_bucket_blocker_§3": "needs the full GOES-R-era M5+ trigger population incl. zero-producing windows via a separate flare catalogue (DONKI FLR / NCEI XRS); NOT derivable from the proton-only SEP list"
+        },
+        "ref": "sprint-04/blocker-decision-report.md"
+      }
     }
   },
   "heldout_split": {
@@ -155,7 +167,7 @@
       "value": "f7a851362929a43c8165e0367952fdd7479e1dad8fbb2155ac3fb7e6d4c2a5ea"
     },
     "assigned": { "T1": { "train": 21, "heldout": 9 }, "T2": { "train": 21, "heldout": 9 }, "T4": 0 },
-    "note": "S05 declared the leakage-free train/held-out methodology + assignment over the AVAILABLE corpus (30 T1 + 30 T2; T4=0), hashed heldout-split.json, and recorded the seal pointer here (HO-1/HO-8). T4 held-out is ABSENT/underpowered — 0 records (S04 BLOCKED-PARTIAL, Option B 2026-05-31); NOT split, NOT padded, NO pre-2017 admitted (HO-6 / OQ-3). Leakage audit: 0 sequence-group straddles, 0 partition errors, 0 series spanning both sides (HO-3/HO-4). No fit/evaluation/scoring occurred. Any future expanded-corpus baseline on this split is a NEW regime, never an uplift delta vs Baseline A/B (HO-9 / CSG-2 / HAZ-3). Final top-level corpus_hash remains PENDING (S06)."
+    "note": "S05 declared the leakage-free train/held-out methodology + assignment over the AVAILABLE corpus (30 T1 + 30 T2; T4=0), hashed heldout-split.json, and recorded the seal pointer here (HO-1/HO-8). T4 held-out is ABSENT/underpowered — 0 records (S04 BLOCKED-PARTIAL, Option B 2026-05-31); NOT split, NOT padded, NO pre-2017 admitted (HO-6 / OQ-3). Leakage audit: 0 sequence-group straddles, 0 partition errors, 0 series spanning both sides (HO-3/HO-4). No fit/evaluation/scoring occurred. Any future expanded-corpus baseline on this split is a NEW regime, never an uplift delta vs Baseline A/B (HO-9 / CSG-2 / HAZ-3). [S06] Final top-level corpus_hash COMPUTED: 7b6c5b48...d5003 (over the 60 primary T1/T2 files; held-out assignments unchanged — heldout-split.json is excluded from corpus_hash and was not touched in S06; seal preserved)."
   },
   "entries": [
     {
@@ -819,7 +831,7 @@
       "retrieval_date": "2026-05-31"
     }
   ],
-  "entries_status": "S03 populated 60 primary records (30 T1 + 30 T2) with per-file EOL-immune canonical-JSON SHA-256. T4 entries added additively in S04; the held-out seal in S05; the FINAL top-level corpus_hash in S06 over the complete tree.",
+  "entries_status": "S03 populated 60 primary records (30 T1 + 30 T2) with per-file EOL-immune canonical-JSON SHA-256. T4 entries NOT added — S04 BLOCKED-PARTIAL (Option B): T4 records = 0. Held-out seal recorded in S05. The FINAL top-level corpus_hash was computed in S06 over the cycle-003 primary file set (60 files; T4 = 0).",
   "claim_boundary": {
     "binding_statement": "S02 proves skeleton shape and loader tolerance only. It does not create corpus events, does not prove T1/T2 runtime wiring, and does not advance any rung.",
     "cycle_posture": "Cycle-002 closed at Rung 2 (runtime-sensitive, T4 ONLY); published version v0.2.0; 'calibration-attempted, not improved'. Cycle-003 is a corpus-shape / data-substrate cycle: it earns NO new rung and advances NO theatre's rung (OQ-8).",
@@ -916,5 +928,64 @@
     "seal_sha256_canonical": "f7a851362929a43c8165e0367952fdd7479e1dad8fbb2155ac3fb7e6d4c2a5ea",
     "t4_carryforward": "T4 held-out ABSENT/underpowered — 0 records (S04 BLOCKED-PARTIAL, Option B 2026-05-31); GOES-R-era S1+ supply = 46; cascade-bucket distribution BLOCKED. Manifest T4-detail reconciliation (cascade_buckets_note, T4 status/populate_in) remains deferred to S06 per the S04 carry-forward (HO-6 / OQ-3).",
     "report": "grimoires/loa/a2a/cycle-003/sprint-05/implementation-report.md"
+  },
+  "s06_summary": {
+    "sprint": "S06",
+    "authored": "2026-06-01",
+    "scope": "Closeout, reconciliation, and final corpus hash for the cycle-003 corpus-shape / data-substrate cycle. Reconcile manifest (+ README) T4 fields to S04's BLOCKED-PARTIAL decision; compute the final cycle-003 corpus_hash over the completed corpus namespace via the existing repo utility; preserve the S05 held-out seal; verify frozen invariants; record honest non-achievements. NO fit, NO refit, NO scoring, NO runtime/replay, NO T4 construction, NO release/tag/version bump.",
+    "proves": [
+      "cycle-003 artifacts are internally reconciled (manifest + corpus README T4/hash language matches S04 BLOCKED-PARTIAL and the S06 computed hash)",
+      "the final cycle-003 corpus_hash is computed over the completed cycle-003 primary corpus by the existing repo utility (computeCorpusHash), validated by reproducing the frozen cycle-001 b1caef3f...11bb1 exactly",
+      "the S05 held-out split seal is preserved (heldout-split.json untouched)",
+      "T4 manifest fields are reconciled with S04's BLOCKED-PARTIAL (Option B) decision",
+      "all frozen invariants remain intact",
+      "the SC-8 non-achievements are recorded explicitly as deliberate"
+    ],
+    "does_not_prove": [
+      "calibration improvement",
+      "forecasting accuracy",
+      "predictive uplift",
+      "T1/T2 runtime sensitivity",
+      "T1/T2 runtime wiring",
+      "runtime sensitivity beyond the cycle-002 T4-only result",
+      "any new rung",
+      "L2 readiness",
+      "release readiness",
+      "Baseline A/B uplift",
+      "new-corpus uplift"
+    ],
+    "corpus_hash": {
+      "value_canonical_lf": "7b6c5b4878025cbf7771bb618861002c777bed9bb5144c004a95fa86c6fd5003",
+      "value_ondisk_crlf_noncanonical": "54af7c634e4402e0b0ff5ebc49390481bc8878b045bf3ecdf23fadc0ec006a8c",
+      "tool": "scripts/corona-backtest/reporting/hash-utils.js computeCorpusHash (read-only)",
+      "file_count": 60,
+      "included": "primary/T1-flare-class/*.json (30) + primary/T2-geomag-storm/*.json (30), path-sorted; per file: relative-path + NUL + RAW FILE BYTES + NUL; SHA-256",
+      "excluded": "this manifest, README.md, heldout-split.json, schema/*.json, secondary/, all .gitkeep, and the absent T3/T4/T5 records (T4 = 0)",
+      "eol_handling": "LF / committed-blob (git cat-file blob). core.autocrlf=true + no .gitattributes => on-disk CRLF; raw-byte hash MUST use LF.",
+      "validation": "reproduced frozen cycle-001 corpus_hash b1caef3f...11bb1 exactly (25 files) via the same utility/regime",
+      "reproduction": "grimoires/loa/a2a/cycle-003/sprint-06/hash-provenance.md"
+    },
+    "t4_reconciliation": "Manifest T4 fields (corpus_layout, per_theatre_targets cascade_buckets_note / parse_warning / populate_in, entries_status, authoring_note) updated from the S02 'S04 work — unblocked / populated S04' wording to S04's final BLOCKED-PARTIAL truth: T4 supply-characterized-only (S1+ = 46), T4 records = 0, cascade-bucket distribution BLOCKED, deferred to future gated work (liftable-but-unbuilt). README.md reconciled identically.",
+    "heldout_split_preserved": {
+      "seal_sha256_canonical": "f7a851362929a43c8165e0367952fdd7479e1dad8fbb2155ac3fb7e6d4c2a5ea",
+      "note": "heldout-split.json was NOT modified in S06; assignments unchanged (T1 21/9, T2 21/9, T4 0); seal preserved."
+    },
+    "frozen_invariants_verified": {
+      "scripts/corona-backtest.js": "17f6380b623f591bcaa5aa17e343eb775fb81960520d2ca9624b784acf1730f1",
+      "cycle-001 calibration-manifest.json": "e53a40d1f880f4743567924d7fa10718dfb5caa740c48e998a344de4f85db34a",
+      "cycle-001 corpus_hash": "b1caef3faa1d046301229825c40e76e6ea23061a288d15ee6c49e78fbef11bb1",
+      "src/rlmf/certificates.js version": "0.1.0",
+      "package.json version": "0.2.0",
+      "method": "committed-blob sha256 (git cat-file blob | sha256); all MATCH"
+    },
+    "posture_sentences_carried_verbatim": [
+      "T3 [external-model] is not counted toward CORONA-owned predictive uplift.",
+      "T5 [quality-of-behavior] is not counted toward CORONA-owned predictive uplift.",
+      "Cycle-002 runtime-uplift claims are restricted to T1/T2/T4, with T4 as the clean owned-uplift theatre.",
+      "T1/T2 are runtime-wired but prior-only on the current cycle-001 corpus shape and cannot claim calibration improvement in cycle-002."
+    ],
+    "cycle_posture": "Cycle-003 closes as a corpus-shape / data-substrate cycle: NO new rung, NO theatre rung advanced. Cycle-002 ceiling preserved: CORONA demonstrated T4 runtime sensitivity only; published v0.2.0; calibration-attempted, not improved. No commit/tag/release performed by this artifact.",
+    "report": "grimoires/loa/a2a/cycle-003/sprint-06/implementation-report.md",
+    "closeout": "grimoires/loa/a2a/cycle-003/sprint-06/CLOSEOUT.md"
   }
 }
