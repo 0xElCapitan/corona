@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1.0",
   "manifest_kind": "corpus",
-  "status": "s03-partial (T1+T2 populated; T4=S04, held-out=S05, final hash=S06)",
+  "status": "s05-partial — T1+T2 populated (S03); held-out split SEALED (S05); T4 supply-characterized-only/BLOCKED-PARTIAL (S04, Option B — manifest T4-detail reconciliation deferred to S06); final corpus_hash PENDING (S06)",
   "cycle": "cycle-003",
   "sprint": "S02",
   "additive": true,
@@ -145,9 +145,17 @@
   },
   "heldout_split": {
     "file": "heldout-split.json",
-    "status": "PENDING — declared, frozen, and sealed in S05 (NOT created in S02)",
-    "seal": null,
-    "note": "S05 declares the leakage-free train/held-out methodology + assignment, hashes heldout-split.json, and records the seal pointer here. T4 held-out is likely UNDERPOWERED given thin high-S magnitude diversity (S05 HO-6 / OQ-3) — to be documented, never padded."
+    "status": "SEALED in S05 — leakage-free train/held-out methodology + assignment declared and frozen before any fit (HO-1/HO-8). No fit performed in cycle-003.",
+    "split_version": "cycle-003-heldout-v1",
+    "method": "stratified_random_seqgrouped",
+    "ratio": { "train": 0.7, "heldout": 0.3 },
+    "seed": "corona-cycle-003-heldout-v1",
+    "seal": {
+      "algorithm": "sha256_canonical — SHA-256 over RFC-8785-spirit canonical JSON of heldout-split.json (sorted keys, no whitespace; the replay/canonical-json.js convention, referenced READ-ONLY). EOL-immune; same family as entries[].sha256_canonical. The seal lives HERE (not inside heldout-split.json) to avoid a self-referential hash (HO-8).",
+      "value": "f7a851362929a43c8165e0367952fdd7479e1dad8fbb2155ac3fb7e6d4c2a5ea"
+    },
+    "assigned": { "T1": { "train": 21, "heldout": 9 }, "T2": { "train": 21, "heldout": 9 }, "T4": 0 },
+    "note": "S05 declared the leakage-free train/held-out methodology + assignment over the AVAILABLE corpus (30 T1 + 30 T2; T4=0), hashed heldout-split.json, and recorded the seal pointer here (HO-1/HO-8). T4 held-out is ABSENT/underpowered — 0 records (S04 BLOCKED-PARTIAL, Option B 2026-05-31); NOT split, NOT padded, NO pre-2017 admitted (HO-6 / OQ-3). Leakage audit: 0 sequence-group straddles, 0 partition errors, 0 series spanning both sides (HO-3/HO-4). No fit/evaluation/scoring occurred. Any future expanded-corpus baseline on this split is a NEW regime, never an uplift delta vs Baseline A/B (HO-9 / CSG-2 / HAZ-3). Final top-level corpus_hash remains PENDING (S06)."
   },
   "entries": [
     {
@@ -871,5 +879,42 @@
     "conformance": "Read-only SDD §2.3 probe via existing loadCorpus + deriveCutoffT1/T2: 60 events, 5557 series entries, 0 violations (strict-pre-cutoff + strict-ascending + no settlement-key in series). No processX, no trajectory, no score.",
     "extraction_tooling": "EPHEMERAL venv OUTSIDE repo (h5py 3.16.0 / numpy 2.4.6 / Python 3.14.0); NCEI bounded per-event-window fetches. No repo deps, no committed tooling, no scripts/src/tests edit.",
     "report": "grimoires/loa/a2a/cycle-003/sprint-03/implementation-report.md"
+  },
+  "s05_summary": {
+    "sprint": "S05",
+    "authored": "2026-05-31",
+    "scope": "Declare + freeze the leakage-free train/held-out split methodology + sealed assignment over the AVAILABLE cycle-003 corpus (30 T1 + 30 T2; T4=0). No fit, no evaluation, no scoring, no runtime/replay, no new rung.",
+    "proves": [
+      "a deterministic, documented, reproducible split methodology is selected and frozen (stratified_random_seqgrouped; ratio 0.7/0.3; seed corona-cycle-003-heldout-v1; SHA-256 keyed group ordering)",
+      "eligible available T1/T2 records carry train/held-out assignments (T1 21/9, T2 21/9)",
+      "no sequence group straddles the split (leakage-free across sequence groups; HO-3/HO-4 audit PASS)",
+      "no fit/evaluation/scoring occurred; split frozen before any fit (HO-1)"
+    ],
+    "does_not_prove": [
+      "calibration improvement",
+      "forecasting-accuracy",
+      "predictive-uplift",
+      "T1/T2-runtime-sensitivity",
+      "any-new-rung",
+      "L2-readiness",
+      "release-readiness",
+      "Baseline A/B uplift",
+      "new-corpus uplift"
+    ],
+    "method": "stratified_random_seqgrouped",
+    "ratio": { "train": 0.7, "heldout": 0.3 },
+    "seed": "corona-cycle-003-heldout-v1",
+    "grouping_rule": "Per-theatre temporal-adjacency sequence grouping: chain consecutive events whose event_time gap <= 120 h (5 days) into atomic groups assigned WHOLE to one side. Robust to any threshold in (2.94 d, 7.69 d) for T1 and (1.63 d, 11.75 d) for T2 (the chosen 5.0 d cut is interior to both; natural gap in the inter-event spacing). Records carry no explicit NOAA active-region / storm-sequence identifier, so temporal adjacency is the available, reproducible proxy (documented limitation).",
+    "assignment_counts": {
+      "T1": { "train": 21, "heldout": 9, "per_bucket_heldout": { "M1-M4": 2, "M5-M9": 2, "X1-X4": 3, "X5-X9": 2 } },
+      "T2": { "train": 21, "heldout": 9, "per_bucket_heldout": { "G2": 2, "G3": 4, "G4": 3, "G5": 0 } },
+      "T4": { "train": 0, "heldout": 0, "status": "ABSENT — 0 records (S04 BLOCKED-PARTIAL, Option B)" }
+    },
+    "g5_note": "T2 G5 has n=1 (2024-05-11 Gannon superstorm); a singleton outcome class cannot appear on both sides — assigned to train, so held-out G5 coverage = 0 by necessity. Documented stratification limit (HO-5), never padded.",
+    "per_theatre_minimums": { "T1": 5, "T2": 5, "T4": "underpowered/absent (0 records)" },
+    "leakage_audit": "PASS — 0 sequence-group straddles, 0 partition errors, 0 series spanning both sides (T1 + T2). HO-3 settlement-pre-cutoff established by the S03 read-only conformance probe (0 violations); S05 re-touches no series and runs no processX/score.",
+    "seal_sha256_canonical": "f7a851362929a43c8165e0367952fdd7479e1dad8fbb2155ac3fb7e6d4c2a5ea",
+    "t4_carryforward": "T4 held-out ABSENT/underpowered — 0 records (S04 BLOCKED-PARTIAL, Option B 2026-05-31); GOES-R-era S1+ supply = 46; cascade-bucket distribution BLOCKED. Manifest T4-detail reconciliation (cascade_buckets_note, T4 status/populate_in) remains deferred to S06 per the S04 carry-forward (HO-6 / OQ-3).",
+    "report": "grimoires/loa/a2a/cycle-003/sprint-05/implementation-report.md"
   }
 }

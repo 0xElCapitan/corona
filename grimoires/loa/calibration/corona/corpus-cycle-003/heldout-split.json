@@ -1,0 +1,1083 @@
+{
+  "split_version": "cycle-003-heldout-v1",
+  "declared_at": "2026-05-31",
+  "frozen_before_any_fit": true,
+  "cycle": "cycle-003",
+  "sprint": "S05",
+  "method": "stratified_random_seqgrouped",
+  "ratio": {
+    "train": 0.7,
+    "heldout": 0.3
+  },
+  "seed": "corona-cycle-003-heldout-v1",
+  "prng": "deterministic SHA-256 keyed ordering — order_key(group) = sha256(seed + '|' + theatre + '|' + group_id) as lowercase hex, groups sorted ASCENDING by order_key; NO Math.random, NO Date-derived entropy. group_id = lexicographically-smallest member event_id (= earliest by ISO-date prefix).",
+  "grouping_rule": {
+    "description": "Per theatre: sort primary events by (event_time, event_id); chain consecutive events whose event_time gap <= 120 h (5 days) into one atomic sequence group; a group is assigned WHOLE to one side (no straddle). Records carry NO explicit NOAA active-region or storm-sequence identifier, so temporal adjacency is the available, reproducible proxy (documented limitation).",
+    "gap_threshold_hours": 120,
+    "robustness_note": "Inter-event gaps fall cleanly into <=2.94-day (70.7 h) clusters vs >=7.69-day (184.6 h) separations (T1) and a 1.63-day (39 h) pair vs >=11.75-day (282 h) (T2); the 120 h (5.0 d) cut sits in that natural gap, so the grouping is invariant to any threshold in (2.94 d, 7.69 d) for T1 and (1.63 d, 11.75 d) for T2 (the chosen 5.0 d cut is interior to both measured bands).",
+    "anchor": "event_time"
+  },
+  "stratification": {
+    "T1": "outcome_bucket_6class",
+    "T2": "g_scale",
+    "T4": "coarse_S1_vs_S2plus_OR_underpowered"
+  },
+  "stratification_method": "Per theatre, per-bucket held-out cap = round(0.30 * n_bucket); greedily place sequence groups (in seed-hash order) into held-out while no bucket exceeds its cap; remainder -> train. Atomic groups may cause minor under-fill, reported honestly (no re-roll, no cherry-pick).",
+  "per_theatre_minimums": {
+    "T1": 5,
+    "T2": 5,
+    "T4": "underpowered/absent — 0 records (S04 BLOCKED-PARTIAL, Option B); below any meaningful minimum; not split",
+    "rationale": "A held-out side below ~5 events yields Brier estimates too noisy to be meaningful; this is a methodology floor, not a fit. T1/T2 (heldout=9 each) clear it; T4 (0 records) does not."
+  },
+  "assignment": {
+    "T1": {
+      "train": [
+        "T1-2020-05-29-M1p2",
+        "T1-2020-11-29-M4p4",
+        "T1-2021-05-07-M3p9",
+        "T1-2021-07-03-X1p6",
+        "T1-2021-11-09-M2p0",
+        "T1-2021-12-20-M1p9",
+        "T1-2021-12-28-M1p9",
+        "T1-2022-03-30-X1p4",
+        "T1-2022-03-31-M9p7",
+        "T1-2022-04-20-X2p2",
+        "T1-2022-04-21-M9p7",
+        "T1-2022-08-26-M7p2",
+        "T1-2022-08-29-M8p7",
+        "T1-2023-12-14-X2p8",
+        "T1-2024-05-14-X8p7",
+        "T1-2025-11-11-X5p2",
+        "T1-2025-11-14-X4p0",
+        "T1-2026-02-01-X8p1",
+        "T1-2026-02-03-M7p2",
+        "T1-2026-02-04-X4p2",
+        "T1-2026-04-04-M7p5"
+      ],
+      "heldout": [
+        "T1-2021-08-28-M4p8",
+        "T1-2021-09-23-M1p9",
+        "T1-2021-10-28-X1p0",
+        "T1-2022-05-10-X1p5",
+        "T1-2022-09-16-M7p9",
+        "T1-2022-10-02-M8p8",
+        "T1-2023-12-31-X4p9",
+        "T1-2024-10-01-X7p1",
+        "T1-2024-10-03-X8p9"
+      ]
+    },
+    "T2": {
+      "train": [
+        "T2-2017-03-27-Kp6.33",
+        "T2-2017-05-28-Kp7",
+        "T2-2017-09-08-Kp8.33",
+        "T2-2017-09-28-Kp6.67",
+        "T2-2018-08-26-Kp7.33",
+        "T2-2021-05-12-Kp7",
+        "T2-2022-04-10-Kp6.67",
+        "T2-2023-02-27-Kp6.67",
+        "T2-2023-03-24-Kp8",
+        "T2-2023-04-23-Kp8.33",
+        "T2-2023-12-01-Kp6.67",
+        "T2-2024-03-24-Kp8.33",
+        "T2-2024-05-11-Kp9",
+        "T2-2024-06-28-Kp7.67",
+        "T2-2024-09-17-Kp7.33",
+        "T2-2024-10-10-Kp8.67",
+        "T2-2025-04-16-Kp7.67",
+        "T2-2025-06-01-Kp7.67",
+        "T2-2025-06-13-Kp6.67",
+        "T2-2025-09-30-Kp7",
+        "T2-2026-01-19-Kp8.67"
+      ],
+      "heldout": [
+        "T2-2017-11-07-Kp6.33",
+        "T2-2021-11-04-Kp7.67",
+        "T2-2022-08-17-Kp6.67",
+        "T2-2023-11-05-Kp7.33",
+        "T2-2024-08-12-Kp8",
+        "T2-2025-01-01-Kp8",
+        "T2-2025-11-12-Kp8.67",
+        "T2-2026-03-21-Kp7",
+        "T2-2026-03-22-Kp7"
+      ]
+    },
+    "T4": {
+      "train": [],
+      "heldout": [],
+      "status": "ABSENT — supply-characterized-only; 0 corpus records (S04 BLOCKED-PARTIAL, Option B 2026-05-31); GOES-R-era S1+ supply=46; cascade-bucket distribution BLOCKED; NOT split, NOT padded, NO pre-2017 admitted."
+    }
+  },
+  "counts": {
+    "T1": {
+      "total": 30,
+      "train": 21,
+      "heldout": 9,
+      "per_bucket": {
+        "M1-M4": {
+          "n": 8,
+          "heldout_cap": 2,
+          "heldout": 2,
+          "train": 6
+        },
+        "M5-M9": {
+          "n": 8,
+          "heldout_cap": 2,
+          "heldout": 2,
+          "train": 6
+        },
+        "X1-X4": {
+          "n": 9,
+          "heldout_cap": 3,
+          "heldout": 3,
+          "train": 6
+        },
+        "X5-X9": {
+          "n": 5,
+          "heldout_cap": 2,
+          "heldout": 2,
+          "train": 3
+        }
+      }
+    },
+    "T2": {
+      "total": 30,
+      "train": 21,
+      "heldout": 9,
+      "per_bucket": {
+        "G2": {
+          "n": 8,
+          "heldout_cap": 2,
+          "heldout": 2,
+          "train": 6
+        },
+        "G3": {
+          "n": 12,
+          "heldout_cap": 4,
+          "heldout": 4,
+          "train": 8
+        },
+        "G4": {
+          "n": 9,
+          "heldout_cap": 3,
+          "heldout": 3,
+          "train": 6
+        },
+        "G5": {
+          "n": 1,
+          "heldout_cap": 0,
+          "heldout": 0,
+          "train": 1
+        }
+      }
+    },
+    "T4": {
+      "total": 0,
+      "train": 0,
+      "heldout": 0,
+      "per_bucket": {},
+      "note": "absent (S04 BLOCKED-PARTIAL)"
+    }
+  },
+  "sequence_groups": {
+    "T1": [
+      {
+        "group_id": "T1-2020-05-29-M1p2",
+        "size": 1,
+        "buckets": {
+          "M1-M4": 1
+        },
+        "members": [
+          "T1-2020-05-29-M1p2"
+        ],
+        "dates": [
+          "2020-05-29"
+        ],
+        "side": "train",
+        "order_key": "9c4cb23d49c64a4c"
+      },
+      {
+        "group_id": "T1-2020-11-29-M4p4",
+        "size": 1,
+        "buckets": {
+          "M1-M4": 1
+        },
+        "members": [
+          "T1-2020-11-29-M4p4"
+        ],
+        "dates": [
+          "2020-11-29"
+        ],
+        "side": "train",
+        "order_key": "b04be7a9ed3dc440"
+      },
+      {
+        "group_id": "T1-2021-05-07-M3p9",
+        "size": 1,
+        "buckets": {
+          "M1-M4": 1
+        },
+        "members": [
+          "T1-2021-05-07-M3p9"
+        ],
+        "dates": [
+          "2021-05-07"
+        ],
+        "side": "train",
+        "order_key": "587ece70ee132102"
+      },
+      {
+        "group_id": "T1-2021-07-03-X1p6",
+        "size": 1,
+        "buckets": {
+          "X1-X4": 1
+        },
+        "members": [
+          "T1-2021-07-03-X1p6"
+        ],
+        "dates": [
+          "2021-07-03"
+        ],
+        "side": "train",
+        "order_key": "c4c1088b897b61d8"
+      },
+      {
+        "group_id": "T1-2021-08-28-M4p8",
+        "size": 1,
+        "buckets": {
+          "M1-M4": 1
+        },
+        "members": [
+          "T1-2021-08-28-M4p8"
+        ],
+        "dates": [
+          "2021-08-28"
+        ],
+        "side": "heldout",
+        "order_key": "4411fb247fd78a05"
+      },
+      {
+        "group_id": "T1-2021-09-23-M1p9",
+        "size": 1,
+        "buckets": {
+          "M1-M4": 1
+        },
+        "members": [
+          "T1-2021-09-23-M1p9"
+        ],
+        "dates": [
+          "2021-09-23"
+        ],
+        "side": "heldout",
+        "order_key": "1798f5a8cdc534cc"
+      },
+      {
+        "group_id": "T1-2021-10-28-X1p0",
+        "size": 1,
+        "buckets": {
+          "X1-X4": 1
+        },
+        "members": [
+          "T1-2021-10-28-X1p0"
+        ],
+        "dates": [
+          "2021-10-28"
+        ],
+        "side": "heldout",
+        "order_key": "209485f2b49322a6"
+      },
+      {
+        "group_id": "T1-2021-11-09-M2p0",
+        "size": 1,
+        "buckets": {
+          "M1-M4": 1
+        },
+        "members": [
+          "T1-2021-11-09-M2p0"
+        ],
+        "dates": [
+          "2021-11-09"
+        ],
+        "side": "train",
+        "order_key": "59243c4fd3f0f139"
+      },
+      {
+        "group_id": "T1-2021-12-20-M1p9",
+        "size": 1,
+        "buckets": {
+          "M1-M4": 1
+        },
+        "members": [
+          "T1-2021-12-20-M1p9"
+        ],
+        "dates": [
+          "2021-12-20"
+        ],
+        "side": "train",
+        "order_key": "6c34fc6a383c0b90"
+      },
+      {
+        "group_id": "T1-2021-12-28-M1p9",
+        "size": 1,
+        "buckets": {
+          "M1-M4": 1
+        },
+        "members": [
+          "T1-2021-12-28-M1p9"
+        ],
+        "dates": [
+          "2021-12-28"
+        ],
+        "side": "train",
+        "order_key": "5173f931c5607a7e"
+      },
+      {
+        "group_id": "T1-2022-03-30-X1p4",
+        "size": 2,
+        "buckets": {
+          "X1-X4": 1,
+          "M5-M9": 1
+        },
+        "members": [
+          "T1-2022-03-30-X1p4",
+          "T1-2022-03-31-M9p7"
+        ],
+        "dates": [
+          "2022-03-30",
+          "2022-03-31"
+        ],
+        "side": "train",
+        "order_key": "99b79a45a3b4b251"
+      },
+      {
+        "group_id": "T1-2022-04-20-X2p2",
+        "size": 2,
+        "buckets": {
+          "X1-X4": 1,
+          "M5-M9": 1
+        },
+        "members": [
+          "T1-2022-04-20-X2p2",
+          "T1-2022-04-21-M9p7"
+        ],
+        "dates": [
+          "2022-04-20",
+          "2022-04-21"
+        ],
+        "side": "train",
+        "order_key": "99eef1e3e8ae12ef"
+      },
+      {
+        "group_id": "T1-2022-05-10-X1p5",
+        "size": 1,
+        "buckets": {
+          "X1-X4": 1
+        },
+        "members": [
+          "T1-2022-05-10-X1p5"
+        ],
+        "dates": [
+          "2022-05-10"
+        ],
+        "side": "heldout",
+        "order_key": "6806d80031cdf57a"
+      },
+      {
+        "group_id": "T1-2022-08-26-M7p2",
+        "size": 2,
+        "buckets": {
+          "M5-M9": 2
+        },
+        "members": [
+          "T1-2022-08-26-M7p2",
+          "T1-2022-08-29-M8p7"
+        ],
+        "dates": [
+          "2022-08-26",
+          "2022-08-29"
+        ],
+        "side": "train",
+        "order_key": "a7b824c7c979578b"
+      },
+      {
+        "group_id": "T1-2022-09-16-M7p9",
+        "size": 1,
+        "buckets": {
+          "M5-M9": 1
+        },
+        "members": [
+          "T1-2022-09-16-M7p9"
+        ],
+        "dates": [
+          "2022-09-16"
+        ],
+        "side": "heldout",
+        "order_key": "32a00cad29c303a5"
+      },
+      {
+        "group_id": "T1-2022-10-02-M8p8",
+        "size": 1,
+        "buckets": {
+          "M5-M9": 1
+        },
+        "members": [
+          "T1-2022-10-02-M8p8"
+        ],
+        "dates": [
+          "2022-10-02"
+        ],
+        "side": "heldout",
+        "order_key": "bbb18995dc2554f9"
+      },
+      {
+        "group_id": "T1-2023-12-14-X2p8",
+        "size": 1,
+        "buckets": {
+          "X1-X4": 1
+        },
+        "members": [
+          "T1-2023-12-14-X2p8"
+        ],
+        "dates": [
+          "2023-12-14"
+        ],
+        "side": "train",
+        "order_key": "b2ae4a9e40563b27"
+      },
+      {
+        "group_id": "T1-2023-12-31-X4p9",
+        "size": 1,
+        "buckets": {
+          "X1-X4": 1
+        },
+        "members": [
+          "T1-2023-12-31-X4p9"
+        ],
+        "dates": [
+          "2023-12-31"
+        ],
+        "side": "heldout",
+        "order_key": "49a8c5108936d973"
+      },
+      {
+        "group_id": "T1-2024-05-14-X8p7",
+        "size": 1,
+        "buckets": {
+          "X5-X9": 1
+        },
+        "members": [
+          "T1-2024-05-14-X8p7"
+        ],
+        "dates": [
+          "2024-05-14"
+        ],
+        "side": "train",
+        "order_key": "9b392ce3711cfd6d"
+      },
+      {
+        "group_id": "T1-2024-10-01-X7p1",
+        "size": 2,
+        "buckets": {
+          "X5-X9": 2
+        },
+        "members": [
+          "T1-2024-10-01-X7p1",
+          "T1-2024-10-03-X8p9"
+        ],
+        "dates": [
+          "2024-10-01",
+          "2024-10-03"
+        ],
+        "side": "heldout",
+        "order_key": "1a5a99dc2574265e"
+      },
+      {
+        "group_id": "T1-2025-11-11-X5p2",
+        "size": 2,
+        "buckets": {
+          "X5-X9": 1,
+          "X1-X4": 1
+        },
+        "members": [
+          "T1-2025-11-11-X5p2",
+          "T1-2025-11-14-X4p0"
+        ],
+        "dates": [
+          "2025-11-11",
+          "2025-11-14"
+        ],
+        "side": "train",
+        "order_key": "8a93284a0812bfb4"
+      },
+      {
+        "group_id": "T1-2026-02-01-X8p1",
+        "size": 3,
+        "buckets": {
+          "X5-X9": 1,
+          "M5-M9": 1,
+          "X1-X4": 1
+        },
+        "members": [
+          "T1-2026-02-01-X8p1",
+          "T1-2026-02-03-M7p2",
+          "T1-2026-02-04-X4p2"
+        ],
+        "dates": [
+          "2026-02-01",
+          "2026-02-03",
+          "2026-02-04"
+        ],
+        "side": "train",
+        "order_key": "53cf9fbaa43b7e94"
+      },
+      {
+        "group_id": "T1-2026-04-04-M7p5",
+        "size": 1,
+        "buckets": {
+          "M5-M9": 1
+        },
+        "members": [
+          "T1-2026-04-04-M7p5"
+        ],
+        "dates": [
+          "2026-04-04"
+        ],
+        "side": "train",
+        "order_key": "f25431b52ace7d6e"
+      }
+    ],
+    "T2": [
+      {
+        "group_id": "T2-2017-03-27-Kp6.33",
+        "size": 1,
+        "buckets": {
+          "G2": 1
+        },
+        "members": [
+          "T2-2017-03-27-Kp6.33"
+        ],
+        "dates": [
+          "2017-03-27"
+        ],
+        "side": "train",
+        "order_key": "fed9e7323c50197d"
+      },
+      {
+        "group_id": "T2-2017-05-28-Kp7",
+        "size": 1,
+        "buckets": {
+          "G3": 1
+        },
+        "members": [
+          "T2-2017-05-28-Kp7"
+        ],
+        "dates": [
+          "2017-05-28"
+        ],
+        "side": "train",
+        "order_key": "bab22e1f5fd36e45"
+      },
+      {
+        "group_id": "T2-2017-09-08-Kp8.33",
+        "size": 1,
+        "buckets": {
+          "G4": 1
+        },
+        "members": [
+          "T2-2017-09-08-Kp8.33"
+        ],
+        "dates": [
+          "2017-09-08"
+        ],
+        "side": "train",
+        "order_key": "f7c0addd90fb5194"
+      },
+      {
+        "group_id": "T2-2017-09-28-Kp6.67",
+        "size": 1,
+        "buckets": {
+          "G2": 1
+        },
+        "members": [
+          "T2-2017-09-28-Kp6.67"
+        ],
+        "dates": [
+          "2017-09-28"
+        ],
+        "side": "train",
+        "order_key": "32c506c5861f6d96"
+      },
+      {
+        "group_id": "T2-2017-11-07-Kp6.33",
+        "size": 1,
+        "buckets": {
+          "G2": 1
+        },
+        "members": [
+          "T2-2017-11-07-Kp6.33"
+        ],
+        "dates": [
+          "2017-11-07"
+        ],
+        "side": "heldout",
+        "order_key": "2cf850f574b177dc"
+      },
+      {
+        "group_id": "T2-2018-08-26-Kp7.33",
+        "size": 1,
+        "buckets": {
+          "G3": 1
+        },
+        "members": [
+          "T2-2018-08-26-Kp7.33"
+        ],
+        "dates": [
+          "2018-08-26"
+        ],
+        "side": "train",
+        "order_key": "911bc59478d9a013"
+      },
+      {
+        "group_id": "T2-2021-05-12-Kp7",
+        "size": 1,
+        "buckets": {
+          "G3": 1
+        },
+        "members": [
+          "T2-2021-05-12-Kp7"
+        ],
+        "dates": [
+          "2021-05-12"
+        ],
+        "side": "train",
+        "order_key": "50ac7e5f1308d521"
+      },
+      {
+        "group_id": "T2-2021-11-04-Kp7.67",
+        "size": 1,
+        "buckets": {
+          "G3": 1
+        },
+        "members": [
+          "T2-2021-11-04-Kp7.67"
+        ],
+        "dates": [
+          "2021-11-04"
+        ],
+        "side": "heldout",
+        "order_key": "0a7c69d0a2e8f2d7"
+      },
+      {
+        "group_id": "T2-2022-04-10-Kp6.67",
+        "size": 1,
+        "buckets": {
+          "G2": 1
+        },
+        "members": [
+          "T2-2022-04-10-Kp6.67"
+        ],
+        "dates": [
+          "2022-04-10"
+        ],
+        "side": "train",
+        "order_key": "8607270699e859f4"
+      },
+      {
+        "group_id": "T2-2022-08-17-Kp6.67",
+        "size": 1,
+        "buckets": {
+          "G2": 1
+        },
+        "members": [
+          "T2-2022-08-17-Kp6.67"
+        ],
+        "dates": [
+          "2022-08-17"
+        ],
+        "side": "heldout",
+        "order_key": "1608c08edc268b34"
+      },
+      {
+        "group_id": "T2-2023-02-27-Kp6.67",
+        "size": 1,
+        "buckets": {
+          "G2": 1
+        },
+        "members": [
+          "T2-2023-02-27-Kp6.67"
+        ],
+        "dates": [
+          "2023-02-27"
+        ],
+        "side": "train",
+        "order_key": "ed7439dfda59b36e"
+      },
+      {
+        "group_id": "T2-2023-03-24-Kp8",
+        "size": 1,
+        "buckets": {
+          "G4": 1
+        },
+        "members": [
+          "T2-2023-03-24-Kp8"
+        ],
+        "dates": [
+          "2023-03-24"
+        ],
+        "side": "train",
+        "order_key": "caa272ca157a00e3"
+      },
+      {
+        "group_id": "T2-2023-04-23-Kp8.33",
+        "size": 1,
+        "buckets": {
+          "G4": 1
+        },
+        "members": [
+          "T2-2023-04-23-Kp8.33"
+        ],
+        "dates": [
+          "2023-04-23"
+        ],
+        "side": "train",
+        "order_key": "cc13a47364b5e794"
+      },
+      {
+        "group_id": "T2-2023-11-05-Kp7.33",
+        "size": 1,
+        "buckets": {
+          "G3": 1
+        },
+        "members": [
+          "T2-2023-11-05-Kp7.33"
+        ],
+        "dates": [
+          "2023-11-05"
+        ],
+        "side": "heldout",
+        "order_key": "103c509a6919c0f2"
+      },
+      {
+        "group_id": "T2-2023-12-01-Kp6.67",
+        "size": 1,
+        "buckets": {
+          "G2": 1
+        },
+        "members": [
+          "T2-2023-12-01-Kp6.67"
+        ],
+        "dates": [
+          "2023-12-01"
+        ],
+        "side": "train",
+        "order_key": "8cfdbe32560dcfa0"
+      },
+      {
+        "group_id": "T2-2024-03-24-Kp8.33",
+        "size": 1,
+        "buckets": {
+          "G4": 1
+        },
+        "members": [
+          "T2-2024-03-24-Kp8.33"
+        ],
+        "dates": [
+          "2024-03-24"
+        ],
+        "side": "train",
+        "order_key": "6f512e7d1c366b05"
+      },
+      {
+        "group_id": "T2-2024-05-11-Kp9",
+        "size": 1,
+        "buckets": {
+          "G5": 1
+        },
+        "members": [
+          "T2-2024-05-11-Kp9"
+        ],
+        "dates": [
+          "2024-05-11"
+        ],
+        "side": "train",
+        "order_key": "b9a31e2c08ed343d"
+      },
+      {
+        "group_id": "T2-2024-06-28-Kp7.67",
+        "size": 1,
+        "buckets": {
+          "G3": 1
+        },
+        "members": [
+          "T2-2024-06-28-Kp7.67"
+        ],
+        "dates": [
+          "2024-06-28"
+        ],
+        "side": "train",
+        "order_key": "ce170c004452f087"
+      },
+      {
+        "group_id": "T2-2024-08-12-Kp8",
+        "size": 1,
+        "buckets": {
+          "G4": 1
+        },
+        "members": [
+          "T2-2024-08-12-Kp8"
+        ],
+        "dates": [
+          "2024-08-12"
+        ],
+        "side": "heldout",
+        "order_key": "49f5d6267febb6e9"
+      },
+      {
+        "group_id": "T2-2024-09-17-Kp7.33",
+        "size": 1,
+        "buckets": {
+          "G3": 1
+        },
+        "members": [
+          "T2-2024-09-17-Kp7.33"
+        ],
+        "dates": [
+          "2024-09-17"
+        ],
+        "side": "train",
+        "order_key": "c498eb63606e0054"
+      },
+      {
+        "group_id": "T2-2024-10-10-Kp8.67",
+        "size": 1,
+        "buckets": {
+          "G4": 1
+        },
+        "members": [
+          "T2-2024-10-10-Kp8.67"
+        ],
+        "dates": [
+          "2024-10-10"
+        ],
+        "side": "train",
+        "order_key": "cd442df72ef4b8ed"
+      },
+      {
+        "group_id": "T2-2025-01-01-Kp8",
+        "size": 1,
+        "buckets": {
+          "G4": 1
+        },
+        "members": [
+          "T2-2025-01-01-Kp8"
+        ],
+        "dates": [
+          "2025-01-01"
+        ],
+        "side": "heldout",
+        "order_key": "1f39a64b73274651"
+      },
+      {
+        "group_id": "T2-2025-04-16-Kp7.67",
+        "size": 1,
+        "buckets": {
+          "G3": 1
+        },
+        "members": [
+          "T2-2025-04-16-Kp7.67"
+        ],
+        "dates": [
+          "2025-04-16"
+        ],
+        "side": "train",
+        "order_key": "f7c48625fade3aa3"
+      },
+      {
+        "group_id": "T2-2025-06-01-Kp7.67",
+        "size": 1,
+        "buckets": {
+          "G3": 1
+        },
+        "members": [
+          "T2-2025-06-01-Kp7.67"
+        ],
+        "dates": [
+          "2025-06-01"
+        ],
+        "side": "train",
+        "order_key": "4294248a86ed512d"
+      },
+      {
+        "group_id": "T2-2025-06-13-Kp6.67",
+        "size": 1,
+        "buckets": {
+          "G2": 1
+        },
+        "members": [
+          "T2-2025-06-13-Kp6.67"
+        ],
+        "dates": [
+          "2025-06-13"
+        ],
+        "side": "train",
+        "order_key": "d82cdf4654b7aa95"
+      },
+      {
+        "group_id": "T2-2025-09-30-Kp7",
+        "size": 1,
+        "buckets": {
+          "G3": 1
+        },
+        "members": [
+          "T2-2025-09-30-Kp7"
+        ],
+        "dates": [
+          "2025-09-30"
+        ],
+        "side": "train",
+        "order_key": "8b8ab4992355f532"
+      },
+      {
+        "group_id": "T2-2025-11-12-Kp8.67",
+        "size": 1,
+        "buckets": {
+          "G4": 1
+        },
+        "members": [
+          "T2-2025-11-12-Kp8.67"
+        ],
+        "dates": [
+          "2025-11-12"
+        ],
+        "side": "heldout",
+        "order_key": "40191298eedbd3fd"
+      },
+      {
+        "group_id": "T2-2026-01-19-Kp8.67",
+        "size": 1,
+        "buckets": {
+          "G4": 1
+        },
+        "members": [
+          "T2-2026-01-19-Kp8.67"
+        ],
+        "dates": [
+          "2026-01-19"
+        ],
+        "side": "train",
+        "order_key": "f5d1c65af66f249e"
+      },
+      {
+        "group_id": "T2-2026-03-21-Kp7",
+        "size": 2,
+        "buckets": {
+          "G3": 2
+        },
+        "members": [
+          "T2-2026-03-21-Kp7",
+          "T2-2026-03-22-Kp7"
+        ],
+        "dates": [
+          "2026-03-21",
+          "2026-03-22"
+        ],
+        "side": "heldout",
+        "order_key": "085930d6cb9a1cef"
+      }
+    ]
+  },
+  "cross_theatre_sequence_note": {
+    "description": "HO-4 cites the May-2024 Gannon sequence appearing across theatres. The split is computed and (in a future cycle) evaluated PER THEATRE; a T1-train event cannot leak into T2 held-out scoring and vice-versa, so cross-theatre co-assignment is not a leakage path. Landing reported for transparency.",
+    "gannon_T1": {
+      "event_id": "T1-2024-05-14-X8p7",
+      "side": "train"
+    },
+    "gannon_T2": {
+      "event_id": "T2-2024-05-11-Kp9",
+      "side": "train"
+    }
+  },
+  "leakage_audit": {
+    "T1": {
+      "ok": true,
+      "findings": [
+        [
+          "A1_every_event_exactly_one_side",
+          true
+        ],
+        [
+          "A2_no_sequence_group_straddles",
+          true
+        ],
+        [
+          "A3_whole_event_assignment_no_series_span",
+          true
+        ],
+        [
+          "A4_count_conservation",
+          true
+        ]
+      ],
+      "straddlers": []
+    },
+    "T2": {
+      "ok": true,
+      "findings": [
+        [
+          "A1_every_event_exactly_one_side",
+          true
+        ],
+        [
+          "A2_no_sequence_group_straddles",
+          true
+        ],
+        [
+          "A3_whole_event_assignment_no_series_span",
+          true
+        ],
+        [
+          "A4_count_conservation",
+          true
+        ]
+      ],
+      "straddlers": []
+    },
+    "settlement_pre_cutoff_note": "HO-3 settlement-never-leaks-pre-cutoff was established by the S03 read-only conformance probe (60 events, 0 violations: strict-pre-cutoff + strict-ascending + no settlement key in series). S05 assigns WHOLE events, never re-touching or re-running the series; it does NOT call processX, produce trajectories, or score.",
+    "result": "PASS — 0 straddles, 0 partition errors, 0 series spanning both sides"
+  },
+  "no_fit_against_heldout": true,
+  "no_fit_performed_in_cycle_003": true,
+  "regime_note": "Any future expanded-corpus baseline computed on this split is a NEW scoring regime. It MUST NOT be deltaed against Baseline A (cycle-001 uniform-prior, 6-bucket) or Baseline B (cycle-002 runtime-replay) as \"uplift\" (HAZ-3 / CSG-2). Cycle-003 computes NO baseline on this split.",
+  "claim_boundary": {
+    "proves": [
+      "a deterministic, documented, reproducible split methodology is selected and frozen",
+      "eligible available T1/T2 records carry train/held-out assignments",
+      "no sequence group straddles the split (leakage-free across sequence groups)",
+      "no fit/evaluation/scoring occurred"
+    ],
+    "does_not_prove": [
+      "calibration-improvement",
+      "forecasting-accuracy",
+      "predictive-uplift",
+      "T1/T2-runtime-sensitivity",
+      "any-new-rung",
+      "L2-readiness",
+      "release-readiness",
+      "Baseline-A/B-uplift",
+      "new-corpus-uplift"
+    ],
+    "cycle_posture": "Cycle-003 is a corpus-shape / data-substrate cycle: it earns NO new rung and advances NO theatre rung. Cycle-002 ceiling preserved: CORONA demonstrated T4 runtime sensitivity only; published v0.2.0; calibration-attempted, not improved."
+  },
+  "provenance": {
+    "source_corpus": "grimoires/loa/calibration/corona/corpus-cycle-003/ (S03 T1/T2 records; S04 T4=0)",
+    "manifest_ref": "corpus-cycle-003-manifest.json",
+    "s04_carryforward": {
+      "t4_source_s1plus_count": 46,
+      "t4_records": 0,
+      "t4_cascade_buckets": "BLOCKED",
+      "option": "B (2026-05-31)"
+    },
+    "seal_recorded_in": "corpus-cycle-003-manifest.json -> heldout_split.seal (NOT inside this file, to avoid a self-referential hash)",
+    "reproduce": "Re-run the documented grouping + seed-hash + per-bucket-capped greedy over the committed T1/T2 records; identical inputs+seed -> identical assignment. Seal = sha256( canonicalize(this_object) ) where canonicalize = repo scripts/corona-backtest/replay/canonical-json.js (RFC-8785-spirit; EOL-immune)."
+  }
+}

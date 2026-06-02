@@ -1,0 +1,54 @@
+COMPLETED
+
+CORONA cycle-003 — Sprint S05 (Held-Out Split Sealing)
+Audited: 2026-06-01 | Branch: cycle-003-s05-heldout-split @ f8d074f (S04 base) | main untouched @ eaaf5e4
+
+VERDICT: APPROVED — LETS FUCKING GO (PASS WITH NON-BLOCKING NOTES)
+
+This marker records S05 as a CLOSED, HONEST, substrate-only sprint: a deterministic,
+reproducible, leakage-free train/held-out split methodology + sealed assignment over the
+AVAILABLE cycle-003 corpus (30 T1 + 30 T2; T4 = 0), frozen BEFORE any fit. No fit, refit,
+evaluation, scoring, runtime/replay, processX, Brier, trajectory, or backtest. No new rung.
+Cycle-002 ceiling preserved: "CORONA demonstrated T4 runtime sensitivity only," v0.2.0,
+"calibration-attempted, not improved" — unweakened.
+
+WHAT S05 DELIVERED (accepted):
+- Method stratified_random_seqgrouped, ratio 0.7/0.3, seed corona-cycle-003-heldout-v1,
+  deterministic SHA-256 keyed group ordering (no unseeded randomness, no wall-clock entropy).
+- Grouping: per-theatre <=120h (5d) event_time adjacency, atomic sequence groups assigned
+  whole. Records carry no AR/storm-sequence id -> temporal proxy, documented limitation.
+- Assignment (independently RE-DERIVED from scratch = EXACT match): T1 21 train / 9 heldout;
+  T2 21 train / 9 heldout; T4 0 (ABSENT). Per-bucket exact: T1 M1-M4 6/2, M5-M9 6/2,
+  X1-X4 6/3, X5-X9 3/2; T2 G2 6/2, G3 8/4, G4 6/3, G5 1/0. G5 singleton (2024-05-11 Gannon)
+  -> train; heldout G5=0 by necessity, honest, not padded.
+- Leakage audit PASS: 0 sequence-group straddles, 0 partition errors, 0 series spanning both
+  sides; whole-event assignment; settlement-pre-cutoff carries from S03 probe (S05 altered no series).
+- Sealed: heldout-split.json sha256_canonical = f7a851362929a43c8165e0367952fdd7479e1dad8fbb2155ac3fb7e6d4c2a5ea
+  recorded in manifest.heldout_split.seal + s05_summary; reproduces from committed file.
+- Concern-1 honest-framing fix (operator-approved): robustness-band wording corrected to the
+  MEASURED bands T1 (2.94d,7.69d) / T2 (1.63d,11.75d), 5.0d threshold stated interior to both;
+  overstated (3,8)/(1,12) and "8 days apart" removed; assignment UNCHANGED; seal recomputed
+  c8837ccd->f7a85136 and propagated consistently.
+
+VALIDATION (independently recomputed by the audit, not trusted from reports):
+- Split re-derived event-id-for-event-id -> matches committed heldout-split.json (T1+T2).
+- Seal recomputed -> f7a85136..., equals both manifest pointers; split has no self-seal.
+- git status = manifest M + heldout-split.json + sprint-05/ only; forbidden paths empty;
+  frozen corpus/ untouched; no commit/push/S06; no remote tracking; HEAD still f8d074f.
+- Frozen invariants intact: corona-backtest.js 17f6380b...; calibration-manifest e53a40d1...;
+  cycle-001 corpus_hash b1caef3f... present (not substituted); package.json 0.2.0; RLMF 0.1.0.
+- corpus_hash remains null/PENDING (S06). Manifest additive; S03 entries (60) + predecessor +
+  per_theatre_targets.T4 + cascade_buckets_note PRESERVED (not flipped to resolved).
+- Claim gate: 0 unsafe positive claims. Manifest's lone canonical-phrase match is the
+  PRE-EXISTING S03 does_not_prove negation (in the committed f8d074f blob); engineer-feedback.md's
+  2 matches are historical review-context.
+
+BINDING CARRY-FORWARD TO S06 (non-blocking; accepted condition of this closure):
+- S06 MUST reconcile manifest T4 detail fields (cascade_buckets_note "S04 work — unblocked";
+  corpus_layout.T4 / populate_in "empty skeleton" / "S04") to the S04 BLOCKED determination.
+- S06 computes the final top-level corpus_hash over the complete tree (CRLF: hash committed/LF blob).
+- engineer-feedback.md retains the as-reviewed pre-fix seal c8837ccd (review record) + 2 historical
+  phrase mentions; S06 may optionally hyphenate during closeout. corpus_hash stays null until S06.
+- T4 corpus expansion remains deferred to future gated work (S04 Option B).
+
+No commit, push, tag, release, or S06 performed. S05 closed; ready for operator approval + commit.
