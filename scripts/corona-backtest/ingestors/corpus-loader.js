@@ -506,9 +506,51 @@ function deriveEvidenceT1(event) {
     },
   };
 }
-function deriveEvidenceT2(event) {
+// Cycle-004 Sprint 02 (SDD §7, §6.2): shared strict-`<`-cutoff + ascending
+// numeric-sort filter for the T2 kp_observations[] pre-cutoff series. Pure and
+// deterministic — no Date.now(), no Math.random():
+//   - field-less / non-array input → [] (no throw — Layer A relies on this for
+//     field-absent events to remain a no-op);
+//   - keep only observations whose parsed event_time_ms is STRICTLY < cutoffMs
+//     (mirrors deriveEvidenceT4's `obsMs >= cutoff.time_ms` skip — leakage-free:
+//     a settlement-window sample at/after cutoff is never admitted, HS-5);
+//   - ascending numeric sort by event_time_ms;
+//   - copies only the time-keyed reading fields; NO settlement label is copied.
+// Used by BOTH Layer B (deriveEvidenceT2 → evidence.pre_cutoff) and Layer A
+// (replay_T2_event bundle construction in t2-replay.js, via the `_`-prefixed
+// re-export below) so the two derivations cannot diverge — a unit test asserts
+// Layer-A bundle times == Layer-B pre_cutoff times per event. Record shape
+// mirrors deriveEvidenceT4 (:534-540), with the Kp reading fields.
+function deriveKpPreCutoffObservations(observations, cutoffMs) {
+  const list = Array.isArray(observations) ? observations : [];
+  const preCutoff = [];
+  for (const obs of list) {
+    const obsMs = parseIsoMsLocal(obs.time);
+    if (!Number.isFinite(obsMs)) continue;
+    if (obsMs >= cutoffMs) continue;
+    preCutoff.push({
+      event_time_ms: obsMs,
+      time: obs.time,
+      kp: obs.kp ?? null,
+      index: obs.index ?? null,
+      provenance: obs.provenance ?? null,
+      satellite: obs.satellite ?? null,
+    });
+  }
+  preCutoff.sort((a, b) => a.event_time_ms - b.event_time_ms);
+  return preCutoff;
+}
+// Cycle-004 Sprint 02 (SDD §7): additive, field-presence-gated derivation of
+// evidence.pre_cutoff from kp_observations[]. Signature gains `cutoff` (the
+// dispatch already calls evFn(event, cutoff), :608). Field-less event →
+// pre_cutoff: [] (frozen cycle-001 T2 corpus unchanged). settlement block is
+// preserved EXACTLY. deriveEvidenceT1 is left untouched (T1 blocked). No
+// scoring; no corpus-record modification.
+function deriveEvidenceT2(event, cutoff) {
   return {
-    pre_cutoff: [],
+    pre_cutoff: Array.isArray(event.kp_observations)
+      ? deriveKpPreCutoffObservations(event.kp_observations, cutoff.time_ms)
+      : [],
     settlement: {
       kp_swpc_observed: event.kp_swpc_observed ?? null,
       kp_gfz_observed: event.kp_gfz_observed ?? null,
@@ -624,6 +666,7 @@ export {
   deriveT4QualifyingEvents as _deriveT4QualifyingEvents,
   CUTOFF_DERIVATIONS as _CUTOFF_DERIVATIONS,
   EVIDENCE_DERIVATIONS as _EVIDENCE_DERIVATIONS,
+  deriveKpPreCutoffObservations as _deriveKpPreCutoffObservations,
   T1_BUCKETS,
   T2_BUCKETS,
   T4_BUCKETS_RUNTIME,

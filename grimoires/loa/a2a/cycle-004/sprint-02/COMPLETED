@@ -1,0 +1,58 @@
+CORONA cycle-004 — Sprint 02 — COMPLETED
+=========================================
+
+Sprint:        02 — T2 Layer-B + Layer-A evidence wiring (opt-in, default-off)
+Branch:        cycle-004-s02-t2-evidence-wiring
+HEAD at audit: 32b9dd8abdd4c1e355fcb20ed6a8d75664d2c7de (no Sprint-02 commit)
+Base:          cycle-004 @ 32b9dd8 ; main = ccd6eea (untouched)
+Audit date:    2026-06-05
+Auditor:       Paranoid Cypherpunk Auditor (/audit-sprint sprint-02)
+
+VERDICT: PASS — APPROVED
+
+Gate sequence: /implement → /review-sprint (PASS—ACCEPT) → /audit-sprint (APPROVED, this marker).
+
+Independently re-derived (not trusted from reports):
+  - Default-off reversibility: modified-code default-off == committed Sprint-01
+    baseline fixture, 60/60 canonical-equal (T1 30/30 negative control + T2 30/30).
+  - Genuine T2 wired consumption (all 30 T2-with-obs events): wired != ablated;
+    position_history grew; current_position moved; evidence_bundles_consumed
+    non-empty; position_history.length == baseline + consumed.length; every
+    non-prior history entry cites a consumed bundle id with a real
+    processKpObservation reason. NOT metadata-only.
+  - Negative control: Date.now()/Math.random() stubbed-to-throw — wired+ablated
+    replay still succeeded → deterministic by construction, no wall-clock leak.
+  - Helper robustness == deriveEvidenceT4 (TypeError parity on null element;
+    field-less inputs safe → []).
+
+Validation: node --test 19/19 ; npm test 296/296 ; I1 corona-backtest.js sha256
+17f6380b...1730f1 ; package.json 0.2.0 {}. npm-test cycle-002 churn was
+provenance-only (code_revision + replay_script_hash; no score/anchor/corpus_hash
+change) and restored via git restore.
+
+Frozen invariants intact. Forbidden-path audit CLEAN (src/theatres/*, t1-replay.js,
+deriveEvidenceT1 byte-identical, corona-backtest.js, cycle-002 entrypoint,
+certificates.js, package.json, README/BUTTERFREEZONE, cycle-001/002/003
+corpus+manifests, cycle-003 held-out seal, .beads). Claim-grep CLEAN (negations /
+forbidden-list definitions / "no new rung" ceiling only). quality.composite=1.0
+documented exactly as the OD-1 neutral/default-weight wording with full
+not-source-derived/not-fitted caveats. No hard stop. No fix required.
+
+3 non-blocking review concerns adjudicated NON-BLOCKING:
+  1. _-prefixed shared helper imported into production t2-replay.js — SDD §7
+     DRY, test-guarded; optional future clean-export note.
+  2. helper no per-element null guard — exact deriveEvidenceT4 parity +
+     schema-validated corpus; field-less safety holds.
+  3. obs map-variable names a derived record — cosmetic only.
+
+Posture: Cycle-004 banks NO new rung. CORONA's T4-only runtime-sensitivity
+ceiling and v0.2.0 stand unweakened. No calibration, scoring,
+forecasting-accuracy, predictive-uplift, or L2-readiness claim is made.
+
+No commit, no push, no tag, no release, no version bump performed by this audit.
+Operator HITL required before commit/push. After any pre-commit npm test,
+git restore the cycle-002 provenance files before committing.
+
+Artifacts: implementation-report.md, review-feedback.md, auditor-feedback.md, COMPLETED.
+Next: operator approval → commit/push; then Sprint 03 (cycle-004-s03-proof-closeout,
+must honor SPRINT-PLAN §6.10 line-ending-robust comparison).

@@ -22,7 +22,12 @@
  * Replay-mode never falls back to Date.now() (CONTRACT §10.1.1).
  */
 
-import { createGeomagneticStormGate } from '../../../src/theatres/geomag-gate.js';
+import { createGeomagneticStormGate, processGeomagneticStormGate } from '../../../src/theatres/geomag-gate.js';
+import { buildKpUncertainty } from '../../../src/processor/uncertainty.js';
+// Cycle-004 Sprint 02 (SDD §7/§8): the DRY strict-`<`-cutoff + sort helper that
+// Layer B (deriveEvidenceT2) also uses, so Layer-A bundle times cannot diverge
+// from evidence.pre_cutoff. Exposed via corpus-loader's `_`-prefixed block.
+import { _deriveKpPreCutoffObservations as deriveKpPreCutoffObservations } from '../ingestors/corpus-loader.js';
 
 import { sha256OfCanonical, computeTrajectoryHash } from './hashes.js';
 import { assertReplayMode } from './context.js';
@@ -48,10 +53,21 @@ function corpusEventForHash(event) {
  *
  * @param {object} corpus_event - T2 event from loadCorpus
  * @param {object} ctx - frozen context from createReplayContext({ theatre_id: 'T2', ... })
+ * @param {object} [options]
+ * @param {boolean} [options.wireEvidence=false] - Cycle-004 Sprint 02 opt-in T2
+ *   evidence-consumption seam (SDD §8). When true AND the corpus event carries
+ *   a kp_observations[] series, the strictly-pre-cutoff readings are built into
+ *   pinned kp_index evidence bundles (shared Layer-B helper) and fed through the
+ *   EXISTING processGeomagneticStormGate in ascending-time order. Default false
+ *   is byte-identical to pre-cycle-004 behavior; the cycle-002 entrypoint and
+ *   the cycle-004 baseline harness both call replay_T2_event(event, ctx) with no
+ *   options, so all live cycle-002 replays remain unperturbed by construction
+ *   (the t4-replay.js lambdaScalar precedent).
  * @returns {object} PredictionTrajectory matching CONTRACT §3
  */
-export function replay_T2_event(corpus_event, ctx) {
+export function replay_T2_event(corpus_event, ctx, options = {}) {
   assertReplayMode(ctx);
+  const { wireEvidence = false } = options;
   if (corpus_event?.theatre !== 'T2') {
     throw new Error(`replay_T2_event: expected T2 corpus event, got theatre="${corpus_event?.theatre}"`);
   }
@@ -77,13 +93,65 @@ export function replay_T2_event(corpus_event, ctx) {
   const now = () => frameTimeMs;
 
   // ---- 4. Open theatre at gate_open_time ----
-  const theatre = createGeomagneticStormGate(
+  let theatre = createGeomagneticStormGate(
     {
       kp_threshold: gateParams.kp_threshold,
       window_hours: gateParams.window_hours,
     },
     { now },
   );
+
+  // ---- 4b. Cycle-004 Sprint 02 opt-in T2 evidence consumption (default-off) ----
+  // SDD §8 / SPRINT-PLAN §5.4 (T2.3 + T2.4). When the caller opts in AND the
+  // corpus event carries a kp_observations[] series, build pinned kp_index
+  // evidence bundles from the STRICTLY pre-cutoff observations (via the shared
+  // Layer-B helper, so bundle times cannot diverge from evidence.pre_cutoff) and
+  // feed them through the EXISTING, byte-frozen processGeomagneticStormGate in
+  // ascending event_time order, advancing the injected clock per bundle. The
+  // gate is CALLED, never modified. evidence_class 'provisional' routes every
+  // bundle through the gradual provisional-update path and NEVER resolves the
+  // gate (resolution requires ground_truth / provisional_mature — SDD §6.3),
+  // producing real intermediate position_history updates rather than a trivial
+  // jump to 1.0.
+  //
+  // GFZ-lag handling (SDD §6.6): evidence is derived from ALL strictly-pre-cutoff
+  // observations regardless of regression_tier_eligible / kp_gfz_observed; no
+  // entry is dropped for provenance — provenance instead flows into the
+  // uncertainty source (GFZ → narrower σ, SWPC → wider σ).
+  //
+  // Default-off / field-absent path is byte-identical to pre-cycle-004: no
+  // bundles, no process loop, evidence_bundles_consumed: [] (the lambdaScalar
+  // precedent — t4-replay.js). outcome (§6) and corpus_event_hash (§7) are
+  // unaffected by wiring. No scoring.
+  let kpBundles = [];
+  if (wireEvidence === true && Array.isArray(corpus_event.kp_observations)) {
+    const preCutoff = deriveKpPreCutoffObservations(corpus_event.kp_observations, cutoffMs);
+    kpBundles = preCutoff.map((obs) => ({
+      bundle_id: `replay-t2-kp-${corpus_event.event_id}-${obs.time}`,
+      evidence_class: 'provisional',
+      payload: {
+        event_type: 'kp_index',
+        event_time: obs.event_time_ms,
+        kp: {
+          value: obs.kp,
+          uncertainty: buildKpUncertainty({
+            kp: obs.kp,
+            source: obs.provenance === 'gfz_definitive' ? 'GFZ' : 'SWPC',
+          }),
+        },
+        // OD-1 / SDD §6.5: a uniform neutral/default runtime quality weight
+        // required by the existing T2 gate contract (processKpObservation reads
+        // payload.quality.composite). It is NOT source-derived, NOT in the
+        // corpus, NOT fitted, NOT tuned, NOT optimized, NOT quality-measured,
+        // NOT a parameter-refit — a single documented deterministic constant.
+        quality: { composite: 1.0 },
+      },
+    }));
+    for (const bundle of kpBundles) {
+      frameTimeMs = bundle.payload.event_time;          // advance injected clock
+      theatre = processGeomagneticStormGate(theatre, bundle, { now });
+    }
+  }
 
   // ---- 5. Position history filter + field rename per CONTRACT §3.1 ----
   const positionHistoryAtCutoff = theatre.position_history
@@ -122,7 +190,7 @@ export function replay_T2_event(corpus_event, ctx) {
     gate_params: gateParams,
     position_history_at_cutoff: positionHistoryAtCutoff,
     current_position_at_cutoff: theatre.current_position,
-    evidence_bundles_consumed: [],
+    evidence_bundles_consumed: kpBundles.map((bundle) => bundle.bundle_id),
     outcome: {
       kind: 'binary',
       value: outcomeValue,
