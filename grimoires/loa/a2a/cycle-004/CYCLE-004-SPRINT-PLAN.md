@@ -310,7 +310,7 @@ Prove the T2 wiring deterministically and safely: wired ≠ ablated, ablated == 
 - [ ] **T3.1 — Complete the entrypoint's three-state production.** Fill `corona-backtest-cycle-004-evidence-wiring.js` to emit: WIRED hashes (`replay_T2_event(event, ctx, { wireEvidence: true })`), ABLATED hashes (`wireEvidence: false`), and load BASELINE from `proof/baseline-hashes.json` (Sprint 01). Write `proof/wired-hashes.json` + `proof/ablated-hashes.json`. **No scoring.** → **[G3, G4]**
 - [ ] **T3.2 — Replay-twice determinism test.** Run each of {wired, ablated} twice; assert byte-identical trajectory hash within each state (`replay-t2-determinism-wired-test.js`). → **[G5]**
 - [ ] **T3.3 — Wired-vs-ablated diff (observable).** Count **and list** T2 events where `wired ≠ ablated`; report the count explicitly (no silent truncation) (`replay-t2-wired-vs-ablated-test.js`). Expect all T2 events with ≥1 pre-cutoff observation to differ. → **[G3]**
-- [ ] **T3.4 — Ablated == baseline (reversible).** Assert `ablated == proof/baseline-hashes.json` for all events (`replay-t2-ablated-equals-baseline-test.js`). → **[G4]**
+- [ ] **T3.4 — Ablated == baseline (reversible).** Assert `ablated == proof/baseline-hashes.json` for all events (`replay-t2-ablated-equals-baseline-test.js`). **The comparison MUST be line-ending-robust per §6.10** (canonical-parsed JSON, or the committed LF blob via `git cat-file -p HEAD:<path>`, or CR-stripped) — NOT a raw working-tree byte `diff`, because the committed LF baseline checks out as CRLF under this repo's `autocrlf=true`. → **[G4]**
 - [ ] **T3.5 — Frozen cycle-002 corpus regression.** Run `corona-backtest-cycle-002.js` (or its `dispatchCycle002Replay` export) against the **frozen** cycle-002 corpus before vs. after the Sprint-02 code change; assert byte-identical T1/T2/T4 trajectory hashes (`cycle-002-frozen-corpus-regression-test.js`). This proves the additive/opt-in change did not perturb cycle-002 (I5). → **[G6]**
 - [ ] **T3.6 — Determinism grep gate + no-param-diff.** `no-walltime-no-random-test.js`: grep new cycle-004 files for `Date.now(` / `Math.random(` → none (I6). `no-param-diff-test.js`: gate `base_rate`, thresholds, `CYCLE_002_T2_GATE_PARAMS` unchanged (no-refit). → **[G5, G6]**
 - [ ] **T3.6a — T1 negative-control identity.** Assert T1 `wired == ablated == baseline` (no consumption; block verified) (`replay-t1-negative-control-test.js`). → **[T1 negative control]**
@@ -325,8 +325,13 @@ Prove the T2 wiring deterministically and safely: wired ≠ ablated, ablated == 
 node scripts/corona-backtest-cycle-004-evidence-wiring.js --state wired   > grimoires/loa/a2a/cycle-004/proof/wired-hashes.json
 node scripts/corona-backtest-cycle-004-evidence-wiring.js --state ablated > grimoires/loa/a2a/cycle-004/proof/ablated-hashes.json
 
-# Reversibility (ablated == committed baseline) — byte identity:
-diff grimoires/loa/a2a/cycle-004/proof/ablated-hashes.json grimoires/loa/a2a/cycle-004/proof/baseline-hashes.json   # expect: no diff
+# Reversibility (ablated == committed baseline) — content identity, line-ending-robust (§6.10).
+# The committed baseline blob is LF but checks out as CRLF (autocrlf=true); compare against the LF blob,
+# NOT the working-tree file. The authoritative gate is the canonical-JSON test
+# replay-t2-ablated-equals-baseline-test.js; this shell check is a convenience spot-check:
+diff <(git cat-file -p HEAD:grimoires/loa/a2a/cycle-004/proof/baseline-hashes.json) \
+     grimoires/loa/a2a/cycle-004/proof/ablated-hashes.json   # expect: no diff (LF vs LF)
+# (A raw `diff …/baseline-hashes.json` against the working-tree copy is forbidden here — §6.10.)
 
 # Full additive cycle-004 proof/determinism/regression/claim suite:
 node --test \
@@ -351,8 +356,8 @@ node -e "console.log(require('./package.json').version, JSON.stringify(require('
 ### 6.6 Acceptance criteria (Sprint 03)
 - [ ] **Wired ≠ ablated** for T2 events with pre-cutoff observations.
 - [ ] **Diff count is reported explicitly** (count + event list; no silent truncation).
-- [ ] **Ablated == baseline fixture** (byte identity, all events).
-- [ ] **Replay-twice byte-identical** within each of {wired, ablated}.
+- [ ] **Ablated == baseline fixture** (content identity, all events; comparison is **line-ending-robust per §6.10** — canonical-JSON / committed-blob / CR-stripped, not a raw working-tree `diff`).
+- [ ] **Replay-twice byte-identical** within each of {wired, ablated} (fresh-run vs fresh-run; if either side reads a committed `proof/*.json`, compare per §6.10).
 - [ ] **T1 wired == ablated == baseline** (negative control).
 - [ ] **Cycle-002 frozen corpus replay byte-identical** before/after (T1/T2/T4).
 - [ ] No `Date.now()` / `Math.random()` in new replay paths.
@@ -378,6 +383,23 @@ node -e "console.log(require('./package.json').version, JSON.stringify(require('
 
 ### 6.9 Gates (Sprint 03)
 1. `/implement sprint-03` → 2. `/review-sprint sprint-03` → 3. fixes → 4. `/audit-sprint sprint-03` → 5. **operator HITL approval** → 6. **commit only after explicit approval** → 7. **push only after explicit approval**.
+
+### 6.10 Amendment 1 — Line-ending-robust proof comparison (BINDING; from the Sprint 01 audit)
+
+**Source / provenance:** cycle-004 **Sprint 01 audit** (`grimoires/loa/a2a/cycle-004/sprint-01/auditor-feedback.md` §7), 2026-06-04. Classified there as a **non-blocking carry-forward**; encoded here so it is a written, binding part of the Sprint-03 spec rather than a memory-only carry-forward.
+
+**Context (empirically verified at Sprint 01 audit).** This repo has `core.autocrlf=true` and **no `.gitattributes`** eol rule. Committed JSON blobs are stored **LF** but **check out as CRLF** in the working tree (verified on the cycle-002 manifest and cycle-003 corpus records). The Sprint-01 baseline fixture `proof/baseline-hashes.json` is committed as an **LF** blob (`git hash-object` with/without filters identical; pure LF), and the harness emits **LF** to both stdout and `--out-file`. Therefore, after the fixture is committed and re-checked-out, the **working-tree** copy is CRLF while a **fresh** harness run is LF — so a naïve byte `diff` of the two would spuriously report every line as different.
+
+**Requirement (binding).** Any Sprint-03 gate asserting byte/content identity against a **committed** proof JSON — in particular **`ablated == baseline` (T3.4)**, and equally any wired / ablated / replay-twice / regression comparison that re-reads a committed `proof/*.json` — **MUST NOT** rely on a raw working-tree byte `diff`. It MUST use at least one of:
+1. **(preferred)** parse both sides with `JSON.parse` and compare **canonical objects / canonical re-serialization** (line endings are inter-token whitespace, ignored by the parser) — representation-independent; or
+2. compare against the **committed blob** via `git cat-file -p HEAD:<path>` (returns LF) vs the fresh LF run; or
+3. **normalize line endings** before comparing (`diff --strip-trailing-cr`, or strip `\r` before hashing).
+
+Comparisons strictly between two **freshly-generated** files in the same run (both LF — e.g. replay-twice of fresh outputs) are unaffected, but SHOULD still prefer method 1 for robustness. The `node --test` gates (`replay-t2-ablated-equals-baseline-test.js`, etc.) are the authoritative comparison surface and SHOULD implement method 1; any shell `diff` in §6.5 is a convenience spot-check that MUST follow method 2 or 3.
+
+**Identity hashes.** Any file-level sha256 cited for a committed proof JSON (e.g. the Sprint-01 baseline `538cba01…`) is the **LF / committed-blob** identity — verify via `git cat-file -p HEAD:<path> | sha256sum`, **not** `sha256sum <working-tree-file>` (which is CRLF post-checkout). This mirrors the cycle-003 corpus-hash precedent (hash the committed LF blob, not the working tree).
+
+**Out of scope unless separately authorized.** Pinning line endings via `.gitattributes` (e.g. `grimoires/loa/a2a/cycle-004/proof/*.json eol=lf` or `-text`) is **not** required and is **not** performed by Sprint 03 — the robust comparison above fully resolves the risk on the durable LF blob. A future operator-authorized change MAY add such a pin to make even a raw `diff` safe; it is not a Sprint-03 task and must not be introduced as scope creep.
 
 ---
 

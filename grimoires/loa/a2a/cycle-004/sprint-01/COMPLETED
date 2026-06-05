@@ -1,0 +1,34 @@
+CORONA cycle-004 Sprint 01 — Baseline fixture + proof-harness skeleton
+STATUS: COMPLETED (audit APPROVED)
+DATE: 2026-06-04
+BRANCH: cycle-004-s01-baseline-harness
+HEAD: 2720b530b73333515f56805df88320daaa70ea4d  (no commit made this sprint)
+
+GATES:
+  /implement sprint-01   -> implementation-report.md
+  /review-sprint sprint-01 -> review-feedback.md   (PASS, no blocking fix)
+  /audit-sprint sprint-01  -> auditor-feedback.md   (APPROVED)
+
+DELIVERABLES (3 authorized paths; 0 tracked files modified):
+  - scripts/corona-backtest-cycle-004-evidence-wiring.js   (no-scoring proof-harness skeleton)
+  - grimoires/loa/a2a/cycle-004/proof/baseline-hashes.json (60 events = 30 T1 + 30 T2; LF blob sha256 538cba01…86d491)
+  - grimoires/loa/a2a/cycle-004/sprint-01/implementation-report.md
+
+VERIFIED (objective recompute at audit):
+  - baseline captured BEFORE any source wiring; run-twice byte-identical (LF)
+  - no scoring / Brier / skill / baseline-delta / held-out; no wireEvidence; no T2 wiring; no T1 edit
+  - fixture event-ID set = EXACT cycle-003 primary T1/T2 corpus; all 64-hex; no scoring keys
+  - I1 corona-backtest.js sha256 17f6380b…1730f1; package.json 0.2.0 / {}; cycle-003 corpus 7b6c5b48…d5003 untouched
+  - forbidden-path diff empty; claim-grep CLEAN; npm test 296/296 (cycle-002 code_revision side-effect restored)
+  - no hard stop; no commit; no push
+
+POSTURE: Sprint 01 banks NO rung. Cycle-004 banks no new rung. Historical ceiling stands:
+  "CORONA demonstrated T4 runtime sensitivity only." v0.2.0 preserved.
+
+CARRY-FORWARD (binding on Sprint 03 — auditor-feedback.md §7):
+  CRLF/autocrlf — repo autocrlf=true + no .gitattributes -> committed LF JSON checks out as CRLF
+  while the harness emits LF. Sprint 03 MUST compare ablated==baseline (and wired/replay-twice)
+  via canonical parsed JSON, or `git cat-file -p HEAD:<path>` (LF blob), or line-ending-normalized
+  comparison — NOT a raw working-tree `diff`. .gitattributes pin is OUT OF SCOPE unless separately authorized.
+
+NEXT: operator commit/push approval (per HITL discipline), then Sprint 02 (cycle-004-s02-t2-evidence-wiring).
