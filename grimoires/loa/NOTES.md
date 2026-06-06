@@ -1,5 +1,16 @@
 # Loa Project Notes
 
+## Decision Log — 2026-06-06 (CORONA cycle-004 — final closeout: deterministic T2 evidence-consumption wiring)
+
+Cycle-004 wired and tested deterministic T2 evidence consumption; T1 is honestly blocked (negative control). Integrated into `cycle-004` @ `eaf7232`; `main` untouched at `ccd6eea`; **no new rung banked**; v0.2.0; no tag/release/bump. Durable operator-relevant learnings:
+
+- **T2 evidence consumption can be PROVEN deterministically without banking a rung** when framed strictly as deterministic wiring/consumption (wired ≠ ablated for the corpus-derived strict-pre-cutoff set; ablated == Sprint-01 baseline byte-identical; replay-twice identical). No scoring, no Brier, no calibration claim — the proof is "the runtime consumes the evidence and the trajectory changes deterministically," not "the forecast improved."
+- **Holding runtime metadata constant can STRENGTHEN proof attribution** when trajectory hashes include metadata: all three states share one `runtime_revision` (it is inside the hashed trajectory), so the wired/ablated delta arises only in evidence-driven fields — provided those deltas are independently proven genuine (position_history grows by exactly #consumed-bundles; current_position moves; every non-prior history entry maps to a consumed bundle; gating verified via empty/post-cutoff negative controls). Not metadata churn.
+- **T1 raw `xray_flux` samples are NOT honest `solar_flare` event bundles.** T1 stays blocked / negative-control only unless a future, separately-gated cycle adds a native `xray_flux` gate evidence type or builds a pre-cutoff flare-*event* corpus. No flux→`solar_flare` mapping is honest.
+- **§6.10 line-ending-robust proof comparison** (committed LF blob via `git cat-file` + canonical JSON parse; never a raw working-tree diff) is the durable pattern for hash fixtures under `core.autocrlf=true`.
+- **`npm test` dirties 5 cycle-002 provenance files** (`replay_script_hash`, `code_revision`) — provenance-only (no score/sensitivity/bucket/corpus_hash change); `git restore` them before staging.
+- **Keep future carry-forwards cycle-scoped and operator-gated** (T1 unblock, T4 unblock, optional helper clean-export, optional `.gitattributes` proof eol=lf) — see `grimoires/loa/a2a/cycle-004/CYCLE-004-CARRY-FORWARDS.md`. Final `cycle-004`→`main` merge remains a separate operator decision.
+
 ## Decision Log — 2026-04-26 (cycle-094 sprint-2 — test infra + filter + SSOT close-out)
 
 ### Sprint-2 closure (T2.1 + T2.2 + T2.3 + T2.4)

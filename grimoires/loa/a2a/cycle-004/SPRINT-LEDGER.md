@@ -68,6 +68,8 @@ Allowed posture (verbatim, SDD §15 — carried into every report + the closeout
 
 ## Sprint index
 
+**Cycle status (2026-06-06):** all three sprints complete, reviewed, audited, committed, pushed, and integrated into `cycle-004` @ `eaf7232`. Closeout documentation in progress ([CYCLE-004-CLOSEOUT.md](CYCLE-004-CLOSEOUT.md) + [CYCLE-004-CARRY-FORWARDS.md](CYCLE-004-CARRY-FORWARDS.md)). No merge to `main` (`ccd6eea`); no tag/release/version bump; **v0.2.0**; **no new rung banked**.
+
 ### Sprint 00 — (none; charter optional)
 
 No charter for cycle-004 unless the operator explicitly requests one. The binding cycle-004 spec set is [PRD.md](PRD.md) + [SDD.md](SDD.md) + [CYCLE-004-SPRINT-PLAN.md](CYCLE-004-SPRINT-PLAN.md), consistent with the cycle-002/cycle-003 operator-ratified precedent (no separate per-sprint spec doc required).
@@ -75,21 +77,21 @@ No charter for cycle-004 unless the operator explicitly requests one. The bindin
 ### Sprint 01 — Baseline fixture + proof-harness skeleton
 
 **Spec**: [CYCLE-004-SPRINT-PLAN.md](CYCLE-004-SPRINT-PLAN.md) §4
-**Scope**: SMALL (3 tasks) · **Status**: planned · **Depends on**: none
+**Scope**: SMALL (3 tasks) · **Status**: complete / integrated at `32b9dd8` · **Depends on**: none
 **Branch**: `cycle-004-s01-baseline-harness`
 **Purpose**: Capture `proof/baseline-hashes.json` from the unmodified pre-cycle-004 replay (before any source edit — OD-4); stand up the no-scoring proof-harness skeleton. **No T2 wiring; no T1 edit; no scoring.**
 
 ### Sprint 02 — T2 Layer-B + Layer-A evidence wiring
 
 **Spec**: [CYCLE-004-SPRINT-PLAN.md](CYCLE-004-SPRINT-PLAN.md) §5
-**Scope**: MEDIUM (5 tasks) · **Status**: planned · **Depends on**: Sprint 01 (baseline must precede edits)
+**Scope**: MEDIUM (5 tasks) · **Status**: complete / integrated at `2c83bc6` · **Depends on**: Sprint 01 (baseline must precede edits)
 **Branch**: `cycle-004-s02-t2-evidence-wiring`
 **Purpose**: Additive, field-gated `deriveEvidenceT2` (Layer B) + opt-in (default-off) `replay_T2_event` gate-processing loop (Layer A) consuming `kp_observations[]` through `processGeomagneticStormGate`; `quality.composite = 1.0` per OD-1. **No T1 wiring; no gate edit; no param change; no scoring; no `package.json` edit.**
 
 ### Sprint 03 — Determinism, ablation, regression, proof closeout
 
 **Spec**: [CYCLE-004-SPRINT-PLAN.md](CYCLE-004-SPRINT-PLAN.md) §6
-**Scope**: MEDIUM (8 tasks) · **Status**: planned · **Depends on**: Sprint 02 (wiring) + Sprint 01 (baseline)
+**Scope**: MEDIUM (8 tasks) · **Status**: complete / integrated at `eaf7232` · **Depends on**: Sprint 02 (wiring) + Sprint 01 (baseline)
 **Branch**: `cycle-004-s03-proof-closeout`
 **Purpose**: Prove wired ≠ ablated, ablated == baseline, replay-twice byte-identical, T1 negative-control identity, cycle-002 frozen-corpus regression byte-identical; claim-grep gate; honest no-rung proof closeout. **No scoring/Brier/skill; no held-out eval; no cross-regime delta; no T1/T4 unblock; no refit; no tag/release/bump.**
 
