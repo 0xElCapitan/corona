@@ -1,0 +1,318 @@
+{
+  "schema": "corona-cycle-004-ablated-hashes",
+  "schema_version": "1.0.0",
+  "description": "CORONA cycle-004 sprint-03 ABLATED trajectory hashes (replay_T2_event wireEvidence:false — the default-off path; per-event hashes content-identical to the sprint-01 baseline by construction; no scoring; T1 negative control).",
+  "harness": "scripts/corona-backtest-cycle-004-evidence-wiring.js",
+  "state": "ablated",
+  "wire_evidence": false,
+  "corpus_dir": "grimoires/loa/calibration/corona/corpus-cycle-003",
+  "runtime_revision": "cycle-004-s01-baseline",
+  "theatres": [
+    "T1",
+    "T2"
+  ],
+  "trajectory_hash_algorithm": "sha256-of-canonical-json",
+  "event_count": 60,
+  "events": [
+    {
+      "theatre": "T1",
+      "event_id": "T1-2020-05-29-M1p2",
+      "trajectory_hash": "f201321357f967c96df73ddffbab0e484103680ddf99a9a20c07e7f1a761c512"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2020-11-29-M4p4",
+      "trajectory_hash": "210748cc01ed5bfa92dc355109a7945eb57ff508c602a8809ac3f8d27e46f2ab"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2021-05-07-M3p9",
+      "trajectory_hash": "9c0c0a8272fa2791d37f8fe7e35d4a95976b126b79542dbcc303baa74a654bbf"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2021-07-03-X1p6",
+      "trajectory_hash": "c98c293d2ce553d2a34d4c0827684ba257205fe9ea482b8062aebdb2315ed48f"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2021-08-28-M4p8",
+      "trajectory_hash": "80367cafa2e0093c25acfc22a20d368a1a1e31a5a668548bca95a9f741f494e8"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2021-09-23-M1p9",
+      "trajectory_hash": "463daf402252d577c2d83d6319a660732132ba0729b50cceae7d6dfaf75425ca"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2021-10-28-X1p0",
+      "trajectory_hash": "8dab5e6b3e41c10527074a719d8a0d89291a9ca450d99733a24e847907d81584"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2021-11-09-M2p0",
+      "trajectory_hash": "27f95f28e9c23eb54b018292ac0fb17db33d73896333f11aca5cd77e4cf91e27"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2021-12-20-M1p9",
+      "trajectory_hash": "901dab76efb3360c8247f71c3a5796a823829f11f74286ea9d57203595b9c795"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2021-12-28-M1p9",
+      "trajectory_hash": "408e374577a9669a52515988fb18c53eb864a2e056fc1bba6ee8583ae0776c3a"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2022-03-30-X1p4",
+      "trajectory_hash": "4bfd86175f53b01d3608a3f6b29c07710dc05fc5f971f9423f38620feaf70ed9"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2022-03-31-M9p7",
+      "trajectory_hash": "b3f0bedba964a789c34ad2c172427a2f8639cd21a62cf33491becc5d22c25fa7"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2022-04-20-X2p2",
+      "trajectory_hash": "75769ff02f1cee734feec558fd287514bfcef7b4f030461388e360f70343d98f"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2022-04-21-M9p7",
+      "trajectory_hash": "69ccc9a8dac9925b0bf366655fd74a4e8a218e1c15959d6eb3187501e13cb3a2"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2022-05-10-X1p5",
+      "trajectory_hash": "c96fd67226f051f0996024adc205d29f0d0bb4b636c546dbd2169d428d5d46c8"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2022-08-26-M7p2",
+      "trajectory_hash": "7c8d3c51cf16b6ee0a1c30f320c917d7f95e13ff06b4285be563ea0685d2c215"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2022-08-29-M8p7",
+      "trajectory_hash": "5c95d2b28ea9584f2c714141d6d41d5bc3cbb876a2b01bf100d895a7aeacdebd"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2022-09-16-M7p9",
+      "trajectory_hash": "dc27545537ce4a4f81325f0c1b97fe2d00c00f97e50f2f2505858d09d9524b07"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2022-10-02-M8p8",
+      "trajectory_hash": "11259a89be8862b8b1a178e17fac5573982a827153793df66cd340da6356558d"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2023-12-14-X2p8",
+      "trajectory_hash": "026c0bed6609b254ae0e0d3f88c391025a980e9cca8605af08e2b19e023d8c8c"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2023-12-31-X4p9",
+      "trajectory_hash": "0b82c91957e40016e4c92cd9101574cb83cbf2e59655589c1fab167a4916163b"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2024-05-14-X8p7",
+      "trajectory_hash": "1d7f93951302de5719f1a1b5e255edde9522512248300818627c4110eb69c7eb"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2024-10-01-X7p1",
+      "trajectory_hash": "94e0a76881022b7f8ae2d122df2c65994f64dde1fbe9021312e4d556f9901af0"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2024-10-03-X8p9",
+      "trajectory_hash": "a7ddb4e2c526349c0f3e5d48604ef374f62bf32d8277e74a06ca8e05cf4c5346"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2025-11-11-X5p2",
+      "trajectory_hash": "7372b29e4e4a81ecacbcf25588d320c2c60c85ec33e34bfbe5aa7cbde677df92"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2025-11-14-X4p0",
+      "trajectory_hash": "96b6896cbfdb10201e2dbbaaa8de6f0c91bcb1cec5afacc7e76bc3b11d8fb903"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2026-02-01-X8p1",
+      "trajectory_hash": "44779fa7d3db9e6ef4543fca0650715cfaa8e03b6ca85d185f8edb0ba7ec0367"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2026-02-03-M7p2",
+      "trajectory_hash": "d781f36b2c5fb4872487b97028faf14ee21badb40b64a8df917b5bacf7a296aa"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2026-02-04-X4p2",
+      "trajectory_hash": "fa6896bf67d9efcb86393dfd19727cb50360e47853929b525ef336a2fcd32906"
+    },
+    {
+      "theatre": "T1",
+      "event_id": "T1-2026-04-04-M7p5",
+      "trajectory_hash": "d341f8786400de55884d01f84e935662585d169373376dae2d399bc4a613be3e"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2017-03-27-Kp6.33",
+      "trajectory_hash": "075ad22da22f37e27eabedaf4a85c5a9e416b5a90e016088436b735e93700c26"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2017-05-28-Kp7",
+      "trajectory_hash": "0ce49b1f6a6c467e7cc0eff90c45c1a3359cd2d3ab5cca6c3d08a5e96147f854"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2017-09-08-Kp8.33",
+      "trajectory_hash": "90a6680e3414ffc7c8458bba92d32e201c7ce8a194e1ba636754ce142c1f4561"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2017-09-28-Kp6.67",
+      "trajectory_hash": "1dd98f760df126c913e0be1938f7c46ae30a9665a741269e241a4d30e4c35b3a"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2017-11-07-Kp6.33",
+      "trajectory_hash": "4cc15379f6283c336869af3cd8ab44b77e728d601c09126a4fd8430ea83b923e"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2018-08-26-Kp7.33",
+      "trajectory_hash": "40f4e78df9d2d5c94616f6997ead3e66f167e40e1aa6ee701ef3e231efc226f1"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2021-05-12-Kp7",
+      "trajectory_hash": "aa9a04ee8bd5acc7c02ab17aa22ec648ca3f3c8b9b71a9174c56cddfb6bbf934"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2021-11-04-Kp7.67",
+      "trajectory_hash": "26a520486368f4a81a80bf66e295d2f5c9f406c989d4b366f9b6918e22de6647"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2022-04-10-Kp6.67",
+      "trajectory_hash": "d96ca35ac6ed29e04101207cf11eae8dd556ded41ee13026e972330652b70087"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2022-08-17-Kp6.67",
+      "trajectory_hash": "604f8f2731f1e9a679f80ebda605f1ccd696ff3f6f8b295f879fa193973cd207"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2023-02-27-Kp6.67",
+      "trajectory_hash": "6788d8828ba6eefeb094340f4d64839a63f231934e1c9225feb061813f3b1e1c"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2023-03-24-Kp8",
+      "trajectory_hash": "8e83c1a5f72a0fe318b94ea3fb2522bfa0683027731e49b05161028cb37b81c2"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2023-04-23-Kp8.33",
+      "trajectory_hash": "147f69331ee5739a72f58519ec961c55eb36b303e05f17f1d9a9435222a6d97f"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2023-11-05-Kp7.33",
+      "trajectory_hash": "7f7f756e625d9754eed4ad35799663f5f543de442ce2dc13a819c79256e8329f"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2023-12-01-Kp6.67",
+      "trajectory_hash": "4d691362056ee86d3509c0b1a675d5441df8e4294b070520a81bc0e30a2ff1b1"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2024-03-24-Kp8.33",
+      "trajectory_hash": "c9440d04f06a814ea42d6e3fd3a7fa6f71f051f0aae102ea3baa74010e797900"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2024-05-11-Kp9",
+      "trajectory_hash": "134e247e135bc33c051ac5b2e3bd41046d2116f107f3523a4806bc05cfa7980e"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2024-06-28-Kp7.67",
+      "trajectory_hash": "23e34a31bed7be67cbb129303337bf8c2a997b1641dc662f75974ac4a600208d"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2024-08-12-Kp8",
+      "trajectory_hash": "795473353d62876146e2d9fedf58d585532543c6e69383ad75153b0d2e9a6d0b"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2024-09-17-Kp7.33",
+      "trajectory_hash": "10e740ed08323671de8c9ae237f2cd1bd633d2aa11fe6758593b0675c8310a64"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2024-10-10-Kp8.67",
+      "trajectory_hash": "8a6958bff4b1d17411fa022d4fb662dd1eae966705d3741cc73f2adf1ae656a0"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2025-01-01-Kp8",
+      "trajectory_hash": "e5aea633eeb3b1ea084d6b263057fbf74dfe8401b182263da20385db31a89cba"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2025-04-16-Kp7.67",
+      "trajectory_hash": "7c03c08ba7f79d71aba425e8aab3e2d715885885c671b99fe2b90f3bd5c727fd"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2025-06-01-Kp7.67",
+      "trajectory_hash": "9ad66802a3927dd102f30cfd939d46c854f3fce7ecee66d67bab45d72a2eec31"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2025-06-13-Kp6.67",
+      "trajectory_hash": "c225a85e495431cd1aa208414f80cab31557ad158c1296752a652898710139fd"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2025-09-30-Kp7",
+      "trajectory_hash": "9f64c0eb30bf71c5f71542dc644390260a97e4181bf82c834739a18e26f7cfbc"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2025-11-12-Kp8.67",
+      "trajectory_hash": "3a916b6a8ca4ca4bf4136a9b5cefda8bd7e22f20a2e1180a60e5c33ab83e98ff"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2026-01-19-Kp8.67",
+      "trajectory_hash": "846e9a2ad33fbc766698b2488b26be2c27db5b58ec915d4e7e1c7ee2791023ab"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2026-03-21-Kp7",
+      "trajectory_hash": "182e208f56222226093776df4f2baf7b9ab2123ec41f247b8ab906de2688a350"
+    },
+    {
+      "theatre": "T2",
+      "event_id": "T2-2026-03-22-Kp7",
+      "trajectory_hash": "4bf6583abc5224d825097daa42df97d60d11952208033714718e44e867e6cc26"
+    }
+  ]
+}

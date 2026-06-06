@@ -1,0 +1,80 @@
+CORONA cycle-004 — Sprint 03 — COMPLETED
+=========================================
+
+Sprint:        03 — Determinism, ablation, regression, and proof closeout
+Branch:        cycle-004-s03-proof-closeout
+HEAD at audit: 2c83bc66a3aab9d9afe16323a4ac13dae03ac4e2 (no Sprint-03 commit)
+Base:          cycle-004 @ 2c83bc66 ; main = ccd6eea (untouched)
+Audit date:    2026-06-06
+Auditor:       Paranoid Cypherpunk Auditor (/audit-sprint sprint-03)
+
+VERDICT: PASS — APPROVED
+
+Gate sequence: /implement → /review-sprint (PASS—ACCEPT) → /audit-sprint (APPROVED, this marker).
+
+Independently re-derived (not trusted from implementation report OR review feedback):
+  - §6.10 ablated == committed Sprint-01 baseline, 60/60 (T1 30/30 + T2 30/30),
+    via git cat-file LF blob + JSON.parse canonical — NOT raw working-tree diff.
+  - --state baseline / --emit-hashes stdout sha256 == committed baseline blob
+    538cba01...86d491 (cross-process, whole-file byte identity).
+  - wired != ablated for 30/30 T2 events == exactly the corpus-derived
+    strict-pre-cutoff set (the "30" is observed, not hardcoded; test asserts
+    deepEqual(diffIds, withPreCutoff), not === 30).
+  - GENUINE consumption (all 30): wired!=ablated; position_history grows;
+    current_position moves (∈[0,1], 21/30 distinct); evidence_bundles non-empty;
+    wired.history.length == ablated.length + #bundles (exact, all 30); every
+    non-prior history entry maps to a consumed bundle id (0 unmapped). Real gate
+    path, NOT metadata churn.
+  - T1 negative control 30/30 wired==ablated==baseline; 0 evidence; history==1.
+  - cycle-002 frozen regression 15/15 (T1/T2/T4×5) vs committed manifest anchor
+    via pure file-free dispatchCycle002Replay; entrypoint not edited; no mutation.
+  - Replay-twice byte-identical across SEPARATE node processes (wired/ablated/baseline).
+
+Auditor-added NEGATIVE CONTROLS (new at this gate, ruling out the hollow-proof mode):
+  - NEG-1 empty kp_observations -> wired==ablated, 0 bundles (wiring is GATED).
+  - NEG-2 all-observations-at/after-cutoff -> 0 strict-pre-cutoff -> wired==ablated
+    (strict pre-cutoff gating respected; no leakage).
+  - NEG-3 wireEvidence:false === no-options, 30/30 (reversibility/default-off identity).
+
+Validation: Sprint03 node --test 18/18 ; Sprint02 19/19 ; npm test 296/296 ;
+I1 corona-backtest.js sha256 17f6380b...1730f1 ; package.json 0.2.0 {} ;
+cycle-003 corpus_hash 7b6c5b48...d5003. npm-test cycle-002 churn (5 files) was
+100% provenance-only (replay_script_hash a919ec7d->8bf4de7e + code_revision->HEAD;
+NO score/sensitivity/bucket/corpus_hash change) and restored to byte-identical-to-HEAD.
+
+Frozen invariants intact. Forbidden-path audit CLEAN (corpus-loader.js, t2-replay.js,
+t1-replay.js, deriveEvidenceT1, src/theatres/* [flare 377725ec, geomag 466ad282],
+certificates.js eeef486c, corona-backtest.js, cycle-002 entrypoint, package.json,
+.gitattributes [absent], README/BUTTERFREEZONE, root prd/sdd/ledger, NOTES.md,
+cycle-001/002/003 corpus+manifests, cycle-003 held-out seal, .beads). No stray files.
+Secret/credential/abs-path/PII scan of all new+modified files: 0 findings.
+Claim-grep CLEAN (3-way independent: raw space-form 0 hits; hyphenated/negation forms
+all adjudicated negation/ceiling/quoted-mention; gate test 28 files 0 violations).
+No hard stop. No fix required.
+
+Special focus + 3 non-blocking review concerns adjudicated ACCEPTABLE AS-IS:
+  - Shared runtime_revision='cycle-004-s01-baseline': load-bearing (it is inside the
+    hashed trajectory), documented, and STRENGTHENS the proof — wired/ablated delta
+    arises only in position_history/current_position/evidence_bundles, proven genuine.
+  - C1 report doesn't cross-ref carry-forwards: ACCEPTABLE — complete in CLOSEOUT §10
+    (correct home); cosmetic, optional one-line pointer at commit.
+  - C2 claim-grep line-level permissive: ACCEPTABLE — test-quality not code-safety;
+    prose proven clean 3 ways; documented false-negative-only risk; future hardening.
+  - C3 frozen sha256 anchors as literals: ACCEPTABLE — re-derived from HEAD (match),
+    git diff --quiet backstop, repo convention (cycle-002-entrypoint-test).
+  - Rejected richer-artifacts alternative: CORRECT — would break ablated.events ===
+    baseline.events identity and drift toward scoring; minimal hash-only is right shape.
+
+Posture: Cycle-004 banks NO new rung. CORONA's T4-only runtime-sensitivity ceiling and
+v0.2.0 stand unweakened. No calibration, scoring, forecasting-accuracy, predictive-uplift,
+or L2-readiness claim is made. T1 honestly blocked (negative control).
+
+No commit, no push, no tag, no release, no version bump, no final cycle closeout, and no
+broad NOTES/Obsidian mutation performed by this audit. Operator HITL required before
+commit/push. After any pre-commit npm test, git restore the 5 cycle-002 provenance files
+before committing.
+
+Artifacts: implementation-report.md, review-feedback.md, auditor-feedback.md, CLOSEOUT.md,
+COMPLETED; proof/{wired-hashes.json, ablated-hashes.json, PROOF-SUMMARY.md}; 8 tests/.
+Next: operator approval -> commit/push of cycle-004-s03-proof-closeout; then cycle-004
+final closeout (NOTES/Obsidian durable-doc updates + carry-forwards per CLOSEOUT §10).
